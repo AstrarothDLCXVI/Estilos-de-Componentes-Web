@@ -1,0 +1,15 @@
+---
+import CategoryView from '@/components/gallery/CategoryView.astro';
+import Layout from '@/layouts/Layout.astro';
+import { defaultCategory } from '@/lib/registry';
+
+if (!defaultCategory) {
+  throw new Error(
+    'El catálogo está vacío: declara al menos una categoría en src/data/catalog.ts con su carpeta en src/components/designs/.',
+  );
+}
+---
+
+<Layout title={defaultCategory.label} activeSlug={defaultCategory.slug}>
+  <CategoryView category={defaultCategory} />
+</Layout>

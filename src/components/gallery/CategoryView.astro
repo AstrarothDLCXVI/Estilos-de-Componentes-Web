@@ -1,0 +1,77 @@
+---
+import ComponentPreview from '@/components/gallery/ComponentPreview.astro';
+import type { CategoryEntry } from '@/lib/types';
+
+interface Props {
+  category: CategoryEntry;
+}
+
+const { category } = Astro.props;
+---
+
+<div class="view">
+  <header class="view-head">
+    <p class="eyebrow">
+      {category.code} · {category.designs.length}
+      {category.designs.length === 1 ? 'variante' : 'variantes'}
+    </p>
+    <h1 class="view-title">{category.label}</h1>
+    <p class="view-text">{category.description}</p>
+  </header>
+
+  <div class="stack">
+    {
+      category.designs.map((design) => {
+        // El componente llega ya resuelto desde el registro: la página no
+        // conoce ni importa ningún diseño concreto.
+        const Design = design.component;
+        return (
+          <ComponentPreview design={design}>
+            <Design />
+          </ComponentPreview>
+        );
+      })
+    }
+  </div>
+</div>
+
+<style>
+  .view {
+    max-width: 1080px;
+    margin-inline: auto;
+  }
+
+  .view-head {
+    margin-bottom: 28px;
+    padding-top: 8px;
+  }
+
+  .eyebrow {
+    color: var(--app-faint);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .view-title {
+    margin-top: 6px;
+    font-size: clamp(26px, 4vw, 34px);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+  }
+
+  .view-text {
+    max-width: 58ch;
+    margin-top: 8px;
+    color: var(--app-muted);
+    font-size: 14.5px;
+  }
+
+  .stack {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+</style>

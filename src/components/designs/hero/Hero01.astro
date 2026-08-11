@@ -1,0 +1,311 @@
+---
+interface Props {
+  eyebrow?: string;
+  title?: string;
+  text?: string;
+}
+
+const {
+  eyebrow = 'Nuevo · Informes en tiempo real',
+  title = 'Todo lo que pasa en tu operación, en una sola pantalla',
+  text = 'Conecta tus fuentes de datos y publica paneles compartidos en minutos. Sin agentes que instalar y sin tocar producción.',
+} = Astro.props;
+
+const stats = [
+  { label: 'Tiempo medio de carga', value: '0,4 s' },
+  { label: 'Consultas al día', value: '18,2 M' },
+  { label: 'Disponibilidad', value: '99,98 %' },
+];
+
+const bars = [38, 62, 47, 78, 55, 91, 70];
+---
+
+<section class="hero">
+  <div class="inner">
+    <div class="copy">
+      <p class="eyebrow">
+        <span class="eyebrow-dot" aria-hidden="true"></span>
+        {eyebrow}
+      </p>
+
+      <h1 class="title">{title}</h1>
+      <p class="text">{text}</p>
+
+      <div class="actions">
+        <a class="btn-solid" href="#">Crear cuenta</a>
+        <a class="btn-quiet" href="#">
+          Ver una demo
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.9" aria-hidden="true">
+            <path d="M3 8h9M8.5 4l4 4-4 4" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+        </a>
+      </div>
+
+      <p class="proof">
+        <span class="faces" aria-hidden="true">
+          <span class="face">AM</span>
+          <span class="face">LR</span>
+          <span class="face">TV</span>
+        </span>
+        Lo usan 1.200 equipos de producto
+      </p>
+    </div>
+
+    <!-- Panel de apoyo: mock construido con CSS, sin imágenes remotas. -->
+    <div class="panel" aria-hidden="true">
+      <div class="panel-head">
+        <span class="panel-title">Rendimiento · 7 días</span>
+        <span class="panel-tag">En vivo</span>
+      </div>
+
+      <div class="chart">
+        {bars.map((bar) => <span class="bar" style={`--h:${bar}%`} />)}
+      </div>
+
+      <dl class="stats">
+        {
+          stats.map((stat) => (
+            <div class="stat">
+              <dt>{stat.label}</dt>
+              <dd>{stat.value}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    background: var(--background-color);
+    padding: 64px 28px 68px;
+    font-family: var(--font-sans);
+  }
+
+  .inner {
+    display: grid;
+    max-width: 1120px;
+    align-items: center;
+    gap: 56px;
+    margin-inline: auto;
+    grid-template-columns: 1.05fr 0.95fr;
+  }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+    border: 1px solid var(--border-color);
+    border-radius: 999px;
+    background: var(--surface-color);
+    padding: 6px 14px 6px 10px;
+    color: var(--text-muted);
+    font-size: 12.5px;
+    font-weight: 500;
+  }
+
+  .eyebrow-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 999px;
+    background: var(--primary-color);
+    box-shadow: 0 0 0 3px var(--primary-soft);
+  }
+
+  .title {
+    max-width: 16ch;
+    margin: 20px 0 0;
+    color: var(--text-color);
+    font-size: clamp(32px, 4.6cqi + 18px, 50px);
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    line-height: 1.06;
+  }
+
+  .text {
+    max-width: 46ch;
+    margin: 16px 0 0;
+    color: var(--text-muted);
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 26px;
+  }
+
+  .btn-solid {
+    border-radius: 10px;
+    background: var(--primary-color);
+    padding: 12px 22px;
+    color: var(--primary-contrast);
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background-color 180ms ease, transform 180ms ease;
+  }
+
+  .btn-solid:hover {
+    background: var(--primary-hover);
+    transform: translateY(-1px);
+  }
+
+  .btn-quiet {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    background: var(--surface-color);
+    padding: 12px 18px;
+    color: var(--text-color);
+    font-size: 15px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: border-color 180ms ease;
+  }
+
+  .btn-quiet svg {
+    width: 15px;
+    height: 15px;
+    transition: transform 200ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  .btn-quiet:hover {
+    border-color: var(--primary-color);
+  }
+
+  .btn-quiet:hover svg {
+    transform: translateX(3px);
+  }
+
+  .proof {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 28px 0 0;
+    color: var(--text-muted);
+    font-size: 13px;
+  }
+
+  .faces {
+    display: flex;
+  }
+
+  .face {
+    display: grid;
+    width: 26px;
+    height: 26px;
+    place-items: center;
+    border: 2px solid var(--background-color);
+    border-radius: 999px;
+    background: var(--primary-light);
+    color: color-mix(in srgb, var(--primary-color) 75%, var(--text-color));
+    font-size: 9.5px;
+    font-weight: 700;
+  }
+
+  .face + .face {
+    margin-left: -9px;
+  }
+
+  .panel {
+    border: 1px solid var(--border-color);
+    border-radius: 18px;
+    background: var(--surface-color);
+    padding: 18px;
+    box-shadow: var(--shadow-lg);
+  }
+
+  .panel-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 18px;
+  }
+
+  .panel-title {
+    color: var(--text-color);
+    font-size: 13.5px;
+    font-weight: 600;
+  }
+
+  .panel-tag {
+    border-radius: 999px;
+    background: var(--primary-light);
+    padding: 4px 10px;
+    color: color-mix(in srgb, var(--primary-color) 80%, var(--text-color));
+    font-size: 11px;
+    font-weight: 600;
+  }
+
+  .chart {
+    display: flex;
+    height: 132px;
+    align-items: flex-end;
+    gap: 8px;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 12px;
+  }
+
+  .bar {
+    height: var(--h);
+    flex: 1;
+    border-radius: 5px 5px 2px 2px;
+    background: linear-gradient(
+      to top,
+      color-mix(in srgb, var(--primary-color) 28%, var(--surface-color)),
+      var(--primary-color)
+    );
+  }
+
+  .bar:last-child {
+    box-shadow: 0 0 0 3px var(--primary-soft);
+  }
+
+  .stats {
+    display: grid;
+    margin: 16px 0 0;
+    gap: 10px;
+  }
+
+  .stat {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .stat dt {
+    color: var(--text-muted);
+    font-size: 12.5px;
+  }
+
+  .stat dd {
+    margin: 0;
+    color: var(--text-color);
+    font-size: 14px;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+
+  @container preview (max-width: 900px) {
+    .inner {
+      gap: 36px;
+      grid-template-columns: 1fr;
+    }
+
+    .hero {
+      padding: 44px 20px 48px;
+    }
+
+    .title {
+      max-width: 22ch;
+    }
+  }
+</style>

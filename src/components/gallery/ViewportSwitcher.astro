@@ -1,0 +1,80 @@
+---
+const viewports = [
+  { id: 'desktop', label: 'Ancho completo', width: '100%' },
+  { id: 'tablet', label: 'Tablet', width: '820px' },
+  { id: 'mobile', label: 'Móvil', width: '420px' },
+] as const;
+---
+
+<div class="switcher" role="group" aria-label="Ancho de la previsualización">
+  {
+    viewports.map((viewport) => (
+      <button
+        type="button"
+        class="option"
+        data-viewport-option={viewport.id}
+        aria-pressed="false"
+        title={`${viewport.label} · ${viewport.width}`}
+      >
+        {viewport.label}
+      </button>
+    ))
+  }
+</div>
+
+<script>
+  const options = document.querySelectorAll<HTMLButtonElement>('[data-viewport-option]');
+
+  const sync = () => {
+    const current = document.documentElement.dataset.viewport ?? 'desktop';
+    options.forEach((option) => {
+      option.setAttribute('aria-pressed', String(option.dataset.viewportOption === current));
+    });
+  };
+
+  sync();
+
+  options.forEach((option) => {
+    option.addEventListener('click', () => {
+      window.__gallery.applyViewport(
+        option.dataset.viewportOption as 'desktop' | 'tablet' | 'mobile',
+      );
+      sync();
+    });
+  });
+</script>
+
+<style>
+  .switcher {
+    display: flex;
+    gap: 2px;
+    border: 1px solid var(--app-line);
+    border-radius: var(--radius-full);
+    background: var(--app-surface);
+    padding: 3px;
+  }
+
+  .option {
+    border-radius: var(--radius-full);
+    padding: 6px 13px;
+    color: var(--app-muted);
+    font-size: 12.5px;
+    font-weight: 500;
+    transition: background-color var(--speed) var(--ease), color var(--speed) var(--ease);
+  }
+
+  .option:hover {
+    color: var(--app-text);
+  }
+
+  .option[aria-pressed='true'] {
+    background: var(--app-sunken);
+    color: var(--app-text);
+  }
+
+  @media (max-width: 900px) {
+    .switcher {
+      display: none;
+    }
+  }
+</style>

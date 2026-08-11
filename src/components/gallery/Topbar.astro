@@ -1,0 +1,43 @@
+---
+import ColorPicker from '@/components/gallery/ColorPicker.astro';
+import ThemeToggle from '@/components/gallery/ThemeToggle.astro';
+import ViewportSwitcher from '@/components/gallery/ViewportSwitcher.astro';
+---
+
+<header class="topbar">
+  <ViewportSwitcher />
+  <div class="tools">
+    <ColorPicker />
+    <ThemeToggle />
+  </div>
+</header>
+
+<style>
+  .topbar {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    display: flex;
+    min-height: var(--topbar-h);
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    border-bottom: 1px solid var(--app-line);
+    background: color-mix(in srgb, var(--app-bg) 82%, transparent);
+    padding: 10px 32px;
+    backdrop-filter: blur(12px);
+  }
+
+  .tools {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-left: auto;
+  }
+
+  @media (max-width: 900px) {
+    .topbar {
+      padding: 10px 16px;
+    }
+  }
+</style>

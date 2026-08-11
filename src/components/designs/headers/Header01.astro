@@ -1,0 +1,194 @@
+---
+import { navItems } from '@/data/sample';
+
+interface Props {
+  brand?: string;
+  items?: typeof navItems;
+  cta?: string;
+}
+
+const { brand = 'Meridian', items = navItems, cta = 'Empezar gratis' } = Astro.props;
+---
+
+<header class="site-header">
+  <div class="bar">
+    <a class="logo" href="#">
+      <span class="logo-mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <path d="M4 17 9.5 7l5 6.5L18 9"></path>
+        </svg>
+      </span>
+      <span class="logo-word">{brand}</span>
+    </a>
+
+    <nav class="nav" aria-label="Principal">
+      <ul role="list" class="nav-list">
+        {
+          items.map((item) => (
+            <li>
+              <a class="nav-link" href={item.href} aria-current={item.current ? 'page' : undefined}>
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <div class="actions">
+      <a class="link-quiet" href="#">Iniciar sesión</a>
+      <a class="btn" href="#">{cta}</a>
+    </div>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    border-bottom: 1px solid var(--border-color);
+    background: var(--surface-color);
+    font-family: var(--font-sans);
+  }
+
+  .bar {
+    display: grid;
+    max-width: 1180px;
+    align-items: center;
+    gap: 24px;
+    margin-inline: auto;
+    grid-template-columns: 1fr auto 1fr;
+    padding: 15px 28px;
+  }
+
+  .logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    color: var(--text-color);
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    text-decoration: none;
+  }
+
+  .logo-mark {
+    display: grid;
+    width: 30px;
+    height: 30px;
+    place-items: center;
+    border-radius: 9px;
+    background: var(--primary-color);
+    color: var(--primary-contrast);
+    transition: background-color 180ms ease;
+  }
+
+  .logo-mark svg {
+    width: 17px;
+    height: 17px;
+  }
+
+  .nav-list {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin: 0;
+    list-style: none;
+    padding: 0;
+  }
+
+  .nav-link {
+    position: relative;
+    display: block;
+    border-radius: 8px;
+    padding: 8px 12px;
+    color: var(--text-muted);
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: color 180ms ease;
+  }
+
+  .nav-link::after {
+    position: absolute;
+    bottom: 2px;
+    left: 12px;
+    width: 0;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--primary-color);
+    content: '';
+    transition: width 200ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  .nav-link:hover {
+    color: var(--text-color);
+  }
+
+  .nav-link:hover::after,
+  .nav-link[aria-current='page']::after {
+    width: calc(100% - 24px);
+  }
+
+  .nav-link[aria-current='page'] {
+    color: var(--text-color);
+  }
+
+  .actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+  }
+
+  .link-quiet {
+    padding: 8px 12px;
+    color: var(--text-muted);
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: color 180ms ease;
+  }
+
+  .link-quiet:hover {
+    color: var(--text-color);
+  }
+
+  .btn {
+    border-radius: 9px;
+    background: var(--primary-color);
+    padding: 9px 16px;
+    color: var(--primary-contrast);
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background-color 180ms ease, transform 180ms ease;
+  }
+
+  .btn:hover {
+    background: var(--primary-hover);
+    transform: translateY(-1px);
+  }
+
+  @container preview (max-width: 780px) {
+    .bar {
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      padding: 13px 18px;
+    }
+
+    .nav {
+      order: 3;
+      grid-column: 1 / -1;
+      border-top: 1px solid var(--border-color);
+      padding-top: 10px;
+    }
+
+    .nav-list {
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .link-quiet {
+      display: none;
+    }
+  }
+</style>

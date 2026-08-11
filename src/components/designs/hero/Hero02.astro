@@ -1,0 +1,262 @@
+---
+interface Props {
+  announcement?: string;
+  title?: string;
+  highlight?: string;
+  text?: string;
+}
+
+const {
+  announcement = 'Presentamos las plantillas compartidas',
+  title = 'Escribe la documentación una vez y',
+  highlight = 'publícala en todas partes',
+  text = 'Un editor, cinco destinos: web, ayuda en producto, PDF, buscador interno y API.',
+} = Astro.props;
+
+const logos = ['ALTAVIA', 'NORDIKA', 'MERIDIAN', 'CÓRVIDO'];
+---
+
+<section class="hero">
+  <div class="glow" aria-hidden="true"></div>
+  <div class="grid-lines" aria-hidden="true"></div>
+
+  <div class="inner">
+    <a class="announce" href="#">
+      <span class="announce-tag">Nuevo</span>
+      {announcement}
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.9" aria-hidden="true">
+        <path d="M6 3.5 10.5 8 6 12.5" stroke-linecap="round" stroke-linejoin="round"></path>
+      </svg>
+    </a>
+
+    <h1 class="title">
+      {title}
+      <span class="mark">{highlight}</span>
+    </h1>
+
+    <p class="text">{text}</p>
+
+    <form class="capture" onsubmit="return false">
+      <label class="visually-hidden" for="hero-email">Correo electrónico</label>
+      <input id="hero-email" type="email" placeholder="tu@empresa.com" autocomplete="email" />
+      <button type="submit">Probar gratis</button>
+    </form>
+
+    <p class="note">14 días de prueba · No pedimos tarjeta</p>
+
+    <ul role="list" class="logos">
+      {logos.map((logo) => <li>{logo}</li>)}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    overflow: hidden;
+    background: var(--background-color);
+    padding: 76px 24px 60px;
+    font-family: var(--font-sans);
+    text-align: center;
+    isolation: isolate;
+  }
+
+  .glow {
+    position: absolute;
+    z-index: -2;
+    top: -260px;
+    left: 50%;
+    width: 760px;
+    height: 520px;
+    background: radial-gradient(closest-side, var(--primary-soft), transparent 72%);
+    transform: translateX(-50%);
+  }
+
+  /* Rejilla desvanecida hacia los bordes con mask. */
+  .grid-lines {
+    position: absolute;
+    z-index: -1;
+    inset: 0;
+    background-image: linear-gradient(
+        color-mix(in srgb, var(--text-color) 7%, transparent) 1px,
+        transparent 1px
+      ),
+      linear-gradient(90deg, color-mix(in srgb, var(--text-color) 7%, transparent) 1px, transparent 1px);
+    background-size: 46px 46px;
+    mask-image: radial-gradient(ellipse 70% 60% at 50% 30%, #000, transparent 78%);
+  }
+
+  .inner {
+    max-width: 720px;
+    margin-inline: auto;
+  }
+
+  .announce {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    border: 1px solid var(--border-color);
+    border-radius: 999px;
+    background: var(--surface-color);
+    padding: 5px 14px 5px 5px;
+    color: var(--text-muted);
+    font-size: 13px;
+    text-decoration: none;
+    box-shadow: var(--shadow-sm);
+    transition: border-color 180ms ease, color 180ms ease;
+  }
+
+  .announce svg {
+    width: 14px;
+    height: 14px;
+    transition: transform 200ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  .announce:hover {
+    border-color: var(--primary-line);
+    color: var(--text-color);
+  }
+
+  .announce:hover svg {
+    transform: translateX(3px);
+  }
+
+  .announce-tag {
+    border-radius: 999px;
+    background: var(--primary-color);
+    padding: 3px 10px;
+    color: var(--primary-contrast);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+
+  .title {
+    margin: 24px 0 0;
+    color: var(--text-color);
+    font-size: clamp(30px, 5.2cqi + 14px, 54px);
+    font-weight: 700;
+    letter-spacing: -0.045em;
+    line-height: 1.05;
+    text-wrap: balance;
+  }
+
+  /* El acento va en el trazo, no en el texto: legible con cualquier color. */
+  .mark {
+    position: relative;
+    display: inline-block;
+    color: var(--primary-color);
+  }
+
+  .mark::after {
+    position: absolute;
+    right: 0;
+    bottom: 0.02em;
+    left: 0;
+    height: 0.16em;
+    border-radius: 999px;
+    background: var(--primary-color);
+    content: '';
+    opacity: 0.28;
+  }
+
+  .text {
+    max-width: 48ch;
+    margin: 18px auto 0;
+    color: var(--text-muted);
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
+  .capture {
+    display: flex;
+    max-width: 440px;
+    gap: 8px;
+    margin: 30px auto 0;
+    border: 1px solid var(--border-color);
+    border-radius: 14px;
+    background: var(--surface-color);
+    padding: 6px;
+    box-shadow: var(--shadow-md);
+    transition: border-color 180ms ease, box-shadow 180ms ease;
+  }
+
+  .capture:focus-within {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 4px var(--primary-soft);
+  }
+
+  .capture input {
+    min-width: 0;
+    flex: 1;
+    border: 0;
+    background: none;
+    padding: 11px 12px;
+    color: var(--text-color);
+    font-size: 15px;
+    outline: none;
+  }
+
+  .capture input::placeholder {
+    color: var(--text-muted);
+    opacity: 0.75;
+  }
+
+  .capture button {
+    flex: none;
+    border: 0;
+    border-radius: 9px;
+    background: var(--primary-color);
+    padding: 11px 20px;
+    color: var(--primary-contrast);
+    font-size: 14.5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 180ms ease;
+  }
+
+  .capture button:hover {
+    background: var(--primary-hover);
+  }
+
+  .note {
+    margin: 12px 0 0;
+    color: var(--text-muted);
+    font-size: 12.5px;
+  }
+
+  .logos {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 28px;
+    margin: 46px 0 0;
+    list-style: none;
+    padding: 0;
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    opacity: 0.65;
+  }
+
+  @container preview (max-width: 620px) {
+    .hero {
+      padding: 52px 18px 44px;
+    }
+
+    .capture {
+      flex-direction: column;
+    }
+
+    .capture button {
+      padding: 12px 20px;
+    }
+
+    .logos {
+      gap: 18px;
+      margin-top: 34px;
+    }
+  }
+</style>

@@ -1,0 +1,204 @@
+---
+const presets = [
+  { hex: '#4f46e5', name: 'Índigo' },
+  { hex: '#0f766e', name: 'Teal' },
+  { hex: '#e0602c', name: 'Ámbar quemado' },
+  { hex: '#be123c', name: 'Carmín' },
+  { hex: '#1d4ed8', name: 'Azul' },
+  { hex: '#65a30d', name: 'Lima' },
+];
+---
+
+<div class="picker" data-color-picker>
+  <label class="swatch">
+    <span class="visually-hidden">Color principal</span>
+    <input type="color" value="#4f46e5" data-color-input />
+    <span class="swatch-face" aria-hidden="true"></span>
+  </label>
+
+  <div class="readout">
+    <span class="readout-label">Primary color</span>
+    <output class="readout-hex" data-color-output>#4F46E5</output>
+  </div>
+
+  <!-- Rampa derivada: se ve en directo qué produce el color elegido. -->
+  <div class="ramp" title="Variantes derivadas: light · base · hover" aria-hidden="true">
+    <span class="ramp-step" data-step="light"></span>
+    <span class="ramp-step" data-step="base"></span>
+    <span class="ramp-step" data-step="hover"></span>
+  </div>
+
+  <div class="presets">
+    {
+      presets.map((preset) => (
+        <button
+          type="button"
+          class="preset"
+          style={`--preset:${preset.hex}`}
+          data-preset={preset.hex}
+          title={preset.name}
+        >
+          <span class="visually-hidden">Aplicar {preset.name}</span>
+        </button>
+      ))
+    }
+  </div>
+</div>
+
+<script>
+  const picker = document.querySelector<HTMLElement>('[data-color-picker]');
+  const input = picker?.querySelector<HTMLInputElement>('[data-color-input]');
+  const output = picker?.querySelector<HTMLOutputElement>('[data-color-output]');
+
+  if (picker && input && output) {
+    const sync = (hex: string) => {
+      input.value = hex;
+      output.textContent = hex.toUpperCase();
+    };
+
+    // Se escribe una sola custom property en :root; el resto de tonos los
+    // deriva el CSS con color-mix(), así ningún diseño repite lógica de color.
+    const apply = (hex: string) => {
+      window.__gallery.applyPrimary(hex);
+      sync(hex);
+    };
+
+    sync(window.__gallery.read('color') ?? input.value);
+
+    input.addEventListener('input', (event) => {
+      apply((event.target as HTMLInputElement).value);
+    });
+
+    picker.querySelectorAll<HTMLButtonElement>('[data-preset]').forEach((button) => {
+      button.addEventListener('click', () => apply(button.dataset.preset as string));
+    });
+  }
+</script>
+
+<style>
+  .picker {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border: 1px solid var(--app-line);
+    border-radius: var(--radius-full);
+    background: var(--app-surface);
+    padding: 5px 14px 5px 5px;
+  }
+
+  .swatch {
+    position: relative;
+    display: block;
+    width: 32px;
+    height: 32px;
+    flex: none;
+    cursor: pointer;
+  }
+
+  .swatch input {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  .swatch-face {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: var(--radius-full);
+    background: var(--primary-color);
+    box-shadow: inset 0 0 0 1px rgb(0 0 0 / 0.12), 0 0 0 3px var(--primary-soft);
+    transition: background-color var(--speed) var(--ease), box-shadow var(--speed) var(--ease);
+  }
+
+  .swatch input:focus-visible + .swatch-face {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 3px;
+  }
+
+  .readout {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
+  }
+
+  .readout-label {
+    color: var(--app-faint);
+    font-size: 10.5px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .readout-hex {
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    font-weight: 500;
+  }
+
+  .ramp {
+    display: flex;
+    overflow: hidden;
+    height: 20px;
+    border-radius: var(--radius-full);
+    box-shadow: inset 0 0 0 1px var(--app-line);
+  }
+
+  .ramp-step {
+    width: 18px;
+    transition: background-color var(--speed) var(--ease);
+  }
+
+  .ramp-step[data-step='light'] {
+    background: color-mix(in srgb, var(--primary-color) 18%, #fff);
+  }
+
+  .ramp-step[data-step='base'] {
+    background: var(--primary-color);
+  }
+
+  .ramp-step[data-step='hover'] {
+    background: var(--primary-hover);
+  }
+
+  .presets {
+    display: flex;
+    gap: 5px;
+    border-left: 1px solid var(--app-line);
+    padding-left: 12px;
+  }
+
+  .preset {
+    width: 16px;
+    height: 16px;
+    border-radius: var(--radius-full);
+    background: var(--preset);
+    box-shadow: inset 0 0 0 1px rgb(0 0 0 / 0.15);
+    transition: transform var(--speed) var(--ease);
+  }
+
+  .preset:hover {
+    transform: scale(1.18);
+  }
+
+  @media (max-width: 1180px) {
+    .presets {
+      display: none;
+    }
+  }
+
+  @media (max-width: 720px) {
+    .ramp,
+    .readout-label {
+      display: none;
+    }
+
+    .picker {
+      gap: 8px;
+      padding-right: 12px;
+    }
+  }
+</style>

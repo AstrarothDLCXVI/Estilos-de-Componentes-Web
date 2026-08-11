@@ -1,0 +1,150 @@
+---
+import Sidebar from '@/components/gallery/Sidebar.astro';
+import Topbar from '@/components/gallery/Topbar.astro';
+import '@/styles/global.css';
+
+interface Props {
+  title: string;
+  activeSlug: string;
+}
+
+const { title, activeSlug } = Astro.props;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title} · Component Gallery</title>
+    <meta
+      name="description"
+      content="Galería de componentes de interfaz con color principal personalizable en tiempo real."
+    />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap"
+    />
+
+    {/*
+      Script inline y bloqueante: restaura tema, color y ancho ANTES del primer
+      pintado, así no hay flash. También expone `window.__gallery`, que es la
+      única puerta de escritura de tokens (el resto de scripts sólo la llaman).
+    */}
+    <script is:inline>
+      (() => {
+        const KEYS = {
+          color: 'gallery:primary',
+          theme: 'gallery:theme',
+          viewport: 'gallery:viewport',
+        };
+        const root = document.documentElement;
+
+        const read = (key) => {
+          try {
+            return localStorage.getItem(KEYS[key]);
+          } catch {
+            return null;
+          }
+        };
+        const write = (key, value) => {
+          try {
+            localStorage.setItem(KEYS[key], value);
+          } catch {
+            /* modo privado: se ignora */
+          }
+        };
+
+        /** Texto legible sobre el color elegido (luminancia relativa WCAG). */
+        const contrastOn = (hex) => {
+          const raw = hex.replace('#', '');
+          const full =
+            raw.length === 3
+              ? raw
+                  .split('')
+                  .map((c) => c + c)
+                  .join('')
+              : raw;
+          const int = parseInt(full, 16);
+          const channels = [(int >> 16) & 255, (int >> 8) & 255, int & 255].map((c) => {
+            const s = c / 255;
+            return s <= 0.03928 ? s / 12.92 : Math.pow((s + 0.055) / 1.055, 2.4);
+          });
+          const luminance =
+            0.2126 * channels[0] + 0.7152 * channels[1] + 0.0722 * channels[2];
+          return luminance > 0.42 ? '#101116' : '#ffffff';
+        };
+
+        window.__gallery = {
+          applyPrimary(hex, persist = true) {
+            root.style.setProperty('--primary-color', hex);
+            root.style.setProperty('--primary-contrast', contrastOn(hex));
+            if (persist) write('color', hex);
+          },
+          applyTheme(theme, persist = true) {
+            root.dataset.theme = theme;
+            if (persist) write('theme', theme);
+          },
+          applyViewport(viewport, persist = true) {
+            root.dataset.viewport = viewport;
+            if (persist) write('viewport', viewport);
+          },
+          read,
+        };
+
+        const prefersDark =
+          window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        window.__gallery.applyTheme(read('theme') || (prefersDark ? 'dark' : 'light'), false);
+        window.__gallery.applyViewport(read('viewport') || 'desktop', false);
+
+        const savedColor = read('color');
+        if (savedColor) window.__gallery.applyPrimary(savedColor, false);
+      })();
+    </script>
+  </head>
+
+  <body>
+    <a class="skip-link" href="#content">Ir al contenido</a>
+
+    <div class="shell">
+      <Sidebar activeSlug={activeSlug} />
+      <div class="shell-body">
+        <Topbar />
+        <main id="content" class="shell-content">
+          <slot />
+        </main>
+      </div>
+    </div>
+  </body>
+</html>
+
+<style>
+  .shell {
+    display: grid;
+    grid-template-columns: var(--sidebar-w) minmax(0, 1fr);
+    min-height: 100vh;
+  }
+
+  .shell-body {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+  }
+
+  .shell-content {
+    padding: 32px 32px 96px;
+  }
+
+  @media (max-width: 900px) {
+    .shell {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .shell-content {
+      padding: 20px 16px 72px;
+    }
+  }
+</style>

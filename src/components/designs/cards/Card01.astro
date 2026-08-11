@@ -1,0 +1,206 @@
+---
+import { articles } from '@/data/sample';
+
+interface Props {
+  items?: typeof articles;
+}
+
+const { items = articles } = Astro.props;
+---
+
+<div class="grid">
+  {
+    items.map((article) => (
+      <article class="card" style={`--tone:${article.tone}`}>
+        {/* Placeholder generado con CSS: nunca se rompe y se tiñe con el color elegido. */}
+        <div class="media" aria-hidden="true">
+          <span class="media-shape" />
+        </div>
+
+        <div class="body">
+          <p class="eyebrow">
+            <span class="cat">{article.category}</span>
+            <span class="dot" />
+            {article.readingTime} de lectura
+          </p>
+          <h3 class="title">
+            <a href="#">{article.title}</a>
+          </h3>
+          <p class="excerpt">{article.excerpt}</p>
+        </div>
+
+        <footer class="foot">
+          <span class="avatar" aria-hidden="true">
+            {article.initials}
+          </span>
+          <span class="author">{article.author}</span>
+          <span class="more" aria-hidden="true">
+            Leer
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.9">
+              <path d="M3 8h9M8.5 4l4 4-4 4" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </span>
+        </footer>
+      </article>
+    ))
+  }
+</div>
+
+<style>
+  .grid {
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr));
+    font-family: var(--font-sans);
+  }
+
+  .card {
+    position: relative;
+    display: flex;
+    overflow: hidden;
+    flex-direction: column;
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    background: var(--surface-color);
+    box-shadow: var(--shadow-sm);
+    transition: box-shadow 220ms cubic-bezier(0.2, 0.8, 0.2, 1),
+      transform 220ms cubic-bezier(0.2, 0.8, 0.2, 1), border-color 220ms ease;
+  }
+
+  .card:hover {
+    border-color: var(--primary-line);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-3px);
+  }
+
+  .media {
+    position: relative;
+    display: grid;
+    aspect-ratio: 16 / 10;
+    place-items: center;
+    background: linear-gradient(
+      calc((125 + var(--tone) * 75) * 1deg),
+      color-mix(in srgb, var(--primary-color) 82%, var(--surface-alt)),
+      color-mix(in srgb, var(--primary-color) 22%, var(--surface-alt))
+    );
+  }
+
+  .media::after {
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(rgb(255 255 255 / 0.22) 1px, transparent 1px);
+    background-size: 10px 10px;
+    content: '';
+  }
+
+  .media-shape {
+    width: 46px;
+    height: 46px;
+    border: 2px solid rgb(255 255 255 / 0.65);
+    border-radius: calc(24px - var(--tone) * 20px);
+    transform: rotate(calc(var(--tone) * 45deg));
+  }
+
+  .body {
+    flex: 1;
+    padding: 18px 18px 14px;
+  }
+
+  .eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 11.5px;
+    letter-spacing: 0.02em;
+  }
+
+  .cat {
+    color: var(--primary-color);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .dot {
+    width: 3px;
+    height: 3px;
+    border-radius: 999px;
+    background: currentColor;
+    opacity: 0.5;
+  }
+
+  .title {
+    margin: 9px 0 0;
+    font-size: 17px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.3;
+  }
+
+  .title a {
+    color: var(--text-color);
+    text-decoration: none;
+  }
+
+  .title a::after {
+    position: absolute;
+    inset: 0;
+    content: '';
+  }
+
+  .excerpt {
+    margin: 8px 0 0;
+    color: var(--text-muted);
+    font-size: 13.5px;
+    line-height: 1.6;
+  }
+
+  .foot {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    border-top: 1px solid var(--border-color);
+    padding: 12px 18px;
+  }
+
+  .avatar {
+    display: grid;
+    width: 26px;
+    height: 26px;
+    place-items: center;
+    border-radius: 999px;
+    background: var(--primary-light);
+    color: color-mix(in srgb, var(--primary-color) 72%, var(--text-color));
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+  }
+
+  .author {
+    color: var(--text-muted);
+    font-size: 12.5px;
+    font-weight: 500;
+  }
+
+  .more {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin-left: auto;
+    color: var(--primary-color);
+    font-size: 12.5px;
+    font-weight: 600;
+  }
+
+  .more svg {
+    width: 13px;
+    height: 13px;
+    transition: transform 200ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  .card:hover .more svg {
+    transform: translateX(3px);
+  }
+</style>

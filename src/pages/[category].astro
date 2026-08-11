@@ -1,0 +1,24 @@
+---
+import CategoryView from '@/components/gallery/CategoryView.astro';
+import Layout from '@/layouts/Layout.astro';
+import { catalog, defaultCategory, getCategory } from '@/lib/registry';
+
+/**
+ * Una ruta por categoría, generada desde el catálogo.
+ * La primera categoría ya se sirve en `/`, así que se excluye aquí.
+ */
+export function getStaticPaths() {
+  return catalog
+    .filter((category) => category.slug !== defaultCategory?.slug)
+    .map((category) => ({ params: { category: category.slug } }));
+}
+
+const { category: slug } = Astro.params;
+const category = getCategory(slug!);
+
+if (!category) return Astro.redirect('/404');
+---
+
+<Layout title={category.label} activeSlug={category.slug}>
+  <CategoryView category={category} />
+</Layout>
