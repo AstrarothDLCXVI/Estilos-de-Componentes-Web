@@ -37,8 +37,20 @@ export const categories: Category[] = [
     code: 'BUTTON',
     order: 4,
   },
-  // Siguientes categorías (crea la carpeta y añade la entrada):
-  // { slug: 'forms', label: 'Forms', description: '…', code: 'FORM', order: 5 },
+  {
+    slug: 'forms',
+    label: 'Forms',
+    description: 'Formularios de acceso y hoja de estados de campo: reposo, error, válido.',
+    code: 'FORM',
+    order: 5,
+  },
+  {
+    slug: 'footers',
+    label: 'Footers',
+    description: 'Pies de página: rejilla de enlaces completa y barra minimalista con newsletter.',
+    code: 'FOOTER',
+    order: 6,
+  },
 ];
 
 /**
@@ -93,5 +105,53 @@ export const designMeta: Record<string, DesignMeta> = {
     description:
       'Cuatro micro-interacciones sobre el mismo color: relleno que barre, borde degradado, relieve con sombra sólida y flecha que sale y vuelve a entrar.',
     tags: ['Hover', 'Animación', 'Marketing'],
+  },
+  'headers/Header03': {
+    name: 'Barra oscura con buscador',
+    description:
+      'Navegación siempre en modo oscuro con campo de búsqueda con atajo de teclado, notificaciones y avatar. Pensada para el interior de una aplicación.',
+    tags: ['Oscuro', 'Buscador', 'App'],
+  },
+  'cards/Card03': {
+    name: 'Tarjeta de equipo',
+    description:
+      'Retrato con iniciales teñido por degradado, rol destacado en el color principal y enlaces sociales bajo una línea divisoria.',
+    tags: ['Perfil', 'Rejilla de 3', 'Equipo'],
+  },
+  'hero/Hero03': {
+    name: 'Hero oscuro con mockup de producto',
+    description:
+      'Titular centrado sobre halo de color y una ventana de navegador construida en CSS con pestañas y filas de métricas. Sin capturas de pantalla reales.',
+    tags: ['Oscuro', 'Producto', 'Centrado'],
+  },
+  'buttons/Button03': {
+    name: 'Icono, flotante y segmentado',
+    description:
+      'Formatos que no caben en la escala de jerarquías: botones de sólo icono, un FAB con sombra elevada, un grupo segmentado interactivo y contadores.',
+    tags: ['Icono', 'FAB', 'Segmentado'],
+  },
+  'forms/Form01': {
+    name: 'Formulario de acceso',
+    description:
+      'Tarjeta de login con acceso social, divisor y campos de correo y contraseña con foco realzado. Composición lista para pegar en una página de auth.',
+    tags: ['Login', 'Social', 'Tarjeta'],
+  },
+  'forms/Form02': {
+    name: 'Hoja de estados de campo',
+    description:
+      'Los seis estados que necesita cualquier formulario: reposo, foco, error con mensaje, válido, deshabilitado y textarea. Se consulta al implementar.',
+    tags: ['Sistema', 'Validación', 'Accesible'],
+  },
+  'footers/Footer01': {
+    name: 'Footer con rejilla de enlaces',
+    description:
+      'Marca y redes sociales a la izquierda, tres columnas de enlaces a la derecha y barra inferior con copyright y avisos legales.',
+    tags: ['Rejilla', 'Marketing', 'Completo'],
+  },
+  'footers/Footer02': {
+    name: 'Footer minimalista con newsletter',
+    description:
+      'Una sola barra con marca, navegación y alta a la newsletter; línea inferior compacta con copyright y redes. Para páginas de producto sobrias.',
+    tags: ['Minimalista', 'Newsletter', 'Compacto'],
   },
 };

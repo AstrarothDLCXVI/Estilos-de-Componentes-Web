@@ -1,0 +1,295 @@
+---
+// Formatos que no encajan en la escala de jerarquías: sólo icono, flotante,
+// grupo segmentado y con contador. El segmentado es interactivo de verdad
+// (radios ocultos), sin una línea de JS.
+---
+
+<div class="sheet">
+  <section class="row">
+    <p class="row-label">Sólo icono</p>
+    <div class="row-items">
+      <button type="button" class="icon-btn icon-solid" aria-label="Añadir">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.9" aria-hidden="true">
+          <path d="M8 3.5v9M3.5 8h9" stroke-linecap="round"></path>
+        </svg>
+      </button>
+      <button type="button" class="icon-btn icon-outline" aria-label="Editar">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true">
+          <path
+            d="M10.6 2.9 13.1 5.4 5.6 12.9 2.7 13.3l.4-2.9 7.5-7.5Z"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          ></path>
+        </svg>
+      </button>
+      <button type="button" class="icon-btn icon-ghost" aria-label="Eliminar">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true">
+          <path
+            d="M3.5 4.8h9M6.3 4.8V3.4h3.4v1.4M6.8 7.4v3.6M9.2 7.4v3.6M4.4 4.8l.5 7.5a1 1 0 0 0 1 .9h4.2a1 1 0 0 0 1-.9l.5-7.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          ></path>
+        </svg>
+      </button>
+    </div>
+  </section>
+
+  <section class="row">
+    <p class="row-label">Flotante</p>
+    <div class="row-items">
+      <button type="button" class="fab" aria-label="Crear">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path d="M8 3.2v9.6M3.2 8h9.6" stroke-linecap="round"></path>
+        </svg>
+      </button>
+      <button type="button" class="fab fab-extended">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path d="M8 3.2v9.6M3.2 8h9.6" stroke-linecap="round"></path>
+        </svg>
+        Nuevo informe
+      </button>
+    </div>
+  </section>
+
+  <section class="row">
+    <p class="row-label">Grupo segmentado</p>
+    <div class="row-items">
+      <div class="segmented">
+        <input type="radio" name="button03-view" id="button03-day" checked />
+        <label for="button03-day">Día</label>
+        <input type="radio" name="button03-view" id="button03-week" />
+        <label for="button03-week">Semana</label>
+        <input type="radio" name="button03-view" id="button03-month" />
+        <label for="button03-month">Mes</label>
+      </div>
+    </div>
+  </section>
+
+  <section class="row">
+    <p class="row-label">Con contador</p>
+    <div class="row-items">
+      <button type="button" class="btn-badge">
+        Notificaciones
+        <span class="badge">6</span>
+      </button>
+      <button type="button" class="icon-btn icon-outline badge-anchor" aria-label="Carrito, 3 artículos">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true">
+          <path
+            d="M2.7 3h1.4l.6 8.2a1 1 0 0 0 1 .9h5.9a1 1 0 0 0 1-.85L13.4 6H4.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          ></path>
+          <circle cx="6.2" cy="13.6" r="0.9"></circle>
+          <circle cx="11" cy="13.6" r="0.9"></circle>
+        </svg>
+        <span class="badge badge-dot">3</span>
+      </button>
+    </div>
+  </section>
+</div>
+
+<style>
+  .sheet {
+    display: grid;
+    gap: 2px;
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    background: var(--border-color);
+    font-family: var(--font-sans);
+  }
+
+  .row {
+    display: grid;
+    align-items: center;
+    gap: 18px;
+    grid-template-columns: 120px 1fr;
+    background: var(--surface-color);
+    padding: 18px 20px;
+  }
+
+  .row-label {
+    margin: 0;
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .row-items {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .icon-btn {
+    position: relative;
+    display: grid;
+    width: 38px;
+    height: 38px;
+    place-items: center;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease;
+  }
+
+  .icon-btn svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .icon-solid {
+    background: var(--primary-color);
+    color: var(--primary-contrast);
+  }
+
+  .icon-solid:hover {
+    background: var(--primary-hover);
+  }
+
+  .icon-outline {
+    border-color: var(--border-color);
+    background: var(--surface-color);
+    color: var(--text-color);
+  }
+
+  .icon-outline:hover {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+  }
+
+  .icon-ghost {
+    background: transparent;
+    color: var(--text-muted);
+  }
+
+  .icon-ghost:hover {
+    background: var(--surface-alt);
+    color: var(--text-color);
+  }
+
+  .fab {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: 0;
+    border-radius: 999px;
+    background: var(--primary-color);
+    padding: 15px;
+    color: var(--primary-contrast);
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 10px 24px -10px color-mix(in srgb, var(--primary-color) 70%, transparent);
+    transition: transform 180ms ease, box-shadow 180ms ease, background-color 180ms ease;
+  }
+
+  .fab svg {
+    width: 17px;
+    height: 17px;
+  }
+
+  .fab:hover {
+    background: var(--primary-hover);
+    box-shadow: 0 14px 30px -10px color-mix(in srgb, var(--primary-color) 75%, transparent);
+    transform: translateY(-2px);
+  }
+
+  .fab-extended {
+    padding: 13px 20px 13px 16px;
+  }
+
+  .segmented {
+    display: inline-flex;
+    gap: 2px;
+    border-radius: 10px;
+    background: var(--surface-alt);
+    padding: 3px;
+  }
+
+  .segmented input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+  }
+
+  .segmented label {
+    border-radius: 7px;
+    padding: 7px 14px;
+    color: var(--text-muted);
+    font-size: 13.5px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 180ms ease, color 180ms ease, box-shadow 180ms ease;
+  }
+
+  .segmented input:checked + label {
+    background: var(--surface-color);
+    color: var(--text-color);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .segmented input:focus-visible + label {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+  }
+
+  .btn-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    background: var(--surface-color);
+    padding: 10px 12px 10px 16px;
+    color: var(--text-color);
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: border-color 160ms ease;
+  }
+
+  .btn-badge:hover {
+    border-color: var(--primary-color);
+  }
+
+  .badge {
+    display: grid;
+    min-width: 20px;
+    height: 20px;
+    place-items: center;
+    border-radius: 999px;
+    background: var(--primary-color);
+    padding: 0 6px;
+    color: var(--primary-contrast);
+    font-size: 11px;
+    font-weight: 700;
+  }
+
+  .badge-anchor {
+    overflow: visible;
+  }
+
+  .badge-dot {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    min-width: 18px;
+    height: 18px;
+    border: 2px solid var(--surface-color);
+    font-size: 10px;
+  }
+
+  @container preview (max-width: 640px) {
+    .row {
+      gap: 12px;
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

@@ -1,0 +1,248 @@
+---
+import { footerColumns } from '@/data/sample';
+
+interface Props {
+  brand?: string;
+  text?: string;
+  columns?: typeof footerColumns;
+}
+
+const {
+  brand = 'Meridian',
+  text = 'Paneles compartidos para equipos que deciden con datos en tiempo real.',
+  columns = footerColumns,
+} = Astro.props;
+
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="top">
+    <div class="brand-col">
+      <a class="logo" href="#">
+        <span class="logo-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <path d="M4 17 9.5 7l5 6.5L18 9"></path>
+          </svg>
+        </span>
+        <span class="logo-word">{brand}</span>
+      </a>
+      <p class="brand-text">{text}</p>
+
+      <div class="social">
+        <a href="#" aria-label="X (Twitter)">
+          <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+            <path d="M9.53 6.9 13.7 2h-1.3L8.94 6.06 6.13 2H2.3l4.37 6.24L2.3 13.4h1.3l3.66-4.3 3 4.3h3.83L9.53 6.9Z" />
+          </svg>
+        </a>
+        <a href="#" aria-label="LinkedIn">
+          <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+            <path d="M2.9 5.6h2v7.7h-2zM3.9 2.5a1.16 1.16 0 1 1 0 2.32 1.16 1.16 0 0 1 0-2.32ZM6.9 5.6h1.92v1.05h.03c.27-.5.92-1.03 1.9-1.03 2.03 0 2.4 1.3 2.4 3v4.65h-2V8.98c0-.73-.01-1.67-1.03-1.67-1.03 0-1.19.79-1.19 1.62v4.4h-2Z" />
+          </svg>
+        </a>
+        <a href="#" aria-label="GitHub">
+          <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+            <path d="M8 1.6a6.9 6.9 0 0 0-2.18 13.44c.35.06.47-.15.47-.33v-1.3c-1.92.42-2.33-.82-2.33-.82-.31-.8-.77-1.02-.77-1.02-.63-.43.05-.42.05-.42.7.05 1.06.71 1.06.71.62 1.06 1.62.76 2.02.58.06-.45.24-.76.44-.93-1.53-.17-3.14-.77-3.14-3.4 0-.75.27-1.36.7-1.85-.07-.17-.3-.87.07-1.81 0 0 .58-.19 1.9.7a6.6 6.6 0 0 1 3.46 0c1.32-.89 1.9-.7 1.9-.7.37.94.14 1.64.07 1.81.44.49.7 1.1.7 1.85 0 2.64-1.62 3.22-3.15 3.4.25.21.47.63.47 1.27v1.88c0 .18.12.4.48.33A6.9 6.9 0 0 0 8 1.6Z" />
+          </svg>
+        </a>
+      </div>
+    </div>
+
+    <nav class="link-cols" aria-label="Enlaces del sitio">
+      {
+        columns.map((column) => (
+          <div class="link-col">
+            <p class="link-col-title">{column.title}</p>
+            <ul role="list">
+              {column.links.map((link) => (
+                <li>
+                  <a href="#">{link}</a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </nav>
+  </div>
+
+  <div class="bottom">
+    <p>© {year} {brand}. Todos los derechos reservados.</p>
+    <ul role="list" class="legal">
+      <li><a href="#">Privacidad</a></li>
+      <li><a href="#">Términos</a></li>
+      <li><a href="#">Cookies</a></li>
+    </ul>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    border-top: 1px solid var(--border-color);
+    background: var(--surface-color);
+    font-family: var(--font-sans);
+  }
+
+  .top {
+    display: grid;
+    max-width: 1180px;
+    gap: 48px;
+    margin-inline: auto;
+    grid-template-columns: 1.1fr 2fr;
+    padding: 48px 28px 36px;
+  }
+
+  .logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    color: var(--text-color);
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    text-decoration: none;
+  }
+
+  .logo-mark {
+    display: grid;
+    width: 30px;
+    height: 30px;
+    place-items: center;
+    border-radius: 9px;
+    background: var(--primary-color);
+    color: var(--primary-contrast);
+  }
+
+  .logo-mark svg {
+    width: 17px;
+    height: 17px;
+  }
+
+  .brand-text {
+    max-width: 34ch;
+    margin: 14px 0 0;
+    color: var(--text-muted);
+    font-size: 13.5px;
+    line-height: 1.6;
+  }
+
+  .social {
+    display: flex;
+    gap: 6px;
+    margin-top: 18px;
+  }
+
+  .social a {
+    display: grid;
+    width: 32px;
+    height: 32px;
+    place-items: center;
+    border-radius: 999px;
+    background: var(--surface-alt);
+    color: var(--text-muted);
+    transition: background-color 180ms ease, color 180ms ease;
+  }
+
+  .social a:hover {
+    background: var(--primary-light);
+    color: var(--primary-color);
+  }
+
+  .social svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .link-cols {
+    display: grid;
+    gap: 24px;
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .link-col-title {
+    margin: 0 0 14px;
+    color: var(--text-color);
+    font-size: 12.5px;
+    font-weight: 600;
+  }
+
+  .link-col ul {
+    display: grid;
+    gap: 10px;
+    margin: 0;
+    list-style: none;
+    padding: 0;
+  }
+
+  .link-col a {
+    color: var(--text-muted);
+    font-size: 13.5px;
+    text-decoration: none;
+    transition: color 180ms ease;
+  }
+
+  .link-col a:hover {
+    color: var(--text-color);
+  }
+
+  .bottom {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    max-width: 1180px;
+    margin-inline: auto;
+    border-top: 1px solid var(--border-color);
+    padding: 18px 28px;
+  }
+
+  .bottom p {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 12.5px;
+  }
+
+  .legal {
+    display: flex;
+    gap: 18px;
+    margin: 0;
+    list-style: none;
+    padding: 0;
+  }
+
+  .legal a {
+    color: var(--text-muted);
+    font-size: 12.5px;
+    text-decoration: none;
+    transition: color 180ms ease;
+  }
+
+  .legal a:hover {
+    color: var(--text-color);
+  }
+
+  @container preview (max-width: 780px) {
+    .top {
+      gap: 32px;
+      grid-template-columns: 1fr;
+      padding: 36px 20px 28px;
+    }
+
+    .link-cols {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+  }
+
+  @container preview (max-width: 480px) {
+    .link-cols {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .bottom {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+</style>

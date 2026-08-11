@@ -1,0 +1,178 @@
+---
+// Hoja de estados de campo: reposo, foco, error, válido, deshabilitado y
+// textarea. La vista que se consulta al maquetar un formulario nuevo.
+---
+
+<div class="sheet">
+  <section class="row">
+    <p class="row-label">Reposo</p>
+    <div class="field">
+      <label for="form02-name">Nombre</label>
+      <input id="form02-name" type="text" placeholder="Cómo te llamas" />
+    </div>
+  </section>
+
+  <section class="row">
+    <p class="row-label">Foco</p>
+    <div class="field is-focus">
+      <label for="form02-email">Correo electrónico</label>
+      <input id="form02-email" type="email" value="ana@empresa.com" />
+    </div>
+  </section>
+
+  <section class="row">
+    <p class="row-label">Con error</p>
+    <div class="field is-error">
+      <label for="form02-phone">Teléfono</label>
+      <input id="form02-phone" type="tel" value="34 91 2" aria-invalid="true" aria-describedby="form02-phone-hint" />
+      <p class="hint" id="form02-phone-hint">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+          <circle cx="8" cy="8" r="6.2"></circle>
+          <path d="M8 5.4v3M8 10.6h.01" stroke-linecap="round"></path>
+        </svg>
+        Introduce un número de teléfono válido.
+      </p>
+    </div>
+  </section>
+
+  <section class="row">
+    <p class="row-label">Válido</p>
+    <div class="field is-valid">
+      <label for="form02-user">Usuario</label>
+      <input id="form02-user" type="text" value="ana.iglesias" aria-describedby="form02-user-hint" />
+      <p class="hint" id="form02-user-hint">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+          <path d="M3.5 8.5 6.5 11.5 12.5 4.5" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+        Disponible.
+      </p>
+    </div>
+  </section>
+
+  <section class="row">
+    <p class="row-label">Deshabilitado</p>
+    <div class="field">
+      <label for="form02-plan">Plan</label>
+      <input id="form02-plan" type="text" value="Empresas (asignado por tu admin)" disabled />
+    </div>
+  </section>
+
+  <section class="row">
+    <p class="row-label">Textarea</p>
+    <div class="field">
+      <label for="form02-msg">Mensaje</label>
+      <textarea id="form02-msg" rows="3" placeholder="Cuéntanos qué necesitas"></textarea>
+    </div>
+  </section>
+</div>
+
+<style>
+  .sheet {
+    display: grid;
+    gap: 2px;
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    background: var(--border-color);
+    font-family: var(--font-sans);
+  }
+
+  .row {
+    display: grid;
+    align-items: center;
+    gap: 18px;
+    grid-template-columns: 120px 1fr;
+    background: var(--surface-color);
+    padding: 16px 20px;
+  }
+
+  .row-label {
+    margin: 0;
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .field {
+    max-width: 340px;
+  }
+
+  .field label {
+    display: block;
+    margin-bottom: 6px;
+    color: var(--text-color);
+    font-size: 12.5px;
+    font-weight: 600;
+  }
+
+  .field input,
+  .field textarea {
+    width: 100%;
+    border: 1px solid var(--border-color);
+    border-radius: 9px;
+    background: var(--surface-color);
+    padding: 9px 12px;
+    color: var(--text-color);
+    font-family: inherit;
+    font-size: 13.5px;
+    outline: none;
+    resize: vertical;
+    transition: border-color 160ms ease, box-shadow 160ms ease;
+  }
+
+  .field input:focus,
+  .field textarea:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px var(--primary-soft);
+  }
+
+  .field input:disabled {
+    cursor: not-allowed;
+    background: var(--surface-alt);
+    color: var(--text-muted);
+  }
+
+  .field.is-focus input {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px var(--primary-soft);
+  }
+
+  .field.is-error input {
+    border-color: color-mix(in srgb, #dc2626 65%, var(--border-color));
+  }
+
+  .field.is-error .hint {
+    color: #dc2626;
+  }
+
+  .field.is-valid input {
+    border-color: color-mix(in srgb, #16a34a 55%, var(--border-color));
+  }
+
+  .field.is-valid .hint {
+    color: #16a34a;
+  }
+
+  .hint {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin: 6px 0 0;
+    font-size: 12px;
+  }
+
+  .hint svg {
+    width: 13px;
+    height: 13px;
+    flex: none;
+  }
+
+  @container preview (max-width: 640px) {
+    .row {
+      gap: 10px;
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

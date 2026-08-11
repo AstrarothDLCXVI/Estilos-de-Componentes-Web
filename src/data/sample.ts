@@ -92,3 +92,47 @@ export const showcase: ShowcaseCard[] = [
     tone: 1,
   },
 ];
+
+export interface TeamMember {
+  name: string;
+  role: string;
+  initials: string;
+  bio: string;
+  /** Tono del degradado del avatar: 0 = frío, 1 = cálido. */
+  tone: number;
+}
+
+export const team: TeamMember[] = [
+  {
+    name: 'Marta Iglesias',
+    role: 'Diseño de producto',
+    initials: 'MI',
+    bio: 'Sistemas de diseño y prototipado. Antes en un estudio de identidad de marca.',
+    tone: 0,
+  },
+  {
+    name: 'Diego Correa',
+    role: 'Ingeniería frontend',
+    initials: 'DC',
+    bio: 'Rendimiento y accesibilidad. Mantiene la mitad de los componentes compartidos.',
+    tone: 0.5,
+  },
+  {
+    name: 'Sara Peña',
+    role: 'Investigación de usuarios',
+    initials: 'SP',
+    bio: 'Entrevistas y pruebas de usabilidad cada dos semanas con clientes reales.',
+    tone: 1,
+  },
+];
+
+export interface FooterColumn {
+  title: string;
+  links: string[];
+}
+
+export const footerColumns: FooterColumn[] = [
+  { title: 'Producto', links: ['Funciones', 'Integraciones', 'Precios', 'Novedades'] },
+  { title: 'Compañía', links: ['Sobre nosotros', 'Blog', 'Empleo', 'Contacto'] },
+  { title: 'Recursos', links: ['Documentación', 'Guías', 'Comunidad', 'Estado del servicio'] },
+];

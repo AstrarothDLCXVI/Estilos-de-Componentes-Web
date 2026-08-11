@@ -1,0 +1,235 @@
+---
+import { navItems } from '@/data/sample';
+
+interface Props {
+  brand?: string;
+  items?: typeof navItems;
+}
+
+const { brand = 'Vantor', items = navItems } = Astro.props;
+---
+
+<header class="site-header">
+  <div class="bar">
+    <a class="logo" href="#">
+      <span class="logo-mark" aria-hidden="true"></span>
+      <span class="logo-word">{brand}</span>
+    </a>
+
+    <nav class="nav" aria-label="Principal">
+      <ul role="list" class="nav-list">
+        {
+          items.map((item) => (
+            <li>
+              <a class="nav-link" href={item.href} aria-current={item.current ? 'page' : undefined}>
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <label class="search">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+        <circle cx="7" cy="7" r="4.3"></circle>
+        <path d="m13 13-2.6-2.6" stroke-linecap="round"></path>
+      </svg>
+      <span class="visually-hidden">Buscar</span>
+      <input type="search" placeholder="Buscar..." />
+      <kbd>⌘K</kbd>
+    </label>
+
+    <div class="actions">
+      <button type="button" class="icon-btn" aria-label="Notificaciones">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true">
+          <path d="M4 6.6a4 4 0 0 1 8 0c0 2.9 1 3.7 1 3.7H3s1-.8 1-3.7Z" stroke-linejoin="round"></path>
+          <path d="M6.6 12.3a1.5 1.5 0 0 0 2.8 0" stroke-linecap="round"></path>
+        </svg>
+        <span class="dot" aria-hidden="true"></span>
+      </button>
+      <span class="avatar" aria-hidden="true">VR</span>
+    </div>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    background: #0b0c10;
+    font-family: var(--font-sans);
+  }
+
+  .bar {
+    display: grid;
+    max-width: 1180px;
+    align-items: center;
+    gap: 20px;
+    margin-inline: auto;
+    grid-template-columns: auto auto 1fr auto;
+    padding: 13px 28px;
+  }
+
+  .logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    text-decoration: none;
+  }
+
+  .logo-mark {
+    width: 22px;
+    height: 22px;
+    border-radius: 7px;
+    background: linear-gradient(135deg, var(--primary-color), color-mix(in srgb, var(--primary-color) 40%, #fff));
+  }
+
+  .nav-list {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    margin: 0;
+    list-style: none;
+    padding: 0;
+  }
+
+  .nav-link {
+    display: block;
+    border-radius: 7px;
+    padding: 7px 11px;
+    color: rgb(255 255 255 / 0.6);
+    font-size: 13.5px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background-color 180ms ease, color 180ms ease;
+  }
+
+  .nav-link:hover {
+    background: rgb(255 255 255 / 0.06);
+    color: #fff;
+  }
+
+  .nav-link[aria-current='page'] {
+    background: rgb(255 255 255 / 0.08);
+    color: #fff;
+  }
+
+  .search {
+    display: flex;
+    align-items: center;
+    justify-self: end;
+    width: 100%;
+    max-width: 220px;
+    gap: 8px;
+    border: 1px solid rgb(255 255 255 / 0.1);
+    border-radius: 9px;
+    background: rgb(255 255 255 / 0.06);
+    padding: 7px 10px;
+    color: rgb(255 255 255 / 0.45);
+    transition: border-color 180ms ease, background-color 180ms ease;
+  }
+
+  .search:focus-within {
+    border-color: var(--primary-color);
+    background: rgb(255 255 255 / 0.09);
+  }
+
+  .search svg {
+    width: 15px;
+    height: 15px;
+    flex: none;
+  }
+
+  .search input {
+    min-width: 0;
+    flex: 1;
+    border: 0;
+    background: none;
+    color: #fff;
+    font-size: 13px;
+    outline: none;
+  }
+
+  .search input::placeholder {
+    color: rgb(255 255 255 / 0.4);
+  }
+
+  .search kbd {
+    border: 1px solid rgb(255 255 255 / 0.14);
+    border-radius: 4px;
+    padding: 1px 5px;
+    color: rgb(255 255 255 / 0.4);
+    font-family: var(--font-mono);
+    font-size: 10px;
+  }
+
+  .actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .icon-btn {
+    position: relative;
+    display: grid;
+    width: 32px;
+    height: 32px;
+    place-items: center;
+    border-radius: 999px;
+    color: rgb(255 255 255 / 0.65);
+    transition: background-color 180ms ease, color 180ms ease;
+  }
+
+  .icon-btn:hover {
+    background: rgb(255 255 255 / 0.08);
+    color: #fff;
+  }
+
+  .icon-btn svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .dot {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    width: 6px;
+    height: 6px;
+    border: 2px solid #0b0c10;
+    border-radius: 999px;
+    background: var(--primary-color);
+  }
+
+  .avatar {
+    display: grid;
+    width: 30px;
+    height: 30px;
+    place-items: center;
+    border-radius: 999px;
+    background: var(--primary-color);
+    color: var(--primary-contrast);
+    font-size: 11px;
+    font-weight: 700;
+  }
+
+  @container preview (max-width: 780px) {
+    .bar {
+      grid-template-columns: auto 1fr auto;
+      gap: 10px;
+      padding: 11px 18px;
+    }
+
+    .nav,
+    .search kbd {
+      display: none;
+    }
+
+    .search {
+      max-width: none;
+    }
+  }
+</style>
