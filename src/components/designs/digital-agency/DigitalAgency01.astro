@@ -1,0 +1,560 @@
+---
+// Página larga y autocontenida: header, hero con zona de foto, rejilla de
+// trabajos (zona de fotos), proceso en cuatro pasos, banda de CTA y footer.
+// Las "fotos" son degradados generados en CSS, igual que en cards/: nunca
+// se rompen y se tiñen con el color principal elegido.
+const projects = [
+  { name: 'Aurora Retail', category: 'Identidad + Web', tone: 0 },
+  { name: 'Migra Studio', category: 'Producto digital', tone: 0.35 },
+  { name: 'Nortia Bank', category: 'Rediseño de marca', tone: 0.65 },
+  { name: 'Valle Café', category: 'Empaquetado', tone: 1 },
+];
+
+const steps = [
+  { n: '01', title: 'Descubrir', text: 'Entrevistas, benchmark y una sola pregunta: qué debe sentir quien te compre.' },
+  { n: '02', title: 'Diseñar', text: 'Sistema visual completo: tipografía, color, componentes y tono de voz.' },
+  { n: '03', title: 'Construir', text: 'Maquetación, producción de piezas y pruebas con usuarios reales.' },
+  { n: '04', title: 'Lanzar', text: 'Entrega documentada y acompañamiento durante las primeras semanas.' },
+];
+---
+
+<div class="site">
+  <header class="header">
+    <a class="logo" href="#">
+      <span class="logo-mark" aria-hidden="true"></span>
+      Estudio Lumen
+    </a>
+
+    <nav class="nav" aria-label="Principal">
+      <ul role="list">
+        <li><a href="#">Trabajo</a></li>
+        <li><a href="#">Servicios</a></li>
+        <li><a href="#">Proceso</a></li>
+        <li><a href="#">Contacto</a></li>
+      </ul>
+    </nav>
+
+    <a class="header-cta" href="#">Empezar un proyecto</a>
+  </header>
+
+  <section class="hero">
+    <div class="hero-copy">
+      <p class="eyebrow">Estudio de diseño digital</p>
+      <h1>Convertimos ideas en marcas que se recuerdan</h1>
+      <p class="text">
+        Identidad, producto y comunicación bajo un mismo sistema, para marcas que necesitan verse
+        tan bien pensadas como lo están por dentro.
+      </p>
+      <div class="hero-actions">
+        <a class="btn-solid" href="#">Ver trabajo</a>
+        <a class="btn-outline" href="#">Reservar una llamada</a>
+      </div>
+    </div>
+
+    <div class="hero-photo photo-tone" style="--tone:0.4" aria-hidden="true">
+      <span class="photo-tag">Última campaña · Aurora Retail</span>
+    </div>
+  </section>
+
+  <div class="stats-bar">
+    <span><strong>48</strong> marcas lanzadas</span>
+    <span><strong>6</strong> países</span>
+    <span><strong>9</strong> años de estudio</span>
+  </div>
+
+  <section class="work" id="trabajo">
+    <header class="section-head">
+      <p class="eyebrow">Trabajo seleccionado</p>
+      <h2>Cuatro proyectos, cuatro problemas distintos</h2>
+    </header>
+
+    <div class="work-grid">
+      {
+        projects.map((project) => (
+          <article class="work-card">
+            <div class="photo-tone work-photo" style={`--tone:${project.tone}`} aria-hidden="true">
+              <span class="work-photo-shape" />
+            </div>
+            <div class="work-body">
+              <p class="work-category">{project.category}</p>
+              <h3>{project.name}</h3>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="process" id="proceso">
+    <header class="section-head">
+      <p class="eyebrow">Cómo trabajamos</p>
+      <h2>Cuatro pasos, sin sorpresas a mitad de camino</h2>
+    </header>
+
+    <ol class="process-list">
+      {
+        steps.map((step) => (
+          <li class="process-step">
+            <span class="process-n">{step.n}</span>
+            <h3>{step.title}</h3>
+            <p>{step.text}</p>
+          </li>
+        ))
+      }
+    </ol>
+  </section>
+
+  <section class="cta-band">
+    <h2>¿Hablamos de tu proyecto?</h2>
+    <p>Respondemos en menos de 48 horas, con o sin encargo de por medio.</p>
+    <a class="btn-solid" href="#">Escríbenos</a>
+  </section>
+
+  <footer class="footer">
+    <span>© 2026 Estudio Lumen</span>
+    <ul role="list">
+      <li><a href="#">Privacidad</a></li>
+      <li><a href="#">Instagram</a></li>
+      <li><a href="#">LinkedIn</a></li>
+    </ul>
+  </footer>
+</div>
+
+<style>
+  .site {
+    background: var(--background-color);
+    font-family: var(--font-sans);
+  }
+
+  /* --- Placeholder de foto: degradado teñido con el color principal --- */
+  .photo-tone {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(
+      calc((130 + var(--tone) * 80) * 1deg),
+      color-mix(in srgb, var(--primary-color) 88%, #000 4%),
+      color-mix(in srgb, var(--primary-color) 30%, var(--surface-alt))
+    );
+  }
+
+  .photo-tone::after {
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(rgb(255 255 255 / 0.2) 1px, transparent 1px);
+    background-size: 12px 12px;
+    content: '';
+  }
+
+  /* --- Header --- */
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    border-bottom: 1px solid var(--border-color);
+    padding: 16px 28px;
+  }
+
+  .logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    color: var(--text-color);
+    font-size: 15.5px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    text-decoration: none;
+  }
+
+  .logo-mark {
+    width: 20px;
+    height: 20px;
+    border-radius: 6px;
+    background: var(--primary-color);
+  }
+
+  .nav ul {
+    display: flex;
+    gap: 26px;
+    margin: 0;
+    list-style: none;
+    padding: 0;
+  }
+
+  .nav a {
+    color: var(--text-muted);
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: color 180ms ease;
+  }
+
+  .nav a:hover {
+    color: var(--text-color);
+  }
+
+  .header-cta {
+    border-radius: 9px;
+    background: var(--primary-color);
+    padding: 9px 16px;
+    color: var(--primary-contrast);
+    font-size: 13.5px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background-color 180ms ease;
+  }
+
+  .header-cta:hover {
+    background: var(--primary-hover);
+  }
+
+  /* --- Hero --- */
+  .hero {
+    display: grid;
+    max-width: 1120px;
+    align-items: center;
+    gap: 40px;
+    margin-inline: auto;
+    grid-template-columns: 1fr 1fr;
+    padding: 56px 28px;
+  }
+
+  .eyebrow {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: 12.5px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .hero-copy h1 {
+    max-width: 15ch;
+    margin: 14px 0 0;
+    color: var(--text-color);
+    font-size: clamp(28px, 4cqi + 14px, 42px);
+    font-weight: 700;
+    letter-spacing: -0.035em;
+    line-height: 1.1;
+    text-wrap: balance;
+  }
+
+  .hero-copy .text {
+    max-width: 42ch;
+    margin: 16px 0 0;
+    color: var(--text-muted);
+    font-size: 15px;
+    line-height: 1.65;
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 24px;
+  }
+
+  .btn-solid {
+    border-radius: 10px;
+    background: var(--primary-color);
+    padding: 12px 20px;
+    color: var(--primary-contrast);
+    font-size: 14.5px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background-color 180ms ease, transform 180ms ease;
+  }
+
+  .btn-solid:hover {
+    background: var(--primary-hover);
+    transform: translateY(-1px);
+  }
+
+  .btn-outline {
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    background: var(--surface-color);
+    padding: 12px 18px;
+    color: var(--text-color);
+    font-size: 14.5px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: border-color 180ms ease;
+  }
+
+  .btn-outline:hover {
+    border-color: var(--primary-color);
+  }
+
+  .hero-photo {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    border-radius: 18px;
+    box-shadow: var(--shadow-lg);
+  }
+
+  .photo-tag {
+    position: absolute;
+    bottom: 14px;
+    left: 14px;
+    border-radius: 999px;
+    background: rgb(10 11 15 / 0.42);
+    padding: 6px 12px;
+    color: #fff;
+    font-size: 11.5px;
+    font-weight: 600;
+    backdrop-filter: blur(6px);
+  }
+
+  /* --- Barra de estadísticas --- */
+  .stats-bar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 36px;
+    border-top: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
+    background: var(--surface-alt);
+    padding: 18px 24px;
+    color: var(--text-muted);
+    font-size: 13px;
+  }
+
+  .stats-bar strong {
+    margin-right: 5px;
+    color: var(--text-color);
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  /* --- Secciones genéricas --- */
+  .section-head {
+    max-width: 640px;
+    margin: 0 auto 32px;
+    text-align: center;
+  }
+
+  .section-head h2 {
+    margin: 10px 0 0;
+    color: var(--text-color);
+    font-size: clamp(22px, 2.6cqi + 14px, 30px);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.2;
+  }
+
+  /* --- Trabajo --- */
+  .work {
+    max-width: 1120px;
+    margin-inline: auto;
+    padding: 72px 28px;
+  }
+
+  .work-grid {
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 250px), 1fr));
+  }
+
+  .work-card {
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    background: var(--surface-color);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    transition: box-shadow 220ms ease, transform 220ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  .work-card:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-3px);
+  }
+
+  .work-photo {
+    display: grid;
+    aspect-ratio: 4 / 3;
+    place-items: center;
+  }
+
+  .work-photo-shape {
+    width: 34px;
+    height: 34px;
+    border: 2px solid rgb(255 255 255 / 0.6);
+    border-radius: 8px;
+  }
+
+  .work-body {
+    padding: 16px 18px;
+  }
+
+  .work-category {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 11.5px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .work-body h3 {
+    margin: 6px 0 0;
+    color: var(--text-color);
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+  }
+
+  /* --- Proceso --- */
+  .process {
+    max-width: 1120px;
+    margin-inline: auto;
+    padding: 0 28px 76px;
+  }
+
+  .process-list {
+    display: grid;
+    gap: 18px;
+    margin: 0;
+    list-style: none;
+    padding: 0;
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .process-step {
+    border-top: 2px solid var(--primary-color);
+    padding-top: 16px;
+  }
+
+  .process-n {
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    font-size: 12px;
+  }
+
+  .process-step h3 {
+    margin: 8px 0 0;
+    color: var(--text-color);
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  .process-step p {
+    max-width: 26ch;
+    margin: 8px 0 0;
+    color: var(--text-muted);
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  /* --- CTA --- */
+  .cta-band {
+    margin: 0 28px 28px;
+    border-radius: 20px;
+    background: var(--primary-color);
+    padding: 52px 28px;
+    color: var(--primary-contrast);
+    text-align: center;
+  }
+
+  .cta-band h2 {
+    margin: 0;
+    font-size: clamp(22px, 2.6cqi + 14px, 30px);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+  }
+
+  .cta-band p {
+    max-width: 44ch;
+    margin: 10px auto 0;
+    opacity: 0.85;
+    font-size: 14.5px;
+  }
+
+  .cta-band .btn-solid {
+    display: inline-flex;
+    margin-top: 22px;
+    background: var(--primary-contrast);
+    color: var(--primary-color);
+  }
+
+  .cta-band .btn-solid:hover {
+    background: color-mix(in srgb, var(--primary-contrast) 85%, var(--primary-color));
+  }
+
+  /* --- Footer --- */
+  .footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    border-top: 1px solid var(--border-color);
+    padding: 20px 28px;
+    color: var(--text-muted);
+    font-size: 12.5px;
+  }
+
+  .footer ul {
+    display: flex;
+    gap: 18px;
+    margin: 0;
+    list-style: none;
+    padding: 0;
+  }
+
+  .footer a {
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 180ms ease;
+  }
+
+  .footer a:hover {
+    color: var(--text-color);
+  }
+
+  @container preview (max-width: 860px) {
+    .hero {
+      gap: 28px;
+      grid-template-columns: 1fr;
+      padding: 40px 22px;
+    }
+
+    .hero-copy h1 {
+      max-width: none;
+    }
+
+    .process-list {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @container preview (max-width: 640px) {
+    .header {
+      flex-wrap: wrap;
+      padding: 14px 18px;
+    }
+
+    .nav {
+      order: 3;
+      width: 100%;
+    }
+
+    .nav ul {
+      gap: 16px;
+      overflow-x: auto;
+    }
+
+    .work,
+    .process {
+      padding-inline: 18px;
+    }
+
+    .process-list {
+      grid-template-columns: 1fr;
+    }
+
+    .cta-band {
+      margin-inline: 18px;
+      padding: 40px 20px;
+    }
+  }
+</style>

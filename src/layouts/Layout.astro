@@ -26,7 +26,7 @@ const { title, activeSlug } = Astro.props;
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Serif:wght@400;500;600;700&display=swap"
     />
 
     {/*
@@ -40,6 +40,7 @@ const { title, activeSlug } = Astro.props;
           color: 'gallery:primary',
           theme: 'gallery:theme',
           viewport: 'gallery:viewport',
+          style: 'gallery:style',
         };
         const root = document.documentElement;
 
@@ -92,6 +93,10 @@ const { title, activeSlug } = Astro.props;
             root.dataset.viewport = viewport;
             if (persist) write('viewport', viewport);
           },
+          applyStyle(style, persist = true) {
+            root.dataset.style = style;
+            if (persist) write('style', style);
+          },
           read,
         };
 
@@ -99,6 +104,7 @@ const { title, activeSlug } = Astro.props;
           window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
         window.__gallery.applyTheme(read('theme') || (prefersDark ? 'dark' : 'light'), false);
         window.__gallery.applyViewport(read('viewport') || 'desktop', false);
+        window.__gallery.applyStyle(read('style') || 'default', false);
 
         const savedColor = read('color');
         if (savedColor) window.__gallery.applyPrimary(savedColor, false);

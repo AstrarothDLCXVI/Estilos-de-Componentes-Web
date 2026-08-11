@@ -5,7 +5,11 @@ interface GalleryClient {
   applyPrimary(hex: string, persist?: boolean): void;
   applyTheme(theme: 'light' | 'dark', persist?: boolean): void;
   applyViewport(viewport: 'desktop' | 'tablet' | 'mobile', persist?: boolean): void;
-  read(key: 'color' | 'theme' | 'viewport'): string | null;
+  applyStyle(
+    style: 'default' | 'modern' | 'corporate' | 'editorial' | 'luxury' | 'elegant' | 'aurora' | 'glass' | 'arcade',
+    persist?: boolean,
+  ): void;
+  read(key: 'color' | 'theme' | 'viewport' | 'style'): string | null;
 }
 
 interface Window {

@@ -59,12 +59,18 @@ function collectDesigns(categorySlug: string, codePrefix: string): DesignEntry[]
     });
 }
 
-/** Catálogo completo: categorías declaradas + variantes encontradas en disco. */
-export const catalog: CategoryEntry[] = categories
+/**
+ * Taxonomía completa: TODAS las categorías declaradas en catalog.ts, tengan
+ * o no diseños todavía. La usa el sidebar para mostrar el mapa entero de
+ * "Páginas" (con las que faltan marcadas como "Próximamente").
+ */
+export const allCategories: CategoryEntry[] = categories
   .slice()
   .sort((a, b) => (a.order ?? 99) - (b.order ?? 99))
-  .map((category) => ({ ...category, designs: collectDesigns(category.slug, category.code) }))
-  .filter((category) => category.designs.length > 0);
+  .map((category) => ({ ...category, designs: collectDesigns(category.slug, category.code) }));
+
+/** Catálogo navegable: sólo categorías con al menos un diseño en disco. */
+export const catalog: CategoryEntry[] = allCategories.filter((category) => category.designs.length > 0);
 
 export function getCategory(slug: string): CategoryEntry | undefined {
   return catalog.find((category) => category.slug === slug);

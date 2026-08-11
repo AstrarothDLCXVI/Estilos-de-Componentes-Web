@@ -1,0 +1,126 @@
+---
+// Reskinea el lienzo de previsualización reescribiendo el mismo contrato de
+// tokens que ya consumen los diseños (ver `.preview-canvas` en global.css).
+// Añadir un estilo nuevo: una <option> aquí + su bloque `[data-style='…']`.
+const styles = [
+  { id: 'default', label: 'Original' },
+  { id: 'modern', label: 'Modern / Clean' },
+  { id: 'corporate', label: 'Corporate' },
+  { id: 'editorial', label: 'Editorial' },
+  { id: 'luxury', label: 'Luxury / Premium' },
+  { id: 'elegant', label: 'Elegant' },
+  { id: 'aurora', label: 'Aurora' },
+  { id: 'glass', label: 'Glassmorphic' },
+  { id: 'arcade', label: 'Arcade' },
+] as const;
+---
+
+<div class="style-switcher">
+  <svg class="icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+    <path
+      d="M8 1.6 9.4 5l3.5.5-2.6 2.4.7 3.5L8 9.7l-3 1.7.7-3.5-2.6-2.4L6.6 5 8 1.6Z"
+      stroke-linejoin="round"
+    ></path>
+  </svg>
+
+  <label class="visually-hidden" for="style-select">Estilo del lienzo de previsualización</label>
+  <select id="style-select" class="select" data-style-select>
+    {styles.map((style) => <option value={style.id}>{style.label}</option>)}
+  </select>
+
+  <svg class="chevron" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+    <path d="m4.5 6.5 3.5 3.5 3.5-3.5" stroke-linecap="round" stroke-linejoin="round"></path>
+  </svg>
+</div>
+
+<script>
+  const select = document.querySelector<HTMLSelectElement>('[data-style-select]');
+
+  if (select) {
+    const sync = () => {
+      select.value = document.documentElement.dataset.style ?? 'default';
+    };
+
+    sync();
+
+    select.addEventListener('change', () => {
+      window.__gallery.applyStyle(
+        select.value as
+          | 'default'
+          | 'modern'
+          | 'corporate'
+          | 'editorial'
+          | 'luxury'
+          | 'elegant'
+          | 'aurora'
+          | 'glass'
+          | 'arcade',
+      );
+    });
+  }
+</script>
+
+<style>
+  .style-switcher {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    height: 38px;
+    border: 1px solid var(--app-line);
+    border-radius: var(--radius-full);
+    background: var(--app-surface);
+    padding: 0 30px 0 12px;
+    color: var(--app-muted);
+    transition: border-color var(--speed) var(--ease), color var(--speed) var(--ease);
+  }
+
+  .style-switcher:hover {
+    border-color: var(--app-line-strong);
+    color: var(--app-text);
+  }
+
+  .icon {
+    width: 15px;
+    height: 15px;
+    flex: none;
+  }
+
+  .select {
+    appearance: none;
+    border: 0;
+    background: none;
+    padding: 0;
+    color: var(--app-text);
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+  }
+
+  .select:focus-visible {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 3px;
+    border-radius: var(--radius-sm);
+  }
+
+  .chevron {
+    position: absolute;
+    top: 50%;
+    right: 11px;
+    width: 12px;
+    height: 12px;
+    transform: translateY(-50%);
+    pointer-events: none;
+  }
+
+  @media (max-width: 560px) {
+    .style-switcher {
+      padding: 0 26px 0 10px;
+    }
+
+    .select {
+      font-size: 12.5px;
+    }
+  }
+</style>

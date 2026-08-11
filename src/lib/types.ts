@@ -19,6 +19,12 @@ export interface Category {
   code: string;
   /** Orden en el sidebar (menor = antes). */
   order?: number;
+  /**
+   * Grupo de la taxonomía de "Páginas" al que pertenece (`'Landing page'`,
+   * `'E-commerce'`...). Las categorías sin `group` son componentes sueltos y
+   * se listan aparte, en "Componentes".
+   */
+  group?: string;
 }
 
 /** Metadatos opcionales de una variante concreta. */

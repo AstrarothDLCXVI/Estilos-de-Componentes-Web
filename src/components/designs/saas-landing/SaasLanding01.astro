@@ -1,0 +1,755 @@
+---
+// Landing de SaaS autocontenida: header, hero con mockup de producto en CSS,
+// tira de logos, features, precios y CTA final.
+const features = [
+  {
+    title: 'Eventos personalizados',
+    text: 'Define qué cuenta como conversión en tu producto, sin esperar al equipo de datos.',
+  },
+  {
+    title: 'Paneles compartidos',
+    text: 'Un enlace público por panel: nada de exportar capturas de pantalla a Slack.',
+  },
+  {
+    title: 'Alertas inteligentes',
+    text: 'Avisos cuando una métrica se sale de su rango habitual, no sólo cuando cruza un umbral fijo.',
+  },
+];
+
+const plans = [
+  {
+    name: 'Starter',
+    price: '0 €',
+    period: '/mes',
+    text: 'Para probar el producto con un solo proyecto.',
+    items: ['1 proyecto', 'Hasta 1.000 eventos/mes', 'Retención de 7 días'],
+    cta: 'Empezar gratis',
+  },
+  {
+    name: 'Pro',
+    price: '29 €',
+    period: '/mes',
+    text: 'El plan de la mayoría de equipos en producción.',
+    items: ['Proyectos ilimitados', 'Hasta 500.000 eventos/mes', 'Retención de 1 año', 'Alertas y paneles compartidos'],
+    cta: 'Empezar prueba de 14 días',
+    highlight: true,
+  },
+  {
+    name: 'Business',
+    price: '99 €',
+    period: '/mes',
+    text: 'Para organizaciones con varios equipos.',
+    items: ['Todo lo de Pro', 'SSO y roles por equipo', 'Soporte con SLA'],
+    cta: 'Hablar con ventas',
+  },
+];
+
+const logos = ['NORTIA', 'ALTAVIA', 'CÓRVIDO', 'MERIDIAN', 'VANTOR'];
+const stats = [
+  { label: 'Sesiones activas', value: '2.481' },
+  { label: 'Eventos hoy', value: '184 K' },
+  { label: 'Conversión', value: '3,8 %' },
+];
+const bars = [34, 52, 41, 66, 58, 80, 63];
+---
+
+<div class="site">
+  <header class="header">
+    <a class="logo" href="#">
+      <span class="logo-mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <path d="M4 17 9.5 7l5 6.5L18 9"></path>
+        </svg>
+      </span>
+      Fluxboard
+    </a>
+
+    <nav class="nav" aria-label="Principal">
+      <ul role="list">
+        <li><a href="#">Producto</a></li>
+        <li><a href="#">Precios</a></li>
+        <li><a href="#">Clientes</a></li>
+        <li><a href="#">Documentación</a></li>
+      </ul>
+    </nav>
+
+    <div class="header-actions">
+      <a class="link-quiet" href="#">Iniciar sesión</a>
+      <a class="btn-solid" href="#">Empezar gratis</a>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-copy">
+      <p class="eyebrow">
+        <span class="eyebrow-dot" aria-hidden="true"></span>
+        Analítica de producto en tiempo real
+      </p>
+      <h1>Entiende a tus usuarios sin escribir una sola consulta SQL</h1>
+      <p class="text">
+        Conecta tu producto, define los eventos que importan y comparte paneles que cualquiera en
+        el equipo entiende a la primera.
+      </p>
+      <div class="hero-actions">
+        <a class="btn-solid" href="#">Probar 14 días gratis</a>
+        <a class="btn-outline" href="#">Ver una demo</a>
+      </div>
+      <p class="hero-note">Sin tarjeta de crédito · Cancela cuando quieras</p>
+    </div>
+
+    <div class="mockup" aria-hidden="true">
+      <div class="mockup-bar">
+        <span class="mockup-dot"></span><span class="mockup-dot"></span><span class="mockup-dot"></span>
+        <span class="mockup-url">app.fluxboard.io</span>
+      </div>
+      <div class="mockup-stats">
+        {stats.map((stat) => (
+          <div class="mockup-stat">
+            <span>{stat.label}</span>
+            <strong>{stat.value}</strong>
+          </div>
+        ))}
+      </div>
+      <div class="mockup-chart">
+        {bars.map((bar) => <span style={`--h:${bar}%`} />)}
+      </div>
+    </div>
+  </section>
+
+  <div class="logos-band">
+    <p>Confían en Fluxboard</p>
+    <ul role="list">
+      {logos.map((logo) => <li>{logo}</li>)}
+    </ul>
+  </div>
+
+  <section class="features" id="producto">
+    <header class="section-head">
+      <p class="eyebrow">Producto</p>
+      <h2>Todo lo que necesitas, nada que configurar durante días</h2>
+    </header>
+
+    <div class="features-grid">
+      {
+        features.map((feature) => (
+          <article class="feature">
+            <span class="feature-icon" aria-hidden="true">
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                <path d="M8 1.6v3M8 11.4v3M1.6 8h3M11.4 8h3" stroke-linecap="round" />
+                <circle cx="8" cy="8" r="3" />
+              </svg>
+            </span>
+            <h3>{feature.title}</h3>
+            <p>{feature.text}</p>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="pricing" id="precios">
+    <header class="section-head">
+      <p class="eyebrow">Precios</p>
+      <h2>Un plan que crece contigo, sin sorpresas en la factura</h2>
+    </header>
+
+    <div class="pricing-grid">
+      {
+        plans.map((plan) => (
+          <article class={`plan ${plan.highlight ? 'is-highlight' : ''}`}>
+            {plan.highlight && <span class="plan-badge">Más popular</span>}
+            <h3>{plan.name}</h3>
+            <p class="plan-price">
+              {plan.price}
+              <span>{plan.period}</span>
+            </p>
+            <p class="plan-text">{plan.text}</p>
+            <ul role="list" class="plan-items">
+              {plan.items.map((item) => (
+                <li>
+                  <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <path d="M3.5 8.5 6.5 11.5 12.5 4.5" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <a class={plan.highlight ? 'btn-solid' : 'btn-outline'} href="#">
+              {plan.cta}
+            </a>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="cta-band">
+    <h2>Empieza a medir lo que de verdad importa</h2>
+    <p>14 días gratis. Sin tarjeta. Cancela cuando quieras.</p>
+    <a class="btn-solid" href="#">Crear cuenta gratis</a>
+  </section>
+
+  <footer class="footer">
+    <span>© 2026 Fluxboard</span>
+    <ul role="list">
+      <li><a href="#">Privacidad</a></li>
+      <li><a href="#">Términos</a></li>
+      <li><a href="#">Estado del servicio</a></li>
+    </ul>
+  </footer>
+</div>
+
+<style>
+  .site {
+    background: var(--background-color);
+    font-family: var(--font-sans);
+  }
+
+  /* --- Header --- */
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    border-bottom: 1px solid var(--border-color);
+    padding: 14px 28px;
+  }
+
+  .logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    color: var(--text-color);
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    text-decoration: none;
+  }
+
+  .logo-mark {
+    display: grid;
+    width: 26px;
+    height: 26px;
+    place-items: center;
+    border-radius: 8px;
+    background: var(--primary-color);
+    color: var(--primary-contrast);
+  }
+
+  .logo-mark svg {
+    width: 15px;
+    height: 15px;
+  }
+
+  .nav ul {
+    display: flex;
+    gap: 22px;
+    margin: 0;
+    list-style: none;
+    padding: 0;
+  }
+
+  .nav a {
+    color: var(--text-muted);
+    font-size: 13.5px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: color 180ms ease;
+  }
+
+  .nav a:hover {
+    color: var(--text-color);
+  }
+
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .link-quiet {
+    padding: 8px 10px;
+    color: var(--text-muted);
+    font-size: 13.5px;
+    font-weight: 500;
+    text-decoration: none;
+  }
+
+  .btn-solid {
+    border-radius: 9px;
+    background: var(--primary-color);
+    padding: 10px 16px;
+    color: var(--primary-contrast);
+    font-size: 13.5px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background-color 180ms ease, transform 180ms ease;
+  }
+
+  .btn-solid:hover {
+    background: var(--primary-hover);
+    transform: translateY(-1px);
+  }
+
+  .btn-outline {
+    display: inline-block;
+    border: 1px solid var(--border-color);
+    border-radius: 9px;
+    background: var(--surface-color);
+    padding: 10px 16px;
+    color: var(--text-color);
+    font-size: 13.5px;
+    font-weight: 500;
+    text-decoration: none;
+    text-align: center;
+    transition: border-color 180ms ease;
+  }
+
+  .btn-outline:hover {
+    border-color: var(--primary-color);
+  }
+
+  /* --- Hero --- */
+  .hero {
+    display: grid;
+    max-width: 1140px;
+    align-items: center;
+    gap: 44px;
+    margin-inline: auto;
+    grid-template-columns: 1.05fr 0.95fr;
+    padding: 60px 28px;
+  }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+    color: var(--primary-color);
+    font-size: 12.5px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+  }
+
+  .eyebrow-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 999px;
+    background: var(--primary-color);
+    box-shadow: 0 0 0 3px var(--primary-soft);
+  }
+
+  .hero-copy h1 {
+    max-width: 16ch;
+    margin: 16px 0 0;
+    color: var(--text-color);
+    font-size: clamp(28px, 4cqi + 14px, 42px);
+    font-weight: 700;
+    letter-spacing: -0.035em;
+    line-height: 1.1;
+    text-wrap: balance;
+  }
+
+  .hero-copy .text {
+    max-width: 44ch;
+    margin: 16px 0 0;
+    color: var(--text-muted);
+    font-size: 15px;
+    line-height: 1.65;
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 24px;
+  }
+
+  .hero-note {
+    margin: 14px 0 0;
+    color: var(--text-muted);
+    font-size: 12px;
+  }
+
+  .mockup {
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    background: var(--surface-color);
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+  }
+
+  .mockup-bar {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border-bottom: 1px solid var(--border-color);
+    padding: 10px 14px;
+  }
+
+  .mockup-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 999px;
+    background: var(--border-color);
+  }
+
+  .mockup-url {
+    margin-left: 8px;
+    border-radius: 999px;
+    background: var(--surface-alt);
+    padding: 2px 10px;
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+  }
+
+  .mockup-stats {
+    display: flex;
+    gap: 1px;
+    background: var(--border-color);
+  }
+
+  .mockup-stat {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    background: var(--surface-color);
+    padding: 14px 16px;
+  }
+
+  .mockup-stat span {
+    color: var(--text-muted);
+    font-size: 10.5px;
+  }
+
+  .mockup-stat strong {
+    color: var(--text-color);
+    font-size: 15px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .mockup-chart {
+    display: flex;
+    height: 110px;
+    align-items: flex-end;
+    gap: 6px;
+    padding: 16px;
+  }
+
+  .mockup-chart span {
+    height: var(--h);
+    flex: 1;
+    border-radius: 4px 4px 1px 1px;
+    background: linear-gradient(to top, color-mix(in srgb, var(--primary-color) 25%, var(--surface-color)), var(--primary-color));
+  }
+
+  /* --- Logos --- */
+  .logos-band {
+    border-top: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
+    background: var(--surface-alt);
+    padding: 20px 24px;
+    text-align: center;
+  }
+
+  .logos-band p {
+    margin: 0 0 14px;
+    color: var(--text-muted);
+    font-size: 12px;
+  }
+
+  .logos-band ul {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 28px;
+    margin: 0;
+    list-style: none;
+    padding: 0;
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    opacity: 0.7;
+  }
+
+  /* --- Secciones genéricas --- */
+  .section-head {
+    max-width: 620px;
+    margin: 0 auto 36px;
+    text-align: center;
+  }
+
+  .section-head h2 {
+    margin: 10px 0 0;
+    color: var(--text-color);
+    font-size: clamp(22px, 2.6cqi + 14px, 30px);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.2;
+  }
+
+  /* --- Features --- */
+  .features {
+    max-width: 1120px;
+    margin-inline: auto;
+    padding: 76px 28px;
+  }
+
+  .features-grid {
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .feature {
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    background: var(--surface-color);
+    padding: 22px;
+  }
+
+  .feature-icon {
+    display: grid;
+    width: 36px;
+    height: 36px;
+    place-items: center;
+    border-radius: 10px;
+    background: var(--primary-light);
+    color: var(--primary-color);
+  }
+
+  .feature-icon svg {
+    width: 17px;
+    height: 17px;
+  }
+
+  .feature h3 {
+    margin: 16px 0 0;
+    color: var(--text-color);
+    font-size: 15.5px;
+    font-weight: 600;
+  }
+
+  .feature p {
+    margin: 8px 0 0;
+    color: var(--text-muted);
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  /* --- Pricing --- */
+  .pricing {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 28px 80px;
+  }
+
+  .pricing-grid {
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .plan {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--border-color);
+    border-radius: 18px;
+    background: var(--surface-color);
+    padding: 26px 24px;
+  }
+
+  .plan.is-highlight {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px var(--primary-soft);
+  }
+
+  .plan-badge {
+    position: absolute;
+    top: -12px;
+    left: 24px;
+    border-radius: 999px;
+    background: var(--primary-color);
+    padding: 4px 12px;
+    color: var(--primary-contrast);
+    font-size: 11px;
+    font-weight: 600;
+  }
+
+  .plan h3 {
+    margin: 0;
+    color: var(--text-color);
+    font-size: 15px;
+    font-weight: 600;
+  }
+
+  .plan-price {
+    display: flex;
+    align-items: baseline;
+    gap: 3px;
+    margin: 12px 0 0;
+    color: var(--text-color);
+    font-size: 30px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  .plan-price span {
+    color: var(--text-muted);
+    font-size: 13px;
+    font-weight: 500;
+  }
+
+  .plan-text {
+    margin: 8px 0 0;
+    color: var(--text-muted);
+    font-size: 13px;
+  }
+
+  .plan-items {
+    display: grid;
+    gap: 10px;
+    margin: 22px 0 0;
+    list-style: none;
+    padding: 0;
+    flex: 1;
+  }
+
+  .plan-items li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-color);
+    font-size: 13px;
+  }
+
+  .plan-items svg {
+    width: 14px;
+    height: 14px;
+    flex: none;
+    color: var(--primary-color);
+  }
+
+  .plan a {
+    margin-top: 22px;
+    text-align: center;
+  }
+
+  /* --- CTA --- */
+  .cta-band {
+    margin: 0 28px 28px;
+    border-radius: 20px;
+    background: var(--primary-color);
+    padding: 52px 28px;
+    color: var(--primary-contrast);
+    text-align: center;
+  }
+
+  .cta-band h2 {
+    margin: 0;
+    font-size: clamp(22px, 2.6cqi + 14px, 30px);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+  }
+
+  .cta-band p {
+    margin: 10px 0 0;
+    opacity: 0.85;
+    font-size: 14.5px;
+  }
+
+  .cta-band .btn-solid {
+    display: inline-flex;
+    margin-top: 22px;
+    background: var(--primary-contrast);
+    color: var(--primary-color);
+  }
+
+  .cta-band .btn-solid:hover {
+    background: color-mix(in srgb, var(--primary-contrast) 85%, var(--primary-color));
+  }
+
+  /* --- Footer --- */
+  .footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    border-top: 1px solid var(--border-color);
+    padding: 20px 28px;
+    color: var(--text-muted);
+    font-size: 12.5px;
+  }
+
+  .footer ul {
+    display: flex;
+    gap: 18px;
+    margin: 0;
+    list-style: none;
+    padding: 0;
+  }
+
+  .footer a {
+    color: var(--text-muted);
+    text-decoration: none;
+  }
+
+  .footer a:hover {
+    color: var(--text-color);
+  }
+
+  @container preview (max-width: 900px) {
+    .hero {
+      gap: 30px;
+      grid-template-columns: 1fr;
+      padding: 44px 22px;
+    }
+
+    .hero-copy h1 {
+      max-width: none;
+    }
+
+    .features-grid,
+    .pricing-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @container preview (max-width: 640px) {
+    .header {
+      flex-wrap: wrap;
+      gap: 12px;
+      padding: 14px 18px;
+    }
+
+    .nav {
+      order: 3;
+      width: 100%;
+    }
+
+    .nav ul {
+      gap: 14px;
+      overflow-x: auto;
+    }
+
+    .features,
+    .pricing {
+      padding-inline: 18px;
+    }
+
+    .features-grid,
+    .pricing-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .cta-band {
+      margin-inline: 18px;
+      padding: 40px 20px;
+    }
+  }
+</style>

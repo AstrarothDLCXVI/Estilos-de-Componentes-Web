@@ -1,5 +1,6 @@
 ---
 import ColorPicker from '@/components/gallery/ColorPicker.astro';
+import StyleSwitcher from '@/components/gallery/StyleSwitcher.astro';
 import ThemeToggle from '@/components/gallery/ThemeToggle.astro';
 import ViewportSwitcher from '@/components/gallery/ViewportSwitcher.astro';
 ---
@@ -7,6 +8,7 @@ import ViewportSwitcher from '@/components/gallery/ViewportSwitcher.astro';
 <header class="topbar">
   <ViewportSwitcher />
   <div class="tools">
+    <StyleSwitcher />
     <ColorPicker />
     <ThemeToggle />
   </div>
