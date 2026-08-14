@@ -741,4 +741,76 @@ export const designMeta: Record<string, DesignMeta> = {
       'Topbar con búsqueda, navegación lateral, feed central con publicaciones (texto y foto) y una columna de tendencias y sugerencias de a quién seguir.',
     tags: ['Feed', 'Tres columnas', 'Interacciones'],
   },
+  'headers/Header04': {
+    name: 'Mega menú animado',
+    description:
+      'El primer enlace revela un panel de dos columnas al pasar el cursor o al enfocarlo con teclado: fundido, desplazamiento y flecha que gira, sin una línea de JS.',
+    tags: ['Mega menú', 'Animado', 'Accesible'],
+  },
+  'cards/Card04': {
+    name: 'Tarjeta con volteo 3D',
+    description:
+      'Gira sobre su eje vertical con `preserve-3d` al pasar el cursor o al enfocarla, revelando el detalle y una llamada a la acción en la cara trasera.',
+    tags: ['3D', 'Hover', 'Teclado'],
+  },
+  'hero/Hero04': {
+    name: 'Hero con entrada escalonada',
+    description:
+      'Cada bloque aparece con un pequeño retraso al cargar la página, sobre una malla de color que respira lentamente detrás del contenido.',
+    tags: ['Animación de entrada', 'Malla animada', 'SaaS'],
+  },
+  'buttons/Button04': {
+    name: 'Interacciones premium',
+    description:
+      'Cuatro efectos que no caben en una escala normal: brillo diagonal, borde cónico giratorio animado con @property, icono que se dibuja y rebote elástico.',
+    tags: ['@property', 'Micro-interacción', 'SVG animado'],
+  },
+  'forms/Form03': {
+    name: 'Etiquetas flotantes',
+    description:
+      'La etiqueta vive dentro del campo y sube al enfocar o al rellenarlo; la línea inferior se expande desde el centro. Todo con :placeholder-shown, sin JS.',
+    tags: ['Floating label', 'Animado', 'Accesible'],
+  },
+  'footers/Footer03': {
+    name: 'Footer con resplandor animado',
+    description:
+      'Dos manchas de color se desplazan lentamente detrás del contenido; los enlaces se subrayan al pasar el cursor y el botón de volver arriba respira.',
+    tags: ['Animado', 'Marketing', 'Volver arriba'],
+  },
+  'personal-portfolio/PersonalPortfolio01': {
+    name: 'Marcos Duarte · fotógrafo de paisaje',
+    description:
+      'El header es una fotografía real que se disuelve en el fondo oscuro de la página mediante una máscara de degradado (y con scroll-driven animations donde el navegador las soporta). Galería en mosaico, sección "sobre mí" con cifras y contacto.',
+    tags: ['Foto real', 'Máscara de degradado', 'Mosaico'],
+  },
+  'restaurant/Restaurant01': {
+    name: 'Bruma Café · cafetería de especialidad',
+    description:
+      'Mismo hero que se disuelve en el fondo, aquí en clave cálida. Carta completa con precio (cafés en lista clásica, repostería en rejilla con foto), origen del café, retrato del barista, horario y ubicación.',
+    tags: ['Carta con precio', 'Foto real', 'Cálido'],
+  },
+  'saas-landing/SaasLanding02': {
+    name: 'NEXORA · plataforma de IA e infraestructura',
+    description:
+      'Segunda variante de SaaS landing, con estética "lo más tecnológica posible": hero fotográfico que se disuelve en el fondo, rejilla de producto con fotos reales, terminal falsa con comando de despliegue y banda de estadísticas sobre una foto de red neuronal.',
+    tags: ['Oscuro', 'Terminal falsa', 'Foto real'],
+  },
+  'fashion-store/FashionStore01': {
+    name: 'Concreto · tienda streetwear',
+    description:
+      'El mismo hero fotográfico que se disuelve en el fondo, aquí en blanco. El header enlaza a cinco secciones reales de catálogo (camisetas, sudaderas, pantalones, calzado, accesorios), 17 productos con foto real, nombre y precio, más garantías y newsletter.',
+    tags: ['Catálogo real', 'Varias secciones', 'Foto real'],
+  },
+  'medical/Medical01': {
+    name: 'Cuidalia · cuidado a domicilio',
+    description:
+      'Web de una empresa de cuidado de personas mayores y dependientes: hero fotográfico que se disuelve en el fondo, franja de confianza, cuatro servicios con foto real, proceso en cuatro pasos, sección "nosotros" y CTA de contacto.',
+    tags: ['Cálido', 'Foto real', 'Confianza'],
+  },
+  'hotel/Hotel01': {
+    name: 'Hotel Aurelia · alojamiento de lujo',
+    description:
+      'Hero fotográfico con widget de reserva flotante, franja de amenidades, y una sección de habitaciones en carrusel de scroll lateral nativo (scroll-snap, sin JS) con paginación por puntos. Rejilla de instalaciones y CTA final de reserva.',
+    tags: ['Scroll lateral', 'Foto real', 'Motor de reserva'],
+  },
 };

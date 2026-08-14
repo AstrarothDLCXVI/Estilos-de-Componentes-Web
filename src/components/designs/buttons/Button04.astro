@@ -1,0 +1,204 @@
+---
+// Cuatro interacciones "premium" sobre el mismo color: barrido de brillo,
+// borde giratorio con @property, icono que se dibuja al pasar el cursor y
+// una pulsación con rebote elástico.
+const items = [
+  { name: 'Brillo', hint: 'Un reflejo diagonal cruza el botón' },
+  { name: 'Borde giratorio', hint: 'Degradado cónico animado con @property' },
+  { name: 'Icono trazado', hint: 'El check se dibuja con stroke-dashoffset' },
+  { name: 'Rebote elástico', hint: 'Pulsación con overshoot en el easing' },
+];
+---
+
+<div class="grid">
+  <figure class="cell">
+    <button type="button" class="shine">
+      <span>Reservar una demo</span>
+    </button>
+    <figcaption>
+      <strong>{items[0].name}</strong>
+      {items[0].hint}
+    </figcaption>
+  </figure>
+
+  <figure class="cell">
+    <span class="spin-wrap">
+      <button type="button" class="spin-btn">Plan Pro</button>
+    </span>
+    <figcaption>
+      <strong>{items[1].name}</strong>
+      {items[1].hint}
+    </figcaption>
+  </figure>
+
+  <figure class="cell">
+    <button type="button" class="draw-btn">
+      <svg class="draw-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
+        <path d="M3.5 8.5 6.5 11.5 12.5 4.5" stroke-linecap="round" stroke-linejoin="round"></path>
+      </svg>
+      Marcar como hecho
+    </button>
+    <figcaption>
+      <strong>{items[2].name}</strong>
+      {items[2].hint}
+    </figcaption>
+  </figure>
+
+  <figure class="cell">
+    <button type="button" class="bounce-btn">Añadir al carrito</button>
+    <figcaption>
+      <strong>{items[3].name}</strong>
+      {items[3].hint}
+    </figcaption>
+  </figure>
+</div>
+
+<style>
+  .grid {
+    display: grid;
+    gap: 14px;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 220px), 1fr));
+    font-family: var(--font-sans);
+  }
+
+  .cell {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+    margin: 0;
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    background: var(--surface-color);
+    padding: 22px 20px 18px;
+  }
+
+  figcaption {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    color: var(--text-muted);
+    font-size: 12px;
+    line-height: 1.5;
+  }
+
+  figcaption strong {
+    color: var(--text-color);
+    font-size: 12.5px;
+    font-weight: 600;
+  }
+
+  button {
+    border: 0;
+    font-family: inherit;
+    font-size: 14.5px;
+    font-weight: 600;
+    line-height: 1;
+    cursor: pointer;
+  }
+
+  /* 1 · Brillo */
+  .shine {
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+    background: var(--primary-color);
+    padding: 12px 22px;
+    color: var(--primary-contrast);
+    isolation: isolate;
+  }
+
+  .shine::after {
+    position: absolute;
+    top: 0;
+    left: -60%;
+    width: 45%;
+    height: 100%;
+    background: linear-gradient(115deg, transparent, rgb(255 255 255 / 0.45), transparent);
+    content: '';
+    transform: skewX(-20deg);
+    transition: left 650ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  .shine:hover::after {
+    left: 130%;
+  }
+
+  /* 2 · Borde giratorio (@property permite animar el ángulo del cónico) */
+  @property --angle {
+    syntax: '<angle>';
+    inherits: false;
+    initial-value: 0deg;
+  }
+
+  .spin-wrap {
+    display: inline-block;
+    border-radius: 12px;
+    padding: 2px;
+    background: conic-gradient(from var(--angle), var(--primary-color), color-mix(in srgb, var(--primary-color) 25%, var(--surface-alt)), var(--primary-color));
+    animation: spin 3.2s linear infinite;
+  }
+
+  @keyframes spin {
+    to {
+      --angle: 360deg;
+    }
+  }
+
+  .spin-btn {
+    border-radius: 10px;
+    background: var(--surface-color);
+    padding: 11px 22px;
+    color: var(--text-color);
+  }
+
+  /* 3 · Icono trazado */
+  .draw-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    background: var(--surface-color);
+    padding: 12px 20px;
+    color: var(--text-color);
+    transition: border-color 200ms ease;
+  }
+
+  .draw-btn:hover {
+    border-color: var(--primary-color);
+  }
+
+  .draw-icon {
+    width: 15px;
+    height: 15px;
+    color: var(--primary-color);
+  }
+
+  .draw-icon path {
+    stroke-dasharray: 14;
+    stroke-dashoffset: 14;
+    transition: stroke-dashoffset 420ms ease 60ms;
+  }
+
+  .draw-btn:hover .draw-icon path {
+    stroke-dashoffset: 0;
+  }
+
+  /* 4 · Rebote elástico */
+  .bounce-btn {
+    border-radius: 12px;
+    background: var(--primary-color);
+    padding: 12px 22px;
+    color: var(--primary-contrast);
+    transition: transform 320ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .bounce-btn:hover {
+    transform: translateY(-3px) scale(1.04);
+  }
+
+  .bounce-btn:active {
+    transform: scale(0.94);
+  }
+</style>

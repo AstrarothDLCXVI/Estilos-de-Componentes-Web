@@ -1,0 +1,172 @@
+---
+// Tarjeta con volteo 3D real (`preserve-3d` + `rotateY`), sin una línea de
+// JS. Se activa con :hover y con :focus-within para que funcione con teclado.
+const items = [
+  {
+    title: 'Paneles compartidos',
+    hint: 'Un enlace público por panel',
+    detail: 'Comparte un panel con el equipo o con un cliente sin darle acceso a toda la cuenta. Se actualiza solo.',
+  },
+  {
+    title: 'Alertas inteligentes',
+    hint: 'Avisos fuera de rango',
+    detail: 'Detecta desviaciones sobre el comportamiento habitual de una métrica, no sólo umbrales fijos que alguien olvidó ajustar.',
+  },
+  {
+    title: 'Eventos personalizados',
+    hint: 'Define tu propia conversión',
+    detail: 'Manda cualquier evento desde tu producto y constrúyelo como embudo en minutos, sin depender del equipo de datos.',
+  },
+];
+---
+
+<div class="grid">
+  {
+    items.map((item) => (
+      <div class="flip" tabindex="0">
+        <div class="flip-inner">
+          <div class="flip-face flip-front">
+            <span class="icon" aria-hidden="true">
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                <path d="M8 1.6v3M8 11.4v3M1.6 8h3M11.4 8h3" stroke-linecap="round" />
+                <circle cx="8" cy="8" r="3" />
+              </svg>
+            </span>
+            <h3>{item.title}</h3>
+            <p>{item.hint}</p>
+            <span class="flip-hint">Pasa el cursor →</span>
+          </div>
+
+          <div class="flip-face flip-back">
+            <p>{item.detail}</p>
+            <a href="#">
+              Saber más
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path d="M3 8h9M8.5 4l4 4-4 4" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    ))
+  }
+</div>
+
+<style>
+  .grid {
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr));
+    font-family: var(--font-sans);
+  }
+
+  .flip {
+    height: 220px;
+    perspective: 1200px;
+    border-radius: 16px;
+  }
+
+  .flip:focus-visible {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 4px;
+  }
+
+  .flip-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 620ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  .flip:hover .flip-inner,
+  .flip:focus-within .flip-inner {
+    transform: rotateY(180deg);
+  }
+
+  .flip-face {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    border-radius: 16px;
+    padding: 22px;
+    backface-visibility: hidden;
+  }
+
+  .flip-front {
+    border: 1px solid var(--border-color);
+    background: var(--surface-color);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .icon {
+    display: grid;
+    width: 36px;
+    height: 36px;
+    place-items: center;
+    border-radius: 10px;
+    background: var(--primary-light);
+    color: var(--primary-color);
+  }
+
+  .icon svg {
+    width: 17px;
+    height: 17px;
+  }
+
+  .flip-front h3 {
+    margin: 16px 0 0;
+    color: var(--text-color);
+    font-size: 15.5px;
+    font-weight: 600;
+  }
+
+  .flip-front p {
+    margin: 6px 0 0;
+    color: var(--text-muted);
+    font-size: 13px;
+  }
+
+  .flip-hint {
+    margin-top: auto;
+    color: var(--primary-color);
+    font-size: 11.5px;
+    font-weight: 600;
+    opacity: 0.85;
+  }
+
+  .flip-back {
+    justify-content: space-between;
+    transform: rotateY(180deg);
+    background: var(--primary-color);
+    color: var(--primary-contrast);
+    box-shadow: var(--shadow-md);
+  }
+
+  .flip-back p {
+    margin: 0;
+    font-size: 13.5px;
+    line-height: 1.6;
+  }
+
+  .flip-back a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--primary-contrast);
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .flip-back a svg {
+    width: 14px;
+    height: 14px;
+    transition: transform 200ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  .flip-back a:hover svg {
+    transform: translateX(3px);
+  }
+</style>

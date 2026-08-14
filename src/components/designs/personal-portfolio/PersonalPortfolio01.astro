@@ -1,0 +1,655 @@
+---
+// Portfolio de un fotógrafo de paisaje. El hero usa una foto real
+// (heroPrincipal.png) con una máscara de degradado: la imagen se disuelve
+// en el fondo de la página a partir de la mitad, sin un borde visible.
+// Donde el navegador soporta scroll-driven animations (`@supports`), la
+// disolución además avanza con el scroll; donde no, se queda en el
+// degradado estático — nunca se rompe.
+const photos = [
+  {
+    src: '/images/fotografia/fotos/foto1.png',
+    alt: 'Atardecer de fuego sobre el mar con nubes de tormenta',
+    title: 'Marea de fuego',
+    place: 'Costa da Morte, Galicia',
+    index: '01',
+  },
+  {
+    src: '/images/fotografia/fotos/foto2.png',
+    alt: 'Rayos de luz atravesando nubes de tormenta sobre una playa al anochecer',
+    title: 'Antes de la tormenta',
+    place: 'Playa de Barrika, Vizcaya',
+    index: '02',
+  },
+  {
+    src: '/images/fotografia/fotos/foto3.png',
+    alt: 'Acantilados verticales entre la niebla junto a un mar embravecido',
+    title: 'Acantilados de niebla',
+    place: 'Tindhólmur, Islas Feroe',
+    index: '03',
+  },
+  {
+    src: '/images/fotografia/fotos/foto4.png',
+    alt: 'Cordillera montañosa iluminada por la luz dorada del amanecer',
+    title: 'Cordillera al amanecer',
+    place: 'Dolomitas, Italia',
+    index: '04',
+  },
+  {
+    src: '/images/fotografia/fotos/foto5.png',
+    alt: 'Nubes de tormenta oscuras sobre la silueta de una montaña',
+    title: 'El paso de la tormenta',
+    place: 'Highlands, Escocia',
+    index: '05',
+  },
+  {
+    src: '/images/fotografia/fotos/foto6.png',
+    alt: 'La Vía Láctea sobre picos nevados envueltos en nubes',
+    title: 'Bajo la Vía Láctea',
+    place: 'Pirineo Aragonés',
+    index: '06',
+  },
+];
+
+const stats = [
+  { value: '12', label: 'Años detrás del visor' },
+  { value: '24', label: 'Países recorridos' },
+  { value: '3', label: 'Exposiciones colectivas' },
+];
+---
+
+<div class="site">
+  <header class="topbar">
+    <a class="brand" href="#">Marcos Duarte</a>
+    <nav aria-label="Principal">
+      <ul role="list">
+        <li><a href="#trabajo">Trabajo</a></li>
+        <li><a href="#sobre-mi">Sobre mí</a></li>
+        <li><a href="#contacto">Contacto</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <div class="hero-media">
+      <img
+        class="hero-photo"
+        src="/images/fotografia/hero/heroPrincipal.png"
+        alt="La Vía Láctea sobre una cadena de picos nevados envueltos en niebla, con el horizonte teñido de un resplandor cálido"
+        fetchpriority="high"
+      />
+    </div>
+
+    <div class="hero-content">
+      <p class="hero-kicker">Fotografía de paisaje y naturaleza</p>
+      <h1 class="hero-name">Marcos Duarte</h1>
+      <p class="hero-line">Luz, tormenta y silencio, capturados donde nadie más espera.</p>
+    </div>
+
+    <div class="scroll-cue" aria-hidden="true">
+      <span></span>
+      Desplázate
+    </div>
+  </section>
+
+  <p class="intro">
+    Un archivo personal de paisajes que sólo existen durante unos minutos al día: la tormenta que
+    se abre, la vía láctea entre nubes, el mar antes de que amanezca del todo.
+  </p>
+
+  <section class="gallery" id="trabajo">
+    <header class="section-head">
+      <p class="kicker">Selección</p>
+      <h2>Seis lugares, seis clases de luz distinta</h2>
+    </header>
+
+    <div class="grid">
+      {
+        photos.map((photo) => (
+          <figure class="item">
+            <img src={photo.src} alt={photo.alt} loading="lazy" decoding="async" />
+            <figcaption>
+              <span class="item-index">{photo.index}</span>
+              <span class="item-text">
+                <strong>{photo.title}</strong>
+                <em>{photo.place}</em>
+              </span>
+            </figcaption>
+          </figure>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="about" id="sobre-mi">
+    <div class="about-copy">
+      <p class="kicker">Sobre mí</p>
+      <p class="about-text">
+        Marcos lleva doce años persiguiendo la luz que dura sólo unos minutos. Sin estudio y sin
+        planificación excesiva: un trípode, paciencia y la disposición a llegar tarde a todas
+        partes menos a la hora exacta en la que ocurre algo.
+      </p>
+      <a class="about-link" href="#contacto">
+        Hablemos de tu proyecto
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path d="M3 8h9M8.5 4l4 4-4 4" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+      </a>
+    </div>
+
+    <dl class="stats">
+      {
+        stats.map((stat) => (
+          <div class="stat">
+            <dt>{stat.label}</dt>
+            <dd>{stat.value}</dd>
+          </div>
+        ))
+      }
+    </dl>
+  </section>
+
+  <footer class="contact" id="contacto">
+    <h2>¿Trabajamos juntos?</h2>
+    <p>Disponible para editoriales, expediciones y encargos privados.</p>
+    <a class="email" href="mailto:hola@marcosduarte.com">hola@marcosduarte.com</a>
+
+    <div class="social">
+      <a href="#" aria-label="Instagram">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+          <rect x="2" y="2" width="12" height="12" rx="3.2"></rect>
+          <circle cx="8" cy="8" r="2.6"></circle>
+          <circle cx="11.3" cy="4.7" r="0.6" fill="currentColor" stroke="none"></circle>
+        </svg>
+      </a>
+      <a href="#" aria-label="Behance">
+        <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+          <path d="M1.6 3.6h4.1c2.3 0 3 1.1 3 2.4 0 1-.5 1.6-1.4 2 1.2.3 1.9 1.1 1.9 2.4 0 1.7-1.3 2.7-3.4 2.7H1.6V3.6Zm2 3.8h1.8c.8 0 1.4-.3 1.4-1.1 0-.7-.5-1-1.4-1H3.6v2.1Zm0 3.9h2c.9 0 1.6-.3 1.6-1.2 0-.9-.6-1.2-1.6-1.2h-2v2.4ZM10 5.4h4v.9h-4v-.9Zm4.7 4.3H10c0 .9.5 1.5 1.4 1.5.6 0 1-.2 1.2-.7h1.9c-.3 1.3-1.5 2-3.1 2-2 0-3.3-1.3-3.3-3.4 0-2 1.3-3.4 3.2-3.4 2.2 0 3.4 1.5 3.4 3.7v.3Zm-4.6-1.2h2.7c0-.8-.5-1.3-1.3-1.3-.8 0-1.3.5-1.4 1.3Z" />
+        </svg>
+      </a>
+      <a href="#" aria-label="X (Twitter)">
+        <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+          <path d="M9.53 6.9 13.7 2h-1.3L8.94 6.06 6.13 2H2.3l4.37 6.24L2.3 13.4h1.3l3.66-4.3 3 4.3h3.83L9.53 6.9Z" />
+        </svg>
+      </a>
+    </div>
+
+    <p class="copyright">© 2026 Marcos Duarte</p>
+  </footer>
+</div>
+
+<style>
+  .site {
+    position: relative;
+    background: #0a0a0d;
+    color: #f2ede4;
+    font-family: var(--font-sans);
+  }
+
+  /* --- Topbar: flota sobre el hero, anclada al mismo contenedor que la
+     foto, así nunca queda un hueco entre las dos. --- */
+  .topbar {
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    right: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 24px 32px;
+  }
+
+  .brand {
+    color: #f2ede4;
+    font-family: 'IBM Plex Serif', ui-serif, Georgia, serif;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    text-decoration: none;
+  }
+
+  .topbar nav ul {
+    display: flex;
+    gap: 26px;
+    margin: 0;
+    list-style: none;
+    padding: 0;
+  }
+
+  .topbar nav a {
+    color: rgb(242 237 228 / 0.65);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    text-decoration: none;
+    transition: color 200ms ease;
+  }
+
+  .topbar nav a:hover {
+    color: #f2ede4;
+  }
+
+  /* --- Hero: la foto se disuelve en el fondo --- */
+  .hero {
+    position: relative;
+    height: 720px;
+    overflow: hidden;
+  }
+
+  .hero-media {
+    position: absolute;
+    inset: 0;
+  }
+
+  .hero-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 42%;
+    mask-image: linear-gradient(to bottom, #000 0%, #000 46%, transparent 92%);
+    -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 46%, transparent 92%);
+  }
+
+  /* Mejora progresiva: donde el navegador entiende scroll-driven
+     animations, la foto además se atenúa y escala al hacer scroll. Donde
+     no, se queda en el degradado estático de arriba: nunca se rompe. */
+  @supports (animation-timeline: scroll()) {
+    .hero-photo {
+      animation: hero-scroll-fade linear forwards;
+      animation-timeline: scroll(root block);
+      animation-range: 0 65vh;
+    }
+
+    @keyframes hero-scroll-fade {
+      to {
+        opacity: 0.25;
+        transform: scale(1.08);
+      }
+    }
+  }
+
+  .hero::after {
+    position: absolute;
+    z-index: 1;
+    inset: 0;
+    background: linear-gradient(180deg, rgb(6 6 8 / 0.45) 0%, rgb(6 6 8 / 0.05) 30%, rgb(6 6 8 / 0.1) 55%, rgb(6 6 8 / 0.85) 100%);
+    content: '';
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0 24px;
+    text-align: center;
+  }
+
+  .hero-kicker {
+    margin: 0;
+    color: rgb(242 237 228 / 0.75);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+  }
+
+  .hero-name {
+    margin: 18px 0 0;
+    color: #fff;
+    font-family: 'IBM Plex Serif', ui-serif, Georgia, serif;
+    font-size: clamp(42px, 7cqi + 18px, 82px);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.02;
+  }
+
+  .hero-line {
+    max-width: 38ch;
+    margin: 18px 0 0;
+    color: rgb(242 237 228 / 0.68);
+    font-size: 15px;
+    font-style: italic;
+    line-height: 1.6;
+  }
+
+  .scroll-cue {
+    position: absolute;
+    z-index: 2;
+    bottom: 26px;
+    left: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    color: rgb(242 237 228 / 0.55);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    transform: translateX(-50%);
+  }
+
+  .scroll-cue span {
+    width: 1px;
+    height: 26px;
+    background: linear-gradient(to bottom, rgb(242 237 228 / 0.7), transparent);
+    animation: cue 1.8s ease-in-out infinite;
+  }
+
+  @keyframes cue {
+    0%,
+    100% {
+      transform: scaleY(1);
+      transform-origin: top;
+    }
+
+    50% {
+      transform: scaleY(0.4);
+      transform-origin: top;
+    }
+  }
+
+  /* --- Intro --- */
+  .intro {
+    max-width: 46ch;
+    margin: 0 auto;
+    padding: 8px 24px 68px;
+    color: rgb(242 237 228 / 0.72);
+    font-family: 'IBM Plex Serif', ui-serif, Georgia, serif;
+    font-size: clamp(17px, 1.4cqi + 14px, 21px);
+    font-style: italic;
+    line-height: 1.65;
+    text-align: center;
+    text-wrap: balance;
+  }
+
+  /* --- Secciones genéricas --- */
+  .kicker {
+    margin: 0;
+    color: var(--primary-color);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  .section-head {
+    max-width: 640px;
+    margin: 0 auto 40px;
+    padding: 0 24px;
+    text-align: center;
+  }
+
+  .section-head h2 {
+    margin: 10px 0 0;
+    font-family: 'IBM Plex Serif', ui-serif, Georgia, serif;
+    font-size: clamp(24px, 2.6cqi + 14px, 32px);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    line-height: 1.25;
+  }
+
+  /* --- Galería --- */
+  .gallery {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 24px 84px;
+  }
+
+  .grid {
+    columns: 3 260px;
+    column-gap: 18px;
+  }
+
+  .item {
+    position: relative;
+    overflow: hidden;
+    margin: 0 0 18px;
+    border-radius: 4px;
+    break-inside: avoid;
+    isolation: isolate;
+  }
+
+  .item img {
+    display: block;
+    width: 100%;
+    height: auto;
+    transition: transform 700ms cubic-bezier(0.2, 0.8, 0.2, 1), filter 500ms ease;
+  }
+
+  .item:hover img {
+    transform: scale(1.05);
+  }
+
+  .item figcaption {
+    position: absolute;
+    z-index: 1;
+    inset: 0;
+    display: flex;
+    align-items: flex-end;
+    gap: 10px;
+    background: linear-gradient(180deg, transparent 45%, rgb(6 6 8 / 0.82) 100%);
+    padding: 16px;
+    opacity: 0;
+    transition: opacity 300ms ease;
+  }
+
+  .item:hover figcaption {
+    opacity: 1;
+  }
+
+  .item-index {
+    color: var(--primary-color);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 600;
+  }
+
+  .item-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .item-text strong {
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  .item-text em {
+    color: rgb(242 237 228 / 0.65);
+    font-size: 11.5px;
+    font-style: normal;
+  }
+
+  /* --- Sobre mí --- */
+  .about {
+    display: grid;
+    max-width: 1080px;
+    gap: 48px;
+    margin: 0 auto;
+    padding: 0 24px 90px;
+    border-top: 1px solid rgb(242 237 228 / 0.12);
+    grid-template-columns: 1.3fr 1fr;
+    padding-top: 70px;
+  }
+
+  .about-text {
+    max-width: 48ch;
+    margin: 14px 0 0;
+    color: rgb(242 237 228 / 0.75);
+    font-size: 15.5px;
+    line-height: 1.75;
+  }
+
+  .about-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 22px;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    border-bottom: 1px solid rgb(242 237 228 / 0.3);
+    padding-bottom: 3px;
+    transition: border-color 200ms ease;
+  }
+
+  .about-link svg {
+    width: 14px;
+    height: 14px;
+    transition: transform 220ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  .about-link:hover {
+    border-color: var(--primary-color);
+  }
+
+  .about-link:hover svg {
+    transform: translateX(3px);
+  }
+
+  .stats {
+    display: grid;
+    gap: 22px;
+    align-content: start;
+    margin: 0;
+    padding-top: 40px;
+  }
+
+  .stat {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    border-bottom: 1px solid rgb(242 237 228 / 0.12);
+    padding-bottom: 14px;
+  }
+
+  .stat dt {
+    color: rgb(242 237 228 / 0.6);
+    font-size: 12.5px;
+  }
+
+  .stat dd {
+    margin: 0;
+    font-family: 'IBM Plex Serif', ui-serif, Georgia, serif;
+    font-size: 24px;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* --- Contacto / footer --- */
+  .contact {
+    border-top: 1px solid rgb(242 237 228 / 0.12);
+    padding: 80px 24px 40px;
+    text-align: center;
+  }
+
+  .contact h2 {
+    margin: 0;
+    font-family: 'IBM Plex Serif', ui-serif, Georgia, serif;
+    font-size: clamp(26px, 3cqi + 14px, 36px);
+    font-weight: 600;
+  }
+
+  .contact p {
+    max-width: 40ch;
+    margin: 12px auto 0;
+    color: rgb(242 237 228 / 0.65);
+    font-size: 14px;
+  }
+
+  .email {
+    display: inline-block;
+    margin-top: 24px;
+    color: #fff;
+    font-family: 'IBM Plex Serif', ui-serif, Georgia, serif;
+    font-size: clamp(19px, 2cqi + 12px, 24px);
+    text-decoration: none;
+    border-bottom: 1px solid var(--primary-color);
+    padding-bottom: 3px;
+    transition: color 200ms ease;
+  }
+
+  .email:hover {
+    color: var(--primary-color);
+  }
+
+  .social {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    margin-top: 30px;
+  }
+
+  .social a {
+    display: grid;
+    width: 36px;
+    height: 36px;
+    place-items: center;
+    border: 1px solid rgb(242 237 228 / 0.18);
+    border-radius: 999px;
+    color: rgb(242 237 228 / 0.7);
+    transition: border-color 200ms ease, color 200ms ease;
+  }
+
+  .social a:hover {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+  }
+
+  .social svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .copyright {
+    margin-top: 40px;
+    color: rgb(242 237 228 / 0.4);
+    font-size: 11.5px;
+  }
+
+  @container preview (max-width: 860px) {
+    .about {
+      grid-template-columns: 1fr;
+      gap: 30px;
+    }
+
+    .stats {
+      padding-top: 0;
+    }
+  }
+
+  @container preview (max-width: 640px) {
+    .topbar {
+      flex-direction: column;
+      gap: 12px;
+      padding: 18px 20px;
+      text-align: center;
+    }
+
+    .hero {
+      height: 560px;
+    }
+
+    .grid {
+      columns: 2 200px;
+    }
+
+    .gallery,
+    .about {
+      padding-inline: 18px;
+    }
+  }
+</style>

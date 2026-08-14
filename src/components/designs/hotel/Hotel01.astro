@@ -1,0 +1,961 @@
+---
+// Web de un hotel de lujo. Mismo mecanismo de hero con foto real que el
+// resto de páginas (máscara de degradado + scroll-driven animation como
+// mejora progresiva). La sección de habitaciones es un carrusel de scroll
+// lateral nativo (`scroll-snap`, sin JS): se desliza con el dedo, el
+// trackpad o la rueda con mayúsculas, y también con los puntos de abajo.
+//
+// Los ficheros de origen viven en `public/images/booking/pagina 1/...`: la
+// carpeta tiene un espacio en el nombre, por eso las rutas usan %20.
+const BASE = '/images/booking/pagina%201';
+
+interface Room {
+  id: string;
+  img: string;
+  alt: string;
+  name: string;
+  text: string;
+  size: string;
+  guests: string;
+  price: string;
+}
+
+const rooms: Room[] = [
+  {
+    id: 'room-1',
+    img: `${BASE}/habitacion1/dormitorio.png`,
+    alt: 'Habitación Deluxe con cama de matrimonio y vistas abiertas',
+    name: 'Habitación Deluxe',
+    text: 'Vistas abiertas, cama king size y un rincón de lectura junto a la ventana.',
+    size: '32 m²',
+    guests: '2 huéspedes',
+    price: '189 €',
+  },
+  {
+    id: 'room-2',
+    img: `${BASE}/habitacion2/dormitorio.png`,
+    alt: 'Habitación Premium con suelo de madera y ventanales del suelo al techo',
+    name: 'Habitación Premium',
+    text: 'Suelo de madera noble, zona de trabajo y ventanales del suelo al techo.',
+    size: '38 m²',
+    guests: '2 huéspedes',
+    price: '229 €',
+  },
+  {
+    id: 'room-3',
+    img: `${BASE}/suites/suite.png`,
+    alt: 'Suite Panorámica con dormitorio y salón independientes',
+    name: 'Suite Panorámica',
+    text: 'Dormitorio y salón separados, con zona de estar propia y luz natural todo el día.',
+    size: '58 m²',
+    guests: '3 huéspedes',
+    price: '349 €',
+  },
+  {
+    id: 'room-4',
+    img: `${BASE}/suites/suite2.png`,
+    alt: 'Suite Presidencial con chimenea y salón amplio',
+    name: 'Suite Presidencial',
+    text: 'La suite más grande de la casa: chimenea, comedor privado y terraza propia.',
+    size: '85 m²',
+    guests: '4 huéspedes',
+    price: '590 €',
+  },
+];
+
+const amenities = [
+  { title: 'Piscina infinita', text: 'Abierta de 7 a 23 h, con vistas despejadas.' },
+  { title: 'Spa & bienestar', text: 'Circuito de aguas y tratamientos a la carta.' },
+  { title: 'Restaurante gourmet', text: 'Cocina de temporada, cierra a las 00 h.' },
+  { title: 'Wifi de alta velocidad', text: 'Gratuito en todo el hotel, sin registro.' },
+];
+
+const gallery = [
+  { img: '/images/booking/pagina%201/piscina/piscina.png', caption: 'Piscina infinita al atardecer' },
+  { img: '/images/booking/pagina%201/piscina/piscina2.png', caption: 'Piscina y terraza de noche' },
+  { img: '/images/booking/pagina%201/restaurante/restaurante.png', caption: 'Restaurante gourmet' },
+  { img: '/images/booking/pagina%201/restaurante/restaurante3.png', caption: 'Terraza bajo las estrellas' },
+  { img: '/images/booking/pagina%201/habitacion1/baño.png', caption: 'Baño con ducha efecto lluvia' },
+  { img: '/images/booking/pagina%201/habitacion2/baño.png', caption: 'Baño en mármol con bañera exenta' },
+];
+---
+
+<div class="site">
+  <header class="topbar">
+    <a class="brand" href="#">Hotel Aurelia</a>
+
+    <nav aria-label="Principal">
+      <ul role="list">
+        <li><a href="#habitaciones">Habitaciones</a></li>
+        <li><a href="#instalaciones">Instalaciones</a></li>
+        <li><a href="#nosotros">Nosotros</a></li>
+      </ul>
+    </nav>
+
+    <a class="header-cta" href="#reservar">Reservar</a>
+  </header>
+
+  <section class="hero">
+    <div class="hero-media">
+      <img
+        class="hero-photo"
+        src="/images/booking/pagina%201/hoteles/hotel1.png"
+        alt="Piscina infinita del hotel con vistas al mar al atardecer"
+        fetchpriority="high"
+      />
+    </div>
+
+    <div class="hero-content">
+      <p class="hero-kicker">Hotel Aurelia · 5 estrellas</p>
+      <h1 class="hero-title">Donde cada detalle está pensado para que no pienses en nada</h1>
+      <p class="hero-line">
+        Habitaciones con vistas, piscina infinita y una cocina que cierra tarde. Reserva directa,
+        mejor precio garantizado.
+      </p>
+    </div>
+  </section>
+
+  <div class="booking-widget" id="reservar">
+    <div class="field">
+      <label for="hotel01-in">Entrada</label>
+      <input id="hotel01-in" type="date" />
+    </div>
+    <div class="field">
+      <label for="hotel01-out">Salida</label>
+      <input id="hotel01-out" type="date" />
+    </div>
+    <div class="field">
+      <label for="hotel01-guests">Huéspedes</label>
+      <input id="hotel01-guests" type="text" value="2 adultos" />
+    </div>
+    <button type="button" class="btn-solid">Buscar disponibilidad</button>
+  </div>
+
+  <section class="amenities">
+    {
+      amenities.map((item) => (
+        <div class="amenity">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true">
+            <path d="M3.5 8.5 6.5 11.5 12.5 4.5" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+          <div>
+            <strong>{item.title}</strong>
+            <span>{item.text}</span>
+          </div>
+        </div>
+      ))
+    }
+  </section>
+
+  <section class="rooms" id="habitaciones">
+    <header class="section-head">
+      <p class="kicker">Habitaciones</p>
+      <h2>Cuatro formas de quedarse</h2>
+      <p class="hint">Desliza para ver todas las habitaciones →</p>
+    </header>
+
+    <div class="carousel" tabindex="0" aria-label="Habitaciones disponibles, desplazable con el dedo o el trackpad">
+      {
+        rooms.map((room) => (
+          <article class="room-card" id={room.id}>
+            <div class="room-photo">
+              <img src={room.img} alt={room.alt} loading="lazy" decoding="async" />
+            </div>
+            <div class="room-body">
+              <h3>{room.name}</h3>
+              <p>{room.text}</p>
+              <div class="room-meta">
+                <span>{room.size}</span>
+                <span>{room.guests}</span>
+              </div>
+              <div class="room-foot">
+                <span class="room-price">
+                  {room.price}
+                  <em>/noche</em>
+                </span>
+                <a class="btn-outline-sm" href="#reservar">
+                  Ver disponibilidad
+                </a>
+              </div>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+
+    <div class="carousel-dots">
+      {rooms.map((room, i) => <a href={`#${room.id}`} aria-label={`Ir a ${room.name}`}>{i + 1}</a>)}
+    </div>
+  </section>
+
+  <section class="gallery-section" id="instalaciones">
+    <header class="section-head">
+      <p class="kicker">Instalaciones</p>
+      <h2>Lo que hay más allá de la habitación</h2>
+    </header>
+
+    <div class="gallery-grid">
+      {
+        gallery.map((item) => (
+          <figure class="gallery-item">
+            <img src={item.img} alt={item.caption} loading="lazy" decoding="async" />
+            <figcaption>{item.caption}</figcaption>
+          </figure>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="about" id="nosotros">
+    <div class="about-media">
+      <img
+        src="/images/booking/pagina%201/hoteles/hotel2.png"
+        alt="Fachada del hotel iluminada al anochecer"
+        loading="lazy"
+      />
+    </div>
+    <div class="about-overlay"></div>
+    <div class="about-content">
+      <p class="kicker">Nosotros</p>
+      <h2>Un hotel pensado para quedarse un día más</h2>
+      <p>
+        Piedra natural y cristal para que la luz cambie la fachada a cada hora del día. 84
+        habitaciones, ninguna igual a otra, y un equipo que se acuerda de tu nombre al segundo
+        día.
+      </p>
+    </div>
+  </section>
+
+  <section class="cta-band">
+    <h2>Reserva directa, mejor precio garantizado</h2>
+    <p>Sin intermediarios, sin sorpresas en el precio final.</p>
+    <div class="cta-actions">
+      <a class="btn-solid" href="#reservar">Reservar ahora</a>
+      <a class="btn-outline" href="tel:+34900456789">900 456 789</a>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-top">
+      <div>
+        <a class="brand" href="#">Hotel Aurelia</a>
+        <p>Paseo del Faro 12, 29601 Marbella</p>
+      </div>
+      <div class="footer-col">
+        <p class="footer-title">Contacto</p>
+        <p>+34 900 456 789</p>
+        <p>reservas@hotelaurelia.es</p>
+      </div>
+      <div class="footer-col">
+        <p class="footer-title">Recepción</p>
+        <p>Abierta las 24 horas</p>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span>© 2026 Hotel Aurelia</span>
+      <ul role="list">
+        <li><a href="#">Privacidad</a></li>
+        <li><a href="#">Aviso legal</a></li>
+        <li><a href="#">Trabaja con nosotros</a></li>
+      </ul>
+    </div>
+  </footer>
+</div>
+
+<style>
+  .site {
+    position: relative;
+    background: #fbfaf7;
+    color: #1f1c17;
+    font-family: var(--font-sans);
+  }
+
+  /* --- Topbar: flota sobre el hero, anclada al mismo contenedor --- */
+  .topbar {
+    position: absolute;
+    z-index: 3;
+    top: 0;
+    right: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 22px 32px;
+  }
+
+  .brand {
+    color: #fff;
+    font-family: 'IBM Plex Serif', ui-serif, Georgia, serif;
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    text-decoration: none;
+  }
+
+  .topbar nav ul {
+    display: flex;
+    gap: 26px;
+    margin: 0;
+    list-style: none;
+    padding: 0;
+  }
+
+  .topbar nav a {
+    color: rgb(255 255 255 / 0.85);
+    font-size: 13.5px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: color 200ms ease;
+  }
+
+  .topbar nav a:hover {
+    color: #fff;
+  }
+
+  .header-cta {
+    border-radius: 999px;
+    background: #fff;
+    padding: 10px 18px;
+    color: #1f1c17;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: transform 180ms ease;
+  }
+
+  .header-cta:hover {
+    transform: translateY(-1px);
+  }
+
+  /* --- Hero: la foto se disuelve en el fondo --- */
+  .hero {
+    position: relative;
+    height: 680px;
+    overflow: hidden;
+  }
+
+  .hero-media {
+    position: absolute;
+    inset: 0;
+  }
+
+  .hero-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 46%;
+    mask-image: linear-gradient(to bottom, #000 0%, #000 44%, transparent 92%);
+    -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 44%, transparent 92%);
+  }
+
+  @supports (animation-timeline: scroll()) {
+    .hero-photo {
+      animation: hero-scroll-fade linear forwards;
+      animation-timeline: scroll(root block);
+      animation-range: 0 65vh;
+    }
+
+    @keyframes hero-scroll-fade {
+      to {
+        opacity: 0.3;
+        transform: scale(1.08);
+      }
+    }
+  }
+
+  .hero::after {
+    position: absolute;
+    z-index: 1;
+    inset: 0;
+    background: linear-gradient(180deg, rgb(10 8 4 / 0.35) 0%, rgb(10 8 4 / 0.04) 30%, rgb(251 250 247 / 0.08) 58%, #fbfaf7 100%);
+    content: '';
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0 24px 60px;
+    text-align: center;
+  }
+
+  .hero-kicker {
+    margin: 0;
+    color: #fff;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  .hero-title {
+    max-width: 18ch;
+    margin: 18px 0 0;
+    color: #fff;
+    font-family: 'IBM Plex Serif', ui-serif, Georgia, serif;
+    font-size: clamp(28px, 4.4cqi + 16px, 48px);
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    line-height: 1.15;
+    text-wrap: balance;
+  }
+
+  .hero-line {
+    max-width: 46ch;
+    margin: 16px 0 0;
+    color: rgb(255 255 255 / 0.85);
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  /* --- Widget de reserva: se solapa con el hero --- */
+  .booking-widget {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    max-width: 920px;
+    align-items: end;
+    gap: 14px;
+    margin: -56px auto 0;
+    border-radius: 18px;
+    background: #fff;
+    padding: 18px 20px;
+    box-shadow: 0 30px 60px -24px rgb(30 20 5 / 0.35);
+  }
+
+  .booking-widget .field {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .booking-widget label {
+    color: #6e6455;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .booking-widget input {
+    border: 1px solid #ece4d5;
+    border-radius: 9px;
+    background: #fbfaf7;
+    padding: 9px 10px;
+    color: #1f1c17;
+    font-family: inherit;
+    font-size: 13.5px;
+    outline: none;
+    transition: border-color 180ms ease;
+  }
+
+  .booking-widget input:focus {
+    border-color: var(--primary-color);
+  }
+
+  .btn-solid {
+    flex: none;
+    border: 0;
+    border-radius: 999px;
+    background: var(--primary-color);
+    padding: 12px 24px;
+    color: var(--primary-contrast);
+    font-family: inherit;
+    font-size: 13.5px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 180ms ease, transform 180ms ease;
+  }
+
+  .btn-solid:hover {
+    background: var(--primary-hover);
+    transform: translateY(-1px);
+  }
+
+  .btn-outline {
+    display: inline-block;
+    border: 1px solid rgb(255 255 255 / 0.5);
+    border-radius: 999px;
+    padding: 12px 22px;
+    color: #fff;
+    font-size: 13.5px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background-color 200ms ease;
+  }
+
+  .cta-band .btn-outline:hover {
+    background: rgb(255 255 255 / 0.12);
+  }
+
+  /* --- Amenidades --- */
+  .amenities {
+    display: grid;
+    max-width: 1080px;
+    gap: 20px;
+    margin: 64px auto 0;
+    padding: 0 24px;
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .amenity {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .amenity svg {
+    width: 16px;
+    height: 16px;
+    flex: none;
+    margin-top: 2px;
+    color: var(--primary-color);
+  }
+
+  .amenity strong {
+    display: block;
+    font-size: 13.5px;
+    font-weight: 700;
+  }
+
+  .amenity span {
+    display: block;
+    margin-top: 3px;
+    color: #6e6455;
+    font-size: 12px;
+    line-height: 1.5;
+  }
+
+  /* --- Genéricos --- */
+  .kicker {
+    margin: 0;
+    color: var(--primary-color);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  .section-head {
+    max-width: 620px;
+    margin: 0 auto 30px;
+    padding: 0 24px;
+    text-align: center;
+  }
+
+  .section-head h2 {
+    margin: 10px 0 0;
+    font-family: 'IBM Plex Serif', ui-serif, Georgia, serif;
+    font-size: clamp(23px, 2.6cqi + 14px, 30px);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  .section-head .hint {
+    margin: 10px 0 0;
+    color: #a89a80;
+    font-size: 12px;
+  }
+
+  /* --- Habitaciones: carrusel de scroll lateral --- */
+  .rooms {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 84px 0;
+  }
+
+  .carousel {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    padding: 4px 24px 12px;
+    scroll-padding-inline: 24px;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .room-card {
+    display: flex;
+    flex: 0 0 300px;
+    flex-direction: column;
+    overflow: hidden;
+    border: 1px solid #ece4d5;
+    border-radius: 18px;
+    background: #fff;
+    scroll-snap-align: start;
+  }
+
+  .room-photo {
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+  }
+
+  .room-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .room-body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    padding: 18px 20px 20px;
+  }
+
+  .room-body h3 {
+    margin: 0;
+    font-family: 'IBM Plex Serif', ui-serif, Georgia, serif;
+    font-size: 16.5px;
+    font-weight: 600;
+  }
+
+  .room-body p {
+    margin: 8px 0 0;
+    color: #6e6455;
+    font-size: 12.5px;
+    line-height: 1.6;
+  }
+
+  .room-meta {
+    display: flex;
+    gap: 10px;
+    margin-top: 12px;
+  }
+
+  .room-meta span {
+    border: 1px solid #ece4d5;
+    border-radius: 999px;
+    padding: 3px 10px;
+    color: #6e6455;
+    font-size: 11px;
+  }
+
+  .room-foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: auto;
+    padding-top: 16px;
+  }
+
+  .room-price {
+    font-family: 'IBM Plex Serif', ui-serif, Georgia, serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--primary-color);
+  }
+
+  .room-price em {
+    color: #a89a80;
+    font-size: 11px;
+    font-style: normal;
+  }
+
+  .btn-outline-sm {
+    border: 1px solid #1f1c17;
+    border-radius: 999px;
+    padding: 7px 12px;
+    color: #1f1c17;
+    font-size: 11.5px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background-color 180ms ease, color 180ms ease;
+  }
+
+  .btn-outline-sm:hover {
+    background: #1f1c17;
+    color: #fff;
+  }
+
+  .carousel-dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 20px;
+  }
+
+  .carousel-dots a {
+    display: grid;
+    width: 26px;
+    height: 26px;
+    place-items: center;
+    border: 1px solid #ece4d5;
+    border-radius: 999px;
+    color: #6e6455;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    text-decoration: none;
+    transition: border-color 180ms ease, color 180ms ease;
+  }
+
+  .carousel-dots a:hover {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+  }
+
+  /* --- Instalaciones --- */
+  .gallery-section {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 24px 84px;
+  }
+
+  .gallery-grid {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .gallery-item {
+    position: relative;
+    overflow: hidden;
+    margin: 0;
+    aspect-ratio: 4 / 3;
+    border-radius: 14px;
+  }
+
+  .gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 600ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  .gallery-item:hover img {
+    transform: scale(1.06);
+  }
+
+  .gallery-item figcaption {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: linear-gradient(180deg, transparent, rgb(10 8 4 / 0.75));
+    padding: 26px 14px 12px;
+    color: #fff;
+    font-size: 12.5px;
+    font-weight: 500;
+  }
+
+  /* --- Sobre nosotros --- */
+  .about {
+    position: relative;
+    overflow: hidden;
+    margin: 0 24px 84px;
+    border-radius: 24px;
+  }
+
+  .about-media img {
+    display: block;
+    width: 100%;
+    height: 460px;
+    object-fit: cover;
+  }
+
+  .about-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgb(10 8 4 / 0.85) 30%, rgb(10 8 4 / 0.25) 75%);
+  }
+
+  .about-content {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    max-width: 460px;
+    flex-direction: column;
+    justify-content: center;
+    padding: 40px 44px;
+  }
+
+  .about-content .kicker {
+    color: #f0dfc0;
+  }
+
+  .about-content h2 {
+    margin: 10px 0 0;
+    color: #fff;
+    font-family: 'IBM Plex Serif', ui-serif, Georgia, serif;
+    font-size: clamp(22px, 2.6cqi + 14px, 30px);
+    font-weight: 600;
+    line-height: 1.25;
+  }
+
+  .about-content p {
+    margin: 14px 0 0;
+    color: rgb(255 255 255 / 0.78);
+    font-size: 13.5px;
+    line-height: 1.7;
+  }
+
+  /* --- CTA --- */
+  .cta-band {
+    margin: 0 24px 84px;
+    border-radius: 24px;
+    background: #1f1c17;
+    padding: 58px 32px;
+    color: #fbfaf7;
+    text-align: center;
+  }
+
+  .cta-band h2 {
+    margin: 0;
+    font-family: 'IBM Plex Serif', ui-serif, Georgia, serif;
+    font-size: clamp(23px, 2.6cqi + 14px, 30px);
+    font-weight: 600;
+  }
+
+  .cta-band p {
+    margin: 10px 0 0;
+    color: rgb(251 250 247 / 0.65);
+    font-size: 14px;
+  }
+
+  .cta-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 26px;
+  }
+
+  /* --- Footer --- */
+  .footer {
+    padding: 0 32px 24px;
+  }
+
+  .footer-top {
+    display: grid;
+    max-width: 1140px;
+    gap: 32px;
+    margin: 0 auto;
+    padding-top: 44px;
+    border-top: 1px solid #ece4d5;
+    grid-template-columns: 1.4fr 1fr 1fr;
+  }
+
+  .footer-top p {
+    margin: 10px 0 0;
+    color: #6e6455;
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  .footer-title {
+    margin: 0;
+    color: #1f1c17;
+    font-size: 12.5px;
+    font-weight: 700;
+  }
+
+  .footer-bottom {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 12px;
+    max-width: 1140px;
+    margin: 32px auto 0;
+    padding-top: 20px;
+    border-top: 1px solid #ece4d5;
+    color: #a89a80;
+    font-size: 12px;
+  }
+
+  .footer-bottom ul {
+    display: flex;
+    gap: 16px;
+    margin: 0;
+    list-style: none;
+    padding: 0;
+  }
+
+  .footer-bottom a {
+    color: #a89a80;
+    text-decoration: none;
+    transition: color 200ms ease;
+  }
+
+  .footer-bottom a:hover {
+    color: #1f1c17;
+  }
+
+  @container preview (max-width: 860px) {
+    .amenities {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .gallery-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .about-content {
+      max-width: 100%;
+      background: rgb(10 8 4 / 0.2);
+    }
+
+    .about-overlay {
+      background: rgb(10 8 4 / 0.6);
+    }
+
+    .footer-top {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @container preview (max-width: 600px) {
+    .topbar {
+      flex-wrap: wrap;
+      gap: 12px;
+      padding: 16px 20px;
+    }
+
+    .hero {
+      height: 620px;
+    }
+
+    .booking-widget {
+      flex-wrap: wrap;
+      margin-inline: 16px;
+    }
+
+    .booking-widget .field {
+      flex: 1 1 40%;
+    }
+
+    .btn-solid {
+      width: 100%;
+    }
+
+    .amenities {
+      grid-template-columns: 1fr;
+      margin-top: 40px;
+    }
+
+    .gallery-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .about-media img {
+      height: 360px;
+    }
+
+    .cta-band {
+      margin-inline: 16px;
+      padding: 44px 22px;
+    }
+  }
+</style>

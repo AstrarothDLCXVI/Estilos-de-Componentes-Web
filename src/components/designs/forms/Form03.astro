@@ -1,0 +1,164 @@
+---
+// Etiquetas flotantes: la etiqueta vive dentro del campo y sube al hacer foco
+// o al rellenarlo (`:not(:placeholder-shown)`), sin una línea de JS. La
+// línea inferior se expande desde el centro al enfocar.
+---
+
+<div class="wrap">
+  <form class="card" onsubmit="return false">
+    <h2>Habla con nosotros</h2>
+    <p class="text">Respondemos en menos de 24 horas laborables.</p>
+
+    <div class="field">
+      <input id="form03-name" type="text" placeholder=" " autocomplete="name" required />
+      <label for="form03-name">Nombre completo</label>
+      <span class="underline" aria-hidden="true"></span>
+    </div>
+
+    <div class="field">
+      <input id="form03-email" type="email" placeholder=" " autocomplete="email" required />
+      <label for="form03-email">Correo de trabajo</label>
+      <span class="underline" aria-hidden="true"></span>
+    </div>
+
+    <div class="field">
+      <input id="form03-company" type="text" placeholder=" " autocomplete="organization" />
+      <label for="form03-company">Empresa (opcional)</label>
+      <span class="underline" aria-hidden="true"></span>
+    </div>
+
+    <button type="submit" class="submit">
+      Enviar mensaje
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <path d="M3 8h9M8.5 4l4 4-4 4" stroke-linecap="round" stroke-linejoin="round"></path>
+      </svg>
+    </button>
+  </form>
+</div>
+
+<style>
+  .wrap {
+    display: grid;
+    place-items: center;
+    background: var(--background-color);
+    padding: 40px 20px;
+    font-family: var(--font-sans);
+  }
+
+  .card {
+    width: 100%;
+    max-width: 380px;
+    border: 1px solid var(--border-color);
+    border-radius: 18px;
+    background: var(--surface-color);
+    padding: 30px 28px;
+    box-shadow: var(--shadow-lg);
+  }
+
+  .card h2 {
+    margin: 0;
+    color: var(--text-color);
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  .text {
+    margin: 7px 0 24px;
+    color: var(--text-muted);
+    font-size: 13.5px;
+    line-height: 1.5;
+  }
+
+  .field {
+    position: relative;
+    margin-top: 18px;
+  }
+
+  .field input {
+    width: 100%;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    background: var(--surface-color);
+    padding: 19px 14px 9px;
+    color: var(--text-color);
+    font-family: inherit;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 200ms ease;
+  }
+
+  .field input:focus {
+    border-color: var(--primary-color);
+  }
+
+  .field label {
+    position: absolute;
+    top: 50%;
+    left: 14px;
+    background: var(--surface-color);
+    padding: 0 4px;
+    color: var(--text-muted);
+    font-size: 14px;
+    pointer-events: none;
+    transform: translateY(-50%);
+    transform-origin: left center;
+    transition: transform 180ms cubic-bezier(0.2, 0.8, 0.2, 1), color 180ms ease, top 180ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  .field input:focus + label,
+  .field input:not(:placeholder-shown) + label {
+    top: 0;
+    color: var(--primary-color);
+    transform: translateY(-50%) scale(0.82);
+  }
+
+  .underline {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: var(--primary-color);
+    transform: translateX(-50%);
+    transition: width 260ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  .field input:focus ~ .underline {
+    width: 100%;
+  }
+
+  .submit {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    margin-top: 24px;
+    border: 0;
+    border-radius: 10px;
+    background: var(--primary-color);
+    padding: 12px;
+    color: var(--primary-contrast);
+    font-family: inherit;
+    font-size: 14.5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 180ms ease, transform 180ms ease;
+  }
+
+  .submit svg {
+    width: 15px;
+    height: 15px;
+    transition: transform 220ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  .submit:hover {
+    background: var(--primary-hover);
+    transform: translateY(-1px);
+  }
+
+  .submit:hover svg {
+    transform: translateX(3px);
+  }
+</style>

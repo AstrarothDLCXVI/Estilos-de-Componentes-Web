@@ -1,8 +1,38 @@
 ---
 // Página de una sola pantalla: el header no enlaza a anclas que hacen scroll,
 // sino a radios ocultos que revelan un panel de información distinto sobre
-// la misma foto. `:has()` conecta el radio marcado (en el header) con el
-// panel correspondiente (en el pie de la foto) sin una sola línea de JS.
+// el mismo fondo. `:has()` conecta el radio marcado (en el header) con el
+// panel correspondiente (en el pie) sin una sola línea de JS.
+//
+// El fondo no es una foto: es un cielo estrellado, un resplandor de aurora y
+// una cordillera de tres siluetas, todo generado con gradientes y
+// `clip-path`. Igual que el resto de la galería, nunca se rompe.
+interface Star {
+  top: number;
+  left: number;
+  size: number;
+  opacity: number;
+  twinkle: boolean;
+  delay: number;
+}
+
+function makeStars(count: number, size: [number, number], opacity: [number, number], twinkle = false): Star[] {
+  return Array.from({ length: count }, () => ({
+    top: Math.round(Math.random() * 520) / 10,
+    left: Math.round(Math.random() * 1000) / 10,
+    size: Math.round((size[0] + Math.random() * (size[1] - size[0])) * 10) / 10,
+    opacity: Math.round((opacity[0] + Math.random() * (opacity[1] - opacity[0])) * 100) / 100,
+    twinkle,
+    delay: Math.round(Math.random() * 60) / 10,
+  }));
+}
+
+const stars: Star[] = [
+  ...makeStars(70, [1, 1.4], [0.25, 0.55]),
+  ...makeStars(22, [1.6, 2.2], [0.5, 0.8]),
+  ...makeStars(7, [2.4, 3], [0.8, 1], true),
+];
+
 interface Tab {
   id: string;
   label: string;
@@ -62,6 +92,30 @@ const tabs: Tab[] = [
 ---
 
 <section class="screen">
+  <div class="milkyway" aria-hidden="true"></div>
+  <div class="aurora-glow" aria-hidden="true"></div>
+
+  <div class="stars" aria-hidden="true">
+    {
+      stars.map((star) => (
+        <span
+          class={`star ${star.twinkle ? 'star-twinkle' : ''}`}
+          style={
+            star.twinkle
+              ? `top:${star.top}%; left:${star.left}%; width:${star.size}px; height:${star.size}px; animation-delay:${star.delay}s;`
+              : `top:${star.top}%; left:${star.left}%; width:${star.size}px; height:${star.size}px; opacity:${star.opacity};`
+          }
+        />
+      ))
+    }
+  </div>
+
+  <div class="mountains" aria-hidden="true">
+    <div class="ridge ridge-far"></div>
+    <div class="ridge ridge-mid"></div>
+    <div class="ridge ridge-near"></div>
+  </div>
+
   <header class="header">
     <a class="logo" href="#">
       <svg class="logo-mark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -125,9 +179,17 @@ const tabs: Tab[] = [
     overflow: hidden;
     height: 640px;
     border-radius: 20px;
-    background-image: url('/images/hero-aurora.jpg');
-    background-position: center 62%;
-    background-size: cover;
+    background: linear-gradient(
+      180deg,
+      #05060f 0%,
+      #0a0b1f 20%,
+      #221a3c 40%,
+      #6c2f52 56%,
+      #c85a3f 70%,
+      #eb9660 82%,
+      #f6c88f 94%,
+      #f8dba8 100%
+    );
     font-family: var(--font-sans);
     isolation: isolate;
   }
@@ -136,8 +198,147 @@ const tabs: Tab[] = [
     position: absolute;
     z-index: 1;
     inset: 0;
-    background: linear-gradient(180deg, rgb(6 8 20 / 0.6) 0%, rgb(6 8 20 / 0.08) 32%, rgb(6 8 20 / 0.15) 55%, rgb(6 8 20 / 0.82) 100%);
+    background: linear-gradient(180deg, rgb(6 8 20 / 0.55) 0%, rgb(6 8 20 / 0.05) 30%, rgb(6 8 20 / 0.1) 52%, rgb(6 8 20 / 0.5) 100%);
     content: '';
+  }
+
+  /* --- Cielo: vía láctea, resplandor de aurora, estrellas y montañas --- */
+  .milkyway {
+    position: absolute;
+    z-index: 0;
+    inset: -15% -25%;
+    background: linear-gradient(
+      100deg,
+      transparent 40%,
+      rgb(255 255 255 / 0.04) 46%,
+      rgb(224 228 255 / 0.13) 50%,
+      rgb(255 255 255 / 0.04) 54%,
+      transparent 60%
+    );
+    filter: blur(5px);
+    mix-blend-mode: screen;
+    transform: rotate(-9deg);
+  }
+
+  .aurora-glow {
+    position: absolute;
+    z-index: 0;
+    inset: 0;
+    background: radial-gradient(48% 34% at 28% 26%, rgb(214 122 190 / 0.32), transparent 72%),
+      radial-gradient(46% 30% at 76% 18%, rgb(110 205 175 / 0.18), transparent 72%);
+    mix-blend-mode: screen;
+    animation: aurora-drift 24s ease-in-out infinite;
+  }
+
+  @keyframes aurora-drift {
+    0%,
+    100% {
+      transform: translateY(0) scale(1);
+    }
+
+    50% {
+      transform: translateY(-2%) scale(1.05);
+    }
+  }
+
+  .stars {
+    position: absolute;
+    z-index: 0;
+    inset: 0;
+  }
+
+  .star {
+    position: absolute;
+    border-radius: 999px;
+    background: #fff;
+  }
+
+  .star-twinkle {
+    box-shadow: 0 0 5px 1px rgb(255 255 255 / 0.55);
+    animation: twinkle 4.5s ease-in-out infinite;
+  }
+
+  @keyframes twinkle {
+    0%,
+    100% {
+      opacity: 0.35;
+    }
+
+    50% {
+      opacity: 1;
+    }
+  }
+
+  .mountains {
+    position: absolute;
+    z-index: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 46%;
+  }
+
+  .ridge {
+    position: absolute;
+    inset: 0;
+  }
+
+  .ridge-far {
+    background: #3c3564;
+    clip-path: polygon(
+      0% 100%,
+      0% 58%,
+      8% 42%,
+      16% 54%,
+      25% 32%,
+      34% 50%,
+      43% 22%,
+      52% 46%,
+      61% 26%,
+      70% 44%,
+      80% 18%,
+      90% 40%,
+      100% 24%,
+      100% 100%
+    );
+    opacity: 0.85;
+  }
+
+  .ridge-mid {
+    background: #221d3d;
+    clip-path: polygon(
+      0% 100%,
+      0% 72%,
+      11% 56%,
+      21% 70%,
+      31% 46%,
+      41% 64%,
+      50% 40%,
+      60% 60%,
+      70% 38%,
+      80% 58%,
+      90% 44%,
+      100% 62%,
+      100% 100%
+    );
+  }
+
+  .ridge-near {
+    background: #100f1c;
+    clip-path: polygon(
+      0% 100%,
+      0% 82%,
+      13% 70%,
+      24% 84%,
+      36% 62%,
+      48% 80%,
+      60% 58%,
+      72% 78%,
+      84% 64%,
+      94% 82%,
+      100% 72%,
+      100% 100%
+    );
   }
 
   .header {

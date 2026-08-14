@@ -1,0 +1,260 @@
+---
+interface Props {
+  eyebrow?: string;
+  title?: string;
+  text?: string;
+}
+
+const {
+  eyebrow = 'Nuevo · Automatizaciones con IA',
+  title = 'El panel que entiende tu producto antes que tú',
+  text = 'Conecta tus fuentes de datos y deja que Fluxboard detecte patrones, redacte el resumen semanal y avise antes de que el problema sea grande.',
+} = Astro.props;
+
+const logos = ['NORTIA', 'ALTAVIA', 'CÓRVIDO', 'MERIDIAN'];
+---
+
+<section class="hero">
+  <div class="mesh" aria-hidden="true"></div>
+
+  <div class="inner">
+    <p class="eyebrow">
+      <span class="eyebrow-dot" aria-hidden="true"></span>
+      {eyebrow}
+    </p>
+
+    <h1 class="title">{title}</h1>
+    <p class="text">{text}</p>
+
+    <div class="actions">
+      <a class="btn-solid" href="#">Empezar gratis</a>
+      <a class="btn-outline" href="#">
+        Ver una demo
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.9" aria-hidden="true">
+          <path d="M3 8h9M8.5 4l4 4-4 4" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+      </a>
+    </div>
+
+    <p class="proof">Usado por equipos de producto en</p>
+    <ul role="list" class="logos">
+      {logos.map((logo) => <li>{logo}</li>)}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    overflow: hidden;
+    background: var(--background-color);
+    padding: 76px 24px 60px;
+    font-family: var(--font-sans);
+    text-align: center;
+    isolation: isolate;
+  }
+
+  /* Malla de color que respira lentamente detrás del contenido. */
+  .mesh {
+    position: absolute;
+    z-index: -1;
+    inset: -10%;
+    background: radial-gradient(38% 32% at 22% 30%, color-mix(in srgb, var(--primary-color) 40%, transparent), transparent 70%),
+      radial-gradient(34% 30% at 78% 24%, color-mix(in srgb, var(--primary-color) 22%, transparent), transparent 70%),
+      radial-gradient(42% 34% at 50% 88%, color-mix(in srgb, var(--primary-color) 16%, transparent), transparent 70%);
+    animation: mesh-drift 20s ease-in-out infinite alternate;
+  }
+
+  @keyframes mesh-drift {
+    0% {
+      transform: translate3d(0, 0, 0) scale(1);
+    }
+
+    100% {
+      transform: translate3d(-2%, 2%, 0) scale(1.08);
+    }
+  }
+
+  .inner {
+    max-width: 680px;
+    margin-inline: auto;
+  }
+
+  /* --- Entrada escalonada: cada bloque aparece con un pequeño retraso --- */
+  .eyebrow,
+  .title,
+  .text,
+  .actions,
+  .proof,
+  .logos {
+    opacity: 0;
+    animation: rise 700ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  }
+
+  .eyebrow {
+    animation-delay: 40ms;
+  }
+
+  .title {
+    animation-delay: 140ms;
+  }
+
+  .text {
+    animation-delay: 240ms;
+  }
+
+  .actions {
+    animation-delay: 340ms;
+  }
+
+  .proof {
+    animation-delay: 420ms;
+  }
+
+  .logos {
+    animation-delay: 480ms;
+  }
+
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+    border: 1px solid var(--border-color);
+    border-radius: 999px;
+    background: var(--surface-color);
+    padding: 6px 14px 6px 10px;
+    color: var(--text-muted);
+    font-size: 12.5px;
+    font-weight: 500;
+  }
+
+  .eyebrow-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 999px;
+    background: var(--primary-color);
+    box-shadow: 0 0 0 3px var(--primary-soft);
+  }
+
+  .title {
+    max-width: 18ch;
+    margin: 22px auto 0;
+    color: var(--text-color);
+    font-size: clamp(30px, 5cqi + 14px, 50px);
+    font-weight: 700;
+    letter-spacing: -0.045em;
+    line-height: 1.06;
+    text-wrap: balance;
+  }
+
+  .text {
+    max-width: 48ch;
+    margin: 18px auto 0;
+    color: var(--text-muted);
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 28px;
+  }
+
+  .btn-solid {
+    border-radius: 10px;
+    background: var(--primary-color);
+    padding: 12px 22px;
+    color: var(--primary-contrast);
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background-color 180ms ease, transform 180ms ease;
+  }
+
+  .btn-solid:hover {
+    background: var(--primary-hover);
+    transform: translateY(-1px);
+  }
+
+  .btn-outline {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    background: var(--surface-color);
+    padding: 12px 18px;
+    color: var(--text-color);
+    font-size: 15px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: border-color 180ms ease;
+  }
+
+  .btn-outline svg {
+    width: 15px;
+    height: 15px;
+    transition: transform 200ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  .btn-outline:hover {
+    border-color: var(--primary-color);
+  }
+
+  .btn-outline:hover svg {
+    transform: translateX(3px);
+  }
+
+  .proof {
+    margin: 40px 0 0;
+    color: var(--text-muted);
+    font-size: 12px;
+    letter-spacing: 0.02em;
+  }
+
+  .logos {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 28px;
+    margin: 14px 0 0;
+    list-style: none;
+    padding: 0;
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    opacity: 0.65;
+  }
+
+  @container preview (max-width: 620px) {
+    .hero {
+      padding: 52px 18px 44px;
+    }
+
+    .title {
+      max-width: 20ch;
+    }
+
+    .logos {
+      gap: 18px;
+    }
+  }
+</style>

@@ -1,0 +1,825 @@
+---
+// Web de cafetería de especialidad. Mismo mecanismo de hero que
+// personal-portfolio/: la foto se disuelve en el fondo mediante una máscara
+// de degradado (con scroll-driven animation como mejora progresiva), pero
+// aquí en clave cálida y clara para que combine con las fotos de la carta.
+const coffees = [
+  { name: 'Espresso', desc: 'Doble, extraído en 25 segundos.', price: '2,20 €' },
+  { name: 'Americano', desc: 'Espresso alargado con agua caliente.', price: '2,60 €' },
+  { name: 'Cortado', desc: 'Espresso con un toque de leche vaporizada.', price: '2,80 €' },
+  { name: 'Flat White', desc: 'Doble espresso y microespuma sedosa.', price: '3,50 €' },
+  { name: 'Latte de avena', desc: 'Con leche de avena y sirope opcional.', price: '3,80 €' },
+  { name: 'Cappuccino', desc: 'Espuma densa y cacao espolvoreado.', price: '3,40 €' },
+];
+
+const pastries = [
+  {
+    src: '/images/cafeteria/pasteles/pastel1.png',
+    name: 'Tarta de chocolate belga',
+    desc: 'Cuatro capas, ganache de chocolate al 70 %.',
+    price: '4,50 €',
+  },
+  {
+    src: '/images/cafeteria/pasteles/pastel2.png',
+    name: 'Cheesecake de frutos rojos',
+    desc: 'Horneada, con coulis de temporada.',
+    price: '4,80 €',
+  },
+  {
+    src: '/images/cafeteria/pasteles/pastel3.png',
+    name: 'Bizcocho de chocolate y naranja',
+    desc: 'Con ralladura de naranja y cobertura brillante.',
+    price: '4,20 €',
+  },
+  {
+    src: '/images/cafeteria/pasteles/pastel4.png',
+    name: 'Muffin de chocolate negro',
+    desc: 'Corazón fundente, horneado cada mañana.',
+    price: '3,20 €',
+  },
+  {
+    src: '/images/cafeteria/pasteles/pastel5.png',
+    name: 'Muffin de pepitas',
+    desc: 'Receta clásica, doble chocolate.',
+    price: '3,00 €',
+  },
+];
+
+const hours = [
+  { day: 'Lunes – Viernes', time: '8:00 – 20:00' },
+  { day: 'Sábado', time: '9:00 – 21:00' },
+  { day: 'Domingo', time: '9:00 – 15:00' },
+];
+---
+
+<div class="site">
+  <header class="topbar">
+    <a class="brand" href="#">Bruma Café</a>
+    <nav aria-label="Principal">
+      <ul role="list">
+        <li><a href="#carta">Carta</a></li>
+        <li><a href="#origen">Nuestro café</a></li>
+        <li><a href="#visitanos">Visítanos</a></li>
+      </ul>
+    </nav>
+    <a class="header-cta" href="#carta">Ver la carta</a>
+  </header>
+
+  <section class="hero">
+    <div class="hero-media">
+      <img
+        class="hero-photo"
+        src="/images/cafeteria/hero/hero2.png"
+        alt="Interior cálido de una cafetería con barra de mármol y latón, luz dorada de tarde"
+        fetchpriority="high"
+      />
+    </div>
+
+    <div class="hero-content">
+      <p class="hero-kicker">Café de especialidad · Repostería de autor</p>
+      <h1 class="hero-title">Un café bien hecho cambia la mañana</h1>
+      <p class="hero-line">Grano de origen único, tueste propio y repostería horneada cada día.</p>
+      <div class="hero-actions">
+        <a class="btn-solid" href="#carta">Ver la carta</a>
+        <a class="btn-outline" href="#visitanos">Cómo llegar</a>
+      </div>
+    </div>
+
+    <div class="scroll-cue" aria-hidden="true">
+      <span></span>
+      Desplázate
+    </div>
+  </section>
+
+  <p class="intro">
+    Tostamos en lotes pequeños y horneamos cada mañana. Nada lleva más de dos días en el
+    mostrador: si se acaba, se acaba.
+  </p>
+
+  <section class="menu" id="carta">
+    <header class="section-head">
+      <p class="kicker">La carta</p>
+      <h2>Café, taza a taza</h2>
+    </header>
+
+    <div class="menu-list">
+      {
+        coffees.map((item) => (
+          <div class="menu-row">
+            <div class="menu-row-text">
+              <span class="menu-name">{item.name}</span>
+              <span class="menu-desc">{item.desc}</span>
+            </div>
+            <span class="leader" aria-hidden="true" />
+            <span class="menu-price">{item.price}</span>
+          </div>
+        ))
+      }
+    </div>
+
+    <header class="section-head section-head-pastries">
+      <p class="kicker">Repostería</p>
+      <h2>Horneado cada mañana</h2>
+    </header>
+
+    <div class="pastry-grid">
+      {
+        pastries.map((item) => (
+          <article class="pastry">
+            <div class="pastry-photo">
+              <img src={item.src} alt={item.name} loading="lazy" decoding="async" />
+            </div>
+            <div class="pastry-body">
+              <div class="pastry-head">
+                <h3>{item.name}</h3>
+                <span class="pastry-price">{item.price}</span>
+              </div>
+              <p>{item.desc}</p>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="origin" id="origen">
+    <div class="origin-photos">
+      <img src="/images/cafeteria/cafe/grano.png" alt="Grano de café tostado sobre una mesa oscura" loading="lazy" />
+      <img
+        src="/images/cafeteria/cafe/haciendoCafe.png"
+        alt="Barista extrayendo un espresso en una máquina profesional"
+        loading="lazy"
+      />
+    </div>
+    <div class="origin-copy">
+      <p class="kicker">Nuestro café</p>
+      <h2>De la finca a la taza, sin atajos</h2>
+      <p>
+        Trabajamos con tres fincas de origen único que visitamos cada año. Tostamos en lotes
+        pequeños dos veces por semana para que el café que sirves nunca lleve más de diez días
+        fuera del tueste.
+      </p>
+    </div>
+  </section>
+
+  <section class="team">
+    <div class="team-photo">
+      <img src="/images/cafeteria/barista/barista.png" alt="Retrato de Diego, barista, preparando un espresso" loading="lazy" />
+    </div>
+    <div class="team-copy">
+      <p class="kicker">Quién lo prepara</p>
+      <h2>Diego</h2>
+      <p>
+        Ocho años detrás de la máquina y no ha dejado de aprender uno solo de ellos. Cada taza
+        sale con la misma pregunta en la cabeza: ¿está en su punto?
+      </p>
+    </div>
+  </section>
+
+  <footer class="visit" id="visitanos">
+    <div class="visit-info">
+      <h2>Visítanos</h2>
+      <p class="address">Calle del Almendro 14, Madrid</p>
+
+      <dl class="hours">
+        {
+          hours.map((row) => (
+            <div>
+              <dt>{row.day}</dt>
+              <dd>{row.time}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+
+    <div class="visit-social">
+      <a class="btn-outline" href="#">Reservar mesa</a>
+      <div class="social">
+        <a href="#" aria-label="Instagram">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+            <rect x="2" y="2" width="12" height="12" rx="3.2"></rect>
+            <circle cx="8" cy="8" r="2.6"></circle>
+            <circle cx="11.3" cy="4.7" r="0.6" fill="currentColor" stroke="none"></circle>
+          </svg>
+        </a>
+        <a href="#" aria-label="Google Maps">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+            <path d="M8 14.5S13 9.8 13 6.4A5 5 0 0 0 3 6.4c0 3.4 5 8.1 5 8.1Z" stroke-linejoin="round"></path>
+            <circle cx="8" cy="6.3" r="1.8"></circle>
+          </svg>
+        </a>
+      </div>
+      <p class="copyright">© 2026 Bruma Café</p>
+    </div>
+  </footer>
+</div>
+
+<style>
+  .site {
+    position: relative;
+    background: #faf5ee;
+    color: #2c2016;
+    font-family: var(--font-sans);
+  }
+
+  /* --- Topbar: flota sobre el hero, anclada al mismo contenedor que la
+     foto, así nunca queda un hueco entre las dos. --- */
+  .topbar {
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    right: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 22px 32px;
+  }
+
+  .brand {
+    color: #fff;
+    font-family: 'IBM Plex Serif', ui-serif, Georgia, serif;
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    text-decoration: none;
+  }
+
+  .topbar nav ul {
+    display: flex;
+    gap: 26px;
+    margin: 0;
+    list-style: none;
+    padding: 0;
+  }
+
+  .topbar nav a {
+    color: rgb(255 255 255 / 0.82);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    text-decoration: none;
+    transition: color 200ms ease;
+  }
+
+  .topbar nav a:hover {
+    color: #fff;
+  }
+
+  .header-cta {
+    border-radius: 999px;
+    background: #fff;
+    padding: 9px 18px;
+    color: #2c2016;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: transform 180ms ease;
+  }
+
+  .header-cta:hover {
+    transform: translateY(-1px);
+  }
+
+  /* --- Hero: la foto se disuelve en el fondo cálido --- */
+  .hero {
+    position: relative;
+    height: 660px;
+    overflow: hidden;
+  }
+
+  .hero-media {
+    position: absolute;
+    inset: 0;
+  }
+
+  .hero-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 38%;
+    mask-image: linear-gradient(to bottom, #000 0%, #000 44%, transparent 92%);
+    -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 44%, transparent 92%);
+  }
+
+  @supports (animation-timeline: scroll()) {
+    .hero-photo {
+      animation: hero-scroll-fade linear forwards;
+      animation-timeline: scroll(root block);
+      animation-range: 0 65vh;
+    }
+
+    @keyframes hero-scroll-fade {
+      to {
+        opacity: 0.3;
+        transform: scale(1.08);
+      }
+    }
+  }
+
+  .hero::after {
+    position: absolute;
+    z-index: 1;
+    inset: 0;
+    background: linear-gradient(180deg, rgb(20 12 4 / 0.5) 0%, rgb(20 12 4 / 0.05) 32%, rgb(250 245 238 / 0.1) 58%, #faf5ee 100%);
+    content: '';
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0 24px;
+    text-align: center;
+  }
+
+  .hero-kicker {
+    margin: 0;
+    color: rgb(255 255 255 / 0.88);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+
+  .hero-title {
+    max-width: 16ch;
+    margin: 18px 0 0;
+    color: #fff;
+    font-family: 'IBM Plex Serif', ui-serif, Georgia, serif;
+    font-size: clamp(32px, 5cqi + 16px, 58px);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.08;
+    text-wrap: balance;
+  }
+
+  .hero-line {
+    max-width: 40ch;
+    margin: 16px 0 0;
+    color: rgb(255 255 255 / 0.82);
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 26px;
+  }
+
+  .btn-solid {
+    border-radius: 999px;
+    background: var(--primary-color);
+    padding: 12px 22px;
+    color: var(--primary-contrast);
+    font-size: 14.5px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background-color 180ms ease, transform 180ms ease;
+  }
+
+  .btn-solid:hover {
+    background: var(--primary-hover);
+    transform: translateY(-1px);
+  }
+
+  .btn-outline {
+    display: inline-block;
+    border: 1px solid rgb(255 255 255 / 0.6);
+    border-radius: 999px;
+    padding: 12px 20px;
+    color: #fff;
+    font-size: 14.5px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: border-color 200ms ease, background-color 200ms ease;
+  }
+
+  .hero-actions .btn-outline:hover {
+    background: rgb(255 255 255 / 0.12);
+  }
+
+  .scroll-cue {
+    position: absolute;
+    z-index: 2;
+    bottom: 24px;
+    left: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    color: rgb(255 255 255 / 0.7);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    transform: translateX(-50%);
+  }
+
+  .scroll-cue span {
+    width: 1px;
+    height: 24px;
+    background: linear-gradient(to bottom, rgb(255 255 255 / 0.85), transparent);
+    animation: cue 1.8s ease-in-out infinite;
+  }
+
+  @keyframes cue {
+    0%,
+    100% {
+      transform: scaleY(1);
+      transform-origin: top;
+    }
+
+    50% {
+      transform: scaleY(0.4);
+      transform-origin: top;
+    }
+  }
+
+  /* --- Intro --- */
+  .intro {
+    max-width: 44ch;
+    margin: 0 auto;
+    padding: 4px 24px 64px;
+    color: #6e5c49;
+    font-family: 'IBM Plex Serif', ui-serif, Georgia, serif;
+    font-size: clamp(16px, 1.3cqi + 13px, 19px);
+    font-style: italic;
+    line-height: 1.65;
+    text-align: center;
+    text-wrap: balance;
+  }
+
+  /* --- Genéricos --- */
+  .kicker {
+    margin: 0;
+    color: var(--primary-color);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+
+  .section-head {
+    max-width: 560px;
+    margin: 0 auto 34px;
+    padding: 0 24px;
+    text-align: center;
+  }
+
+  .section-head h2 {
+    margin: 10px 0 0;
+    font-family: 'IBM Plex Serif', ui-serif, Georgia, serif;
+    font-size: clamp(24px, 2.6cqi + 14px, 32px);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  .section-head-pastries {
+    margin-top: 70px;
+  }
+
+  /* --- Carta: cafés --- */
+  .menu {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 24px 90px;
+  }
+
+  .menu-list {
+    display: grid;
+    gap: 18px;
+  }
+
+  .menu-row {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+  }
+
+  .menu-row-text {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .menu-name {
+    font-family: 'IBM Plex Serif', ui-serif, Georgia, serif;
+    font-size: 17px;
+    font-weight: 600;
+  }
+
+  .menu-desc {
+    color: #8a7862;
+    font-size: 12.5px;
+  }
+
+  .leader {
+    flex: 1;
+    border-bottom: 1px dotted #d8c7ae;
+    margin-bottom: 6px;
+    min-width: 24px;
+  }
+
+  .menu-price {
+    flex: none;
+    color: var(--primary-color);
+    font-family: var(--font-mono);
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  /* --- Carta: repostería --- */
+  .pastry-grid {
+    display: grid;
+    gap: 22px;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 250px), 1fr));
+  }
+
+  .pastry {
+    overflow: hidden;
+    border: 1px solid #ecdfc9;
+    border-radius: 16px;
+    background: #fffdf9;
+    box-shadow: 0 10px 26px -18px rgb(60 40 10 / 0.35);
+  }
+
+  .pastry-photo {
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+  }
+
+  .pastry-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 600ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  .pastry:hover .pastry-photo img {
+    transform: scale(1.06);
+  }
+
+  .pastry-body {
+    padding: 16px 18px 18px;
+  }
+
+  .pastry-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  .pastry-head h3 {
+    margin: 0;
+    font-family: 'IBM Plex Serif', ui-serif, Georgia, serif;
+    font-size: 15.5px;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+
+  .pastry-price {
+    flex: none;
+    color: var(--primary-color);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  .pastry-body p {
+    margin: 8px 0 0;
+    color: #8a7862;
+    font-size: 12.5px;
+    line-height: 1.55;
+  }
+
+  /* --- Origen --- */
+  .origin {
+    display: grid;
+    max-width: 1080px;
+    gap: 40px;
+    margin: 0 auto;
+    padding: 70px 24px;
+    border-top: 1px solid #ecdfc9;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+  }
+
+  .origin-photos {
+    display: grid;
+    gap: 12px;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .origin-photos img {
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 3 / 4;
+    border-radius: 14px;
+    object-fit: cover;
+  }
+
+  .origin-photos img:first-child {
+    margin-top: 24px;
+  }
+
+  .origin-copy h2 {
+    margin: 10px 0 0;
+    font-family: 'IBM Plex Serif', ui-serif, Georgia, serif;
+    font-size: clamp(22px, 2.6cqi + 14px, 30px);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    line-height: 1.25;
+  }
+
+  .origin-copy p {
+    max-width: 42ch;
+    margin: 14px 0 0;
+    color: #6e5c49;
+    font-size: 14.5px;
+    line-height: 1.7;
+  }
+
+  /* --- Equipo / barista --- */
+  .team {
+    display: grid;
+    max-width: 780px;
+    gap: 32px;
+    margin: 0 auto;
+    padding: 0 24px 84px;
+    grid-template-columns: 180px 1fr;
+    align-items: center;
+  }
+
+  .team-photo img {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    border-radius: 16px;
+    object-fit: cover;
+    box-shadow: 0 20px 40px -22px rgb(40 25 5 / 0.45);
+  }
+
+  .team-copy h2 {
+    margin: 10px 0 0;
+    font-family: 'IBM Plex Serif', ui-serif, Georgia, serif;
+    font-size: clamp(20px, 2.2cqi + 12px, 26px);
+    font-weight: 600;
+  }
+
+  .team-copy p {
+    max-width: 44ch;
+    margin: 12px 0 0;
+    color: #6e5c49;
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  /* --- Visítanos / footer --- */
+  .visit {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 40px;
+    border-top: 1px solid #ecdfc9;
+    background: #f3e9db;
+    padding: 60px 32px 40px;
+  }
+
+  .visit h2 {
+    margin: 0;
+    font-family: 'IBM Plex Serif', ui-serif, Georgia, serif;
+    font-size: clamp(22px, 2.4cqi + 14px, 28px);
+    font-weight: 600;
+  }
+
+  .address {
+    margin: 10px 0 0;
+    color: #6e5c49;
+    font-size: 14px;
+  }
+
+  .hours {
+    display: grid;
+    gap: 8px;
+    margin: 22px 0 0;
+  }
+
+  .hours div {
+    display: flex;
+    gap: 16px;
+    font-size: 13px;
+  }
+
+  .hours dt {
+    min-width: 130px;
+    color: #6e5c49;
+  }
+
+  .hours dd {
+    margin: 0;
+    font-weight: 600;
+  }
+
+  .visit-social {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 18px;
+  }
+
+  .visit-social .btn-outline {
+    border-color: #2c2016;
+    color: #2c2016;
+  }
+
+  .visit-social .btn-outline:hover {
+    background: #2c2016;
+    color: #faf5ee;
+  }
+
+  .social {
+    display: flex;
+    gap: 10px;
+  }
+
+  .social a {
+    display: grid;
+    width: 34px;
+    height: 34px;
+    place-items: center;
+    border: 1px solid #d8c7ae;
+    border-radius: 999px;
+    color: #6e5c49;
+    transition: border-color 200ms ease, color 200ms ease;
+  }
+
+  .social a:hover {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+  }
+
+  .social svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .copyright {
+    margin: 0;
+    color: #a5947e;
+    font-size: 11.5px;
+  }
+
+  @container preview (max-width: 860px) {
+    .origin {
+      grid-template-columns: 1fr;
+    }
+
+    .origin-photos {
+      max-width: 380px;
+      margin-inline: auto;
+    }
+  }
+
+  @container preview (max-width: 640px) {
+    .topbar {
+      flex-wrap: wrap;
+      gap: 12px;
+      padding: 16px 20px;
+    }
+
+    .header-cta {
+      order: 3;
+    }
+
+    .hero {
+      height: 560px;
+    }
+
+    .team {
+      grid-template-columns: 120px 1fr;
+      gap: 20px;
+    }
+
+    .menu,
+    .origin,
+    .team {
+      padding-inline: 18px;
+    }
+
+    .visit {
+      padding: 48px 20px 32px;
+    }
+  }
+</style>

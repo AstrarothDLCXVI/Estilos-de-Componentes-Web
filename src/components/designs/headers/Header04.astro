@@ -1,0 +1,311 @@
+---
+// Cabecera con mega menú: el panel se revela con :hover/:focus-within, sin
+// una línea de JS. Pensada para SaaS con varias líneas de producto.
+interface MegaItem {
+  title: string;
+  hint: string;
+}
+
+const megaItems: MegaItem[] = [
+  { title: 'Analítica', hint: 'Eventos y paneles en tiempo real' },
+  { title: 'Automatizaciones', hint: 'Flujos que reaccionan a tus datos' },
+  { title: 'Alertas', hint: 'Avisos cuando algo se sale de rango' },
+  { title: 'Integraciones', hint: 'Conecta tu stack en minutos' },
+];
+---
+
+<header class="site-header">
+  <div class="bar">
+    <a class="logo" href="#">
+      <span class="logo-mark" aria-hidden="true"></span>
+      Fluxboard
+    </a>
+
+    <nav class="nav" aria-label="Principal">
+      <ul role="list" class="nav-list">
+        <li class="has-mega">
+          <button type="button" class="nav-link" aria-haspopup="true">
+            Producto
+            <svg class="chevron" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+              <path d="m4.5 6.5 3.5 3.5 3.5-3.5" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+          </button>
+
+          <div class="mega">
+            <div class="mega-grid">
+              {
+                megaItems.map((item) => (
+                  <a class="mega-item" href="#">
+                    <span class="mega-dot" aria-hidden="true" />
+                    <span>
+                      <strong>{item.title}</strong>
+                      <em>{item.hint}</em>
+                    </span>
+                  </a>
+                ))
+              }
+            </div>
+            <div class="mega-cta">
+              <p>¿No sabes por dónde empezar?</p>
+              <a href="#">Reservar una demo →</a>
+            </div>
+          </div>
+        </li>
+        <li><a class="nav-link" href="#">Precios</a></li>
+        <li><a class="nav-link" href="#">Clientes</a></li>
+        <li><a class="nav-link" href="#">Documentación</a></li>
+      </ul>
+    </nav>
+
+    <div class="actions">
+      <a class="link-quiet" href="#">Iniciar sesión</a>
+      <a class="btn" href="#">Empezar gratis</a>
+    </div>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: relative;
+    z-index: 10;
+    border-bottom: 1px solid var(--border-color);
+    background: var(--surface-color);
+    font-family: var(--font-sans);
+  }
+
+  .bar {
+    display: flex;
+    max-width: 1180px;
+    align-items: center;
+    gap: 28px;
+    margin-inline: auto;
+    padding: 15px 28px;
+  }
+
+  .logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    color: var(--text-color);
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    text-decoration: none;
+  }
+
+  .logo-mark {
+    width: 20px;
+    height: 20px;
+    border-radius: 6px;
+    background: var(--primary-color);
+  }
+
+  .nav-list {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    margin: 0;
+    list-style: none;
+    padding: 0;
+  }
+
+  .has-mega {
+    position: relative;
+  }
+
+  .nav-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    border-radius: 8px;
+    padding: 8px 12px;
+    color: var(--text-muted);
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    cursor: pointer;
+    transition: color 180ms ease;
+  }
+
+  .nav-link:hover {
+    color: var(--text-color);
+  }
+
+  .chevron {
+    width: 13px;
+    height: 13px;
+    transition: transform 220ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  .has-mega:hover .chevron,
+  .has-mega:focus-within .chevron {
+    transform: rotate(180deg);
+  }
+
+  /* --- Mega menú --- */
+  .mega {
+    position: absolute;
+    top: calc(100% + 14px);
+    left: 50%;
+    width: 460px;
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    background: var(--surface-color);
+    box-shadow: var(--shadow-lg);
+    opacity: 0;
+    visibility: hidden;
+    transform: translate(-50%, -8px) scale(0.98);
+    transition: opacity 240ms cubic-bezier(0.2, 0.8, 0.2, 1), transform 240ms cubic-bezier(0.2, 0.8, 0.2, 1),
+      visibility 240ms;
+    pointer-events: none;
+  }
+
+  .has-mega:hover .mega,
+  .has-mega:focus-within .mega {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, 0) scale(1);
+    pointer-events: auto;
+  }
+
+  .mega-grid {
+    display: grid;
+    gap: 2px;
+    grid-template-columns: 1fr 1fr;
+    padding: 10px;
+  }
+
+  .mega-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    border-radius: 10px;
+    padding: 10px;
+    text-decoration: none;
+    transition: background-color 180ms ease;
+  }
+
+  .mega-item:hover {
+    background: var(--surface-alt);
+  }
+
+  .mega-dot {
+    width: 7px;
+    height: 7px;
+    margin-top: 5px;
+    flex: none;
+    border-radius: 999px;
+    background: var(--primary-color);
+    box-shadow: 0 0 0 3px var(--primary-soft);
+  }
+
+  .mega-item strong {
+    display: block;
+    color: var(--text-color);
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  .mega-item em {
+    display: block;
+    margin-top: 2px;
+    color: var(--text-muted);
+    font-size: 11.5px;
+    font-style: normal;
+    line-height: 1.4;
+  }
+
+  .mega-cta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    border-top: 1px solid var(--border-color);
+    background: var(--surface-alt);
+    padding: 12px 18px;
+    border-radius: 0 0 16px 16px;
+  }
+
+  .mega-cta p {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 12px;
+  }
+
+  .mega-cta a {
+    color: var(--primary-color);
+    font-size: 12.5px;
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-left: auto;
+  }
+
+  .link-quiet {
+    padding: 8px 12px;
+    color: var(--text-muted);
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: color 180ms ease;
+  }
+
+  .link-quiet:hover {
+    color: var(--text-color);
+  }
+
+  .btn {
+    border-radius: 9px;
+    background: var(--primary-color);
+    padding: 9px 16px;
+    color: var(--primary-contrast);
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background-color 180ms ease, transform 180ms ease;
+  }
+
+  .btn:hover {
+    background: var(--primary-hover);
+    transform: translateY(-1px);
+  }
+
+  @container preview (max-width: 780px) {
+    .bar {
+      flex-wrap: wrap;
+      gap: 12px;
+      padding: 13px 18px;
+    }
+
+    .nav {
+      order: 3;
+      width: 100%;
+    }
+
+    .nav-list {
+      overflow-x: auto;
+    }
+
+    .mega {
+      left: 0;
+      width: min(90vw, 380px);
+      transform: translate(0, -8px) scale(0.98);
+    }
+
+    .has-mega:hover .mega,
+    .has-mega:focus-within .mega {
+      transform: translate(0, 0) scale(1);
+    }
+
+    .link-quiet {
+      display: none;
+    }
+  }
+</style>

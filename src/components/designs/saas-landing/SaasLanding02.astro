@@ -1,0 +1,858 @@
+---
+// Segunda variante de saas-landing/: una plataforma de infraestructura e IA,
+// con fotografía real en el hero (mismo mecanismo de desvanecido hacia el
+// fondo que personal-portfolio/ y restaurant/) y estética "lo más
+// tecnológica posible" — oscura, con acentos de neón y una terminal falsa.
+const features = [
+  {
+    img: '/images/tecnologia/ia/ia1.png',
+    alt: 'Red neuronal representada como una rejilla de nodos conectados',
+    title: 'Modelos de IA propios',
+    text: 'Entrena y sirve modelos personalizados sobre GPUs dedicadas, con autoescalado por demanda.',
+  },
+  {
+    img: '/images/tecnologia/ia/ia4.png',
+    alt: 'Escudo digital hecho de código binario, representando la seguridad',
+    title: 'Seguridad de nivel empresarial',
+    text: 'Cifrado de extremo a extremo, SSO y un registro de auditoría completo en cada petición.',
+  },
+  {
+    img: '/images/tecnologia/ia/ia7.png',
+    alt: 'Icono de nube conectado a una red de servidores',
+    title: 'Infraestructura cloud unificada',
+    text: 'Despliega en cualquier región del mundo desde un único panel de control.',
+  },
+  {
+    img: '/images/tecnologia/desarrollo/dev4.png',
+    alt: 'Escritorio de desarrollador con editor de código sobre un fondo de circuitos',
+    title: 'Hecho para desarrolladores',
+    text: 'SDKs, CLI y una API REST tan bien documentada que apenas necesitarás abrir los docs.',
+  },
+];
+
+const stats = [
+  { value: '38 ms', label: 'Latencia media global' },
+  { value: '99.99 %', label: 'Disponibilidad garantizada' },
+  { value: '120+', label: 'Regiones activas' },
+  { value: '24/7', label: 'Soporte por ingenieros' },
+];
+
+const logos = ['ORBIT', 'VECTORA', 'HALIA', 'ZYNTH', 'PULSE'];
+---
+
+<div class="site">
+  <header class="topbar">
+    <a class="brand" href="#">
+      <span class="brand-mark" aria-hidden="true"></span>
+      NEXORA
+    </a>
+    <nav aria-label="Principal">
+      <ul role="list">
+        <li><a href="#producto">Producto</a></li>
+        <li><a href="#seguridad">Seguridad</a></li>
+        <li><a href="#desarrolladores">Desarrolladores</a></li>
+      </ul>
+    </nav>
+    <div class="header-actions">
+      <a class="link-quiet" href="#">Iniciar sesión</a>
+      <a class="btn-solid" href="#">Empezar gratis</a>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-media">
+      <img
+        class="hero-photo"
+        src="/images/tecnologia/hero/hero6.png"
+        alt="Red de nodos y conexiones luminosas en azul sobre fondo negro"
+        fetchpriority="high"
+      />
+    </div>
+
+    <div class="hero-content">
+      <p class="hero-kicker">
+        <span class="pulse" aria-hidden="true"></span>
+        Infraestructura para IA a escala
+      </p>
+      <h1 class="hero-title">Todo tu stack, una sola plataforma inteligente</h1>
+      <p class="hero-line">
+        APIs, cómputo GPU y seguridad de nivel empresarial en un mismo panel. Sin fricción entre lo
+        que construyes y lo que despliegas.
+      </p>
+      <div class="hero-actions">
+        <a class="btn-solid" href="#">Empezar gratis</a>
+        <a class="btn-outline" href="#desarrolladores">Ver documentación</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="logos-band">
+    <p>Confían en NEXORA</p>
+    <ul role="list">
+      {logos.map((logo) => <li>{logo}</li>)}
+    </ul>
+  </div>
+
+  <section class="features" id="producto">
+    <header class="section-head">
+      <p class="kicker">Producto</p>
+      <h2>Cuatro piezas, una sola plataforma</h2>
+    </header>
+
+    <div class="features-grid">
+      {
+        features.map((feature) => (
+          <article class="feature">
+            <div class="feature-photo">
+              <img src={feature.img} alt={feature.alt} loading="lazy" decoding="async" />
+            </div>
+            <div class="feature-body">
+              <h3>{feature.title}</h3>
+              <p>{feature.text}</p>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="code-section" id="desarrolladores">
+    <div class="code-copy">
+      <p class="kicker">Desarrolladores</p>
+      <h2>Una API que se entiende sola</h2>
+      <p class="code-text">
+        Un único comando para pasar de tu máquina a producción en doce regiones. Sin YAML
+        interminable, sin sorpresas en el despliegue.
+      </p>
+    </div>
+
+    <div class="terminal">
+      <div class="terminal-bar">
+        <span class="dot dot-r"></span>
+        <span class="dot dot-y"></span>
+        <span class="dot dot-g"></span>
+        <span class="terminal-title">nexora-cli</span>
+      </div>
+      <pre class="terminal-body"><code><span class="c-muted">$</span> <span class="c-fn">nexora</span> deploy --env production
+<span class="c-muted">→</span> Compilando funciones edge<span class="c-ok"> listo</span>
+<span class="c-muted">→</span> Desplegando en <span class="c-num">12</span> regiones<span class="c-ok"> listo</span>
+<span class="c-muted">→</span> Latencia media <span class="c-num">38ms</span>
+<span class="c-ok">✓ Despliegue completado en 4.2s</span><span class="cursor" aria-hidden="true"></span></code></pre>
+    </div>
+  </section>
+
+  <section class="stats-band" id="seguridad">
+    <div class="stats-media" aria-hidden="true">
+      <img src="/images/tecnologia/hero/hero3.png" alt="" loading="lazy" />
+    </div>
+    <div class="stats-overlay"></div>
+    <div class="stats-grid">
+      {
+        stats.map((stat) => (
+          <div class="stat">
+            <strong>{stat.value}</strong>
+            <span>{stat.label}</span>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="cta-band">
+    <div class="cta-media" aria-hidden="true">
+      <img src="/images/tecnologia/estetica_abstracta-premium/estetica1.png" alt="" loading="lazy" />
+    </div>
+    <div class="cta-overlay"></div>
+    <div class="cta-content">
+      <h2>Empieza a construir hoy</h2>
+      <p>Sin tarjeta de crédito. Sin límite de tiempo en el plan gratuito.</p>
+      <a class="btn-solid" href="#">Crear cuenta</a>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-top">
+      <a class="brand" href="#">
+        <span class="brand-mark" aria-hidden="true"></span>
+        NEXORA
+      </a>
+      <div class="status">
+        <span class="status-dot" aria-hidden="true"></span>
+        Todos los sistemas operativos
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span>© 2026 NEXORA</span>
+      <ul role="list">
+        <li><a href="#">Privacidad</a></li>
+        <li><a href="#">Términos</a></li>
+        <li><a href="#">Estado</a></li>
+      </ul>
+    </div>
+  </footer>
+</div>
+
+<style>
+  .site {
+    position: relative;
+    background: #05070d;
+    color: #eef1fb;
+    font-family: var(--font-sans);
+  }
+
+  /* --- Topbar: flota sobre el hero, anclada al mismo contenedor --- */
+  .topbar {
+    position: absolute;
+    z-index: 3;
+    top: 0;
+    right: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 22px 32px;
+  }
+
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    color: #fff;
+    font-family: var(--font-mono);
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+  }
+
+  .brand-mark {
+    width: 18px;
+    height: 18px;
+    border-radius: 5px;
+    background: linear-gradient(135deg, var(--primary-color), color-mix(in srgb, var(--primary-color) 30%, #7dd3fc));
+    box-shadow: 0 0 16px -2px color-mix(in srgb, var(--primary-color) 70%, transparent);
+  }
+
+  .topbar nav ul {
+    display: flex;
+    gap: 26px;
+    margin: 0;
+    list-style: none;
+    padding: 0;
+  }
+
+  .topbar nav a {
+    color: rgb(238 241 251 / 0.68);
+    font-size: 13px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: color 200ms ease;
+  }
+
+  .topbar nav a:hover {
+    color: #fff;
+  }
+
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .link-quiet {
+    color: rgb(238 241 251 / 0.68);
+    font-size: 13px;
+    font-weight: 500;
+    text-decoration: none;
+  }
+
+  .link-quiet:hover {
+    color: #fff;
+  }
+
+  .btn-solid {
+    border-radius: 8px;
+    background: var(--primary-color);
+    padding: 10px 18px;
+    color: var(--primary-contrast);
+    font-size: 13.5px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background-color 180ms ease, transform 180ms ease, box-shadow 180ms ease;
+  }
+
+  .btn-solid:hover {
+    background: var(--primary-hover);
+    box-shadow: 0 0 24px -6px color-mix(in srgb, var(--primary-color) 70%, transparent);
+    transform: translateY(-1px);
+  }
+
+  .btn-outline {
+    display: inline-block;
+    border: 1px solid rgb(255 255 255 / 0.16);
+    border-radius: 8px;
+    padding: 10px 18px;
+    color: #fff;
+    font-size: 13.5px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: border-color 200ms ease, background-color 200ms ease;
+  }
+
+  .hero-actions .btn-outline:hover {
+    border-color: color-mix(in srgb, var(--primary-color) 60%, transparent);
+    background: rgb(255 255 255 / 0.04);
+  }
+
+  /* --- Hero: la foto se disuelve en el fondo oscuro --- */
+  .hero {
+    position: relative;
+    height: 680px;
+    overflow: hidden;
+  }
+
+  .hero-media {
+    position: absolute;
+    inset: 0;
+  }
+
+  .hero-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 30%;
+    mask-image: linear-gradient(to bottom, #000 0%, #000 42%, transparent 90%);
+    -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 42%, transparent 90%);
+  }
+
+  @supports (animation-timeline: scroll()) {
+    .hero-photo {
+      animation: hero-scroll-fade linear forwards;
+      animation-timeline: scroll(root block);
+      animation-range: 0 65vh;
+    }
+
+    @keyframes hero-scroll-fade {
+      to {
+        opacity: 0.3;
+        transform: scale(1.08);
+      }
+    }
+  }
+
+  .hero::after {
+    position: absolute;
+    z-index: 1;
+    inset: 0;
+    background: linear-gradient(180deg, rgb(2 3 8 / 0.35) 0%, rgb(2 3 8 / 0.05) 30%, rgb(5 7 13 / 0.2) 55%, #05070d 100%);
+    content: '';
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0 24px;
+    text-align: center;
+  }
+
+  .hero-kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    margin: 0;
+    border: 1px solid rgb(255 255 255 / 0.14);
+    border-radius: 999px;
+    background: rgb(255 255 255 / 0.04);
+    padding: 6px 16px 6px 12px;
+    color: rgb(238 241 251 / 0.85);
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    letter-spacing: 0.04em;
+  }
+
+  .pulse {
+    width: 7px;
+    height: 7px;
+    border-radius: 999px;
+    background: #34d399;
+    box-shadow: 0 0 0 0 rgb(52 211 153 / 0.6);
+    animation: pulse 2s ease-out infinite;
+  }
+
+  @keyframes pulse {
+    0% {
+      box-shadow: 0 0 0 0 rgb(52 211 153 / 0.55);
+    }
+
+    70% {
+      box-shadow: 0 0 0 7px rgb(52 211 153 / 0);
+    }
+
+    100% {
+      box-shadow: 0 0 0 0 rgb(52 211 153 / 0);
+    }
+  }
+
+  .hero-title {
+    max-width: 17ch;
+    margin: 22px 0 0;
+    color: #fff;
+    font-size: clamp(32px, 5cqi + 16px, 56px);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.08;
+    text-wrap: balance;
+  }
+
+  .hero-line {
+    max-width: 46ch;
+    margin: 18px 0 0;
+    color: rgb(238 241 251 / 0.65);
+    font-size: 15.5px;
+    line-height: 1.65;
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 30px;
+  }
+
+  /* --- Logos --- */
+  .logos-band {
+    border-top: 1px solid rgb(255 255 255 / 0.08);
+    border-bottom: 1px solid rgb(255 255 255 / 0.08);
+    padding: 20px 24px;
+    text-align: center;
+  }
+
+  .logos-band p {
+    margin: 0 0 14px;
+    color: rgb(238 241 251 / 0.4);
+    font-size: 11.5px;
+  }
+
+  .logos-band ul {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    margin: 0;
+    list-style: none;
+    padding: 0;
+    color: rgb(238 241 251 / 0.5);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.14em;
+  }
+
+  /* --- Genéricos --- */
+  .kicker {
+    margin: 0;
+    color: var(--primary-color);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+
+  .section-head {
+    max-width: 560px;
+    margin: 0 auto 36px;
+    padding: 0 24px;
+    text-align: center;
+  }
+
+  .section-head h2 {
+    margin: 10px 0 0;
+    font-size: clamp(24px, 2.6cqi + 14px, 32px);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  /* --- Features --- */
+  .features {
+    max-width: 1140px;
+    margin: 0 auto;
+    padding: 76px 24px;
+  }
+
+  .features-grid {
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .feature {
+    overflow: hidden;
+    border: 1px solid rgb(255 255 255 / 0.09);
+    border-radius: 16px;
+    background: rgb(255 255 255 / 0.02);
+    transition: border-color 260ms ease, box-shadow 260ms ease, transform 260ms ease;
+  }
+
+  .feature:hover {
+    border-color: color-mix(in srgb, var(--primary-color) 55%, transparent);
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--primary-color) 25%, transparent),
+      0 24px 50px -28px color-mix(in srgb, var(--primary-color) 65%, transparent);
+    transform: translateY(-4px);
+  }
+
+  .feature-photo {
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+  }
+
+  .feature-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 700ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  .feature:hover .feature-photo img {
+    transform: scale(1.06);
+  }
+
+  .feature-body {
+    padding: 20px 22px 22px;
+  }
+
+  .feature-body h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  .feature-body p {
+    margin: 8px 0 0;
+    color: rgb(238 241 251 / 0.6);
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  /* --- Terminal --- */
+  .code-section {
+    display: grid;
+    max-width: 1140px;
+    gap: 44px;
+    margin: 0 auto;
+    padding: 0 24px 84px;
+    grid-template-columns: 0.85fr 1.15fr;
+    align-items: center;
+  }
+
+  .code-copy h2 {
+    margin: 10px 0 0;
+    font-size: clamp(24px, 2.6cqi + 14px, 32px);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+  }
+
+  .code-text {
+    max-width: 42ch;
+    margin: 16px 0 0;
+    color: rgb(238 241 251 / 0.62);
+    font-size: 14.5px;
+    line-height: 1.7;
+  }
+
+  .terminal {
+    overflow: hidden;
+    border: 1px solid rgb(255 255 255 / 0.1);
+    border-radius: 14px;
+    background: #0a0c14;
+    box-shadow: 0 30px 70px -30px rgb(0 0 0 / 0.7);
+  }
+
+  .terminal-bar {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    border-bottom: 1px solid rgb(255 255 255 / 0.08);
+    padding: 11px 14px;
+  }
+
+  .dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 999px;
+  }
+
+  .dot-r {
+    background: #ff5f56;
+  }
+
+  .dot-y {
+    background: #ffbd2e;
+  }
+
+  .dot-g {
+    background: #27c93f;
+  }
+
+  .terminal-title {
+    margin-left: 8px;
+    color: rgb(238 241 251 / 0.45);
+    font-family: var(--font-mono);
+    font-size: 11px;
+  }
+
+  .terminal-body {
+    margin: 0;
+    padding: 20px 22px 24px;
+    overflow-x: auto;
+    color: rgb(238 241 251 / 0.85);
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    line-height: 1.85;
+  }
+
+  .c-muted {
+    color: rgb(238 241 251 / 0.4);
+  }
+
+  .c-fn {
+    color: #7dd3fc;
+  }
+
+  .c-ok {
+    color: #34d399;
+  }
+
+  .c-num {
+    color: #fbbf24;
+  }
+
+  .cursor {
+    display: inline-block;
+    width: 7px;
+    height: 13px;
+    margin-left: 2px;
+    background: #eef1fb;
+    animation: blink 1s step-end infinite;
+    vertical-align: -2px;
+  }
+
+  @keyframes blink {
+    50% {
+      opacity: 0;
+    }
+  }
+
+  /* --- Banda de estadísticas --- */
+  .stats-band {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .stats-media {
+    position: absolute;
+    inset: 0;
+  }
+
+  .stats-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .stats-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, #05070d 0%, rgb(5 7 13 / 0.65) 40%, rgb(5 7 13 / 0.65) 60%, #05070d 100%);
+  }
+
+  .stats-grid {
+    position: relative;
+    display: grid;
+    max-width: 1000px;
+    gap: 20px;
+    margin: 0 auto;
+    padding: 80px 24px;
+    grid-template-columns: repeat(4, 1fr);
+    text-align: center;
+  }
+
+  .stat strong {
+    display: block;
+    font-size: clamp(26px, 2.6cqi + 16px, 34px);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .stat span {
+    display: block;
+    margin-top: 8px;
+    color: rgb(238 241 251 / 0.6);
+    font-size: 12.5px;
+  }
+
+  /* --- CTA --- */
+  .cta-band {
+    position: relative;
+    overflow: hidden;
+    margin: 84px 24px;
+    border-radius: 24px;
+  }
+
+  .cta-media {
+    position: absolute;
+    inset: 0;
+  }
+
+  .cta-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .cta-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(120deg, rgb(3 4 10 / 0.9) 10%, rgb(3 4 10 / 0.55) 60%, rgb(3 4 10 / 0.35) 100%);
+  }
+
+  .cta-content {
+    position: relative;
+    max-width: 460px;
+    padding: 64px 44px;
+  }
+
+  .cta-content h2 {
+    margin: 0;
+    color: #fff;
+    font-size: clamp(24px, 2.8cqi + 14px, 32px);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  .cta-content p {
+    margin: 12px 0 0;
+    color: rgb(238 241 251 / 0.72);
+    font-size: 14px;
+  }
+
+  .cta-content .btn-solid {
+    display: inline-block;
+    margin-top: 24px;
+  }
+
+  /* --- Footer --- */
+  .footer {
+    max-width: 1140px;
+    margin: 0 auto;
+    padding: 0 24px 40px;
+  }
+
+  .footer-top {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    border-top: 1px solid rgb(255 255 255 / 0.08);
+    padding-top: 32px;
+  }
+
+  .status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: rgb(238 241 251 / 0.6);
+    font-size: 12.5px;
+  }
+
+  .status-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 999px;
+    background: #34d399;
+    box-shadow: 0 0 0 0 rgb(52 211 153 / 0.6);
+    animation: pulse 2s ease-out infinite;
+  }
+
+  .footer-bottom {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 26px;
+    padding-top: 22px;
+    border-top: 1px solid rgb(255 255 255 / 0.08);
+    color: rgb(238 241 251 / 0.4);
+    font-size: 12px;
+  }
+
+  .footer-bottom ul {
+    display: flex;
+    gap: 18px;
+    margin: 0;
+    list-style: none;
+    padding: 0;
+  }
+
+  .footer-bottom a {
+    color: rgb(238 241 251 / 0.4);
+    text-decoration: none;
+    transition: color 200ms ease;
+  }
+
+  .footer-bottom a:hover {
+    color: #fff;
+  }
+
+  @container preview (max-width: 900px) {
+    .features-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .code-section {
+      grid-template-columns: 1fr;
+      gap: 30px;
+    }
+
+    .stats-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @container preview (max-width: 640px) {
+    .topbar {
+      flex-wrap: wrap;
+      gap: 12px;
+      padding: 16px 20px;
+    }
+
+    .hero {
+      height: 560px;
+    }
+
+    .features,
+    .code-section {
+      padding-inline: 18px;
+    }
+
+    .cta-band {
+      margin: 60px 16px;
+    }
+
+    .cta-content {
+      padding: 44px 26px;
+    }
+  }
+</style>
